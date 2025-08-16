@@ -4,11 +4,19 @@ using UnityEngine.InputSystem;
 
 public class SlingshotPlanet : MonoBehaviour
 {
+    [Header("Visual/Collision")]
+    public float planetRadius = 1f;      // “surface” radius, crash when orbitRadius reaches this
     public float orbitRadius = 2f;
-    public float orbitSpeed = 180f;      // degrees per second
-    public float launchSpeed = 12f;
-    public float launchAngleOffset = 0f; // optional extra kick angle
-    public bool ejectOnSpace = true;
+
+    [Header("Orbit Settings")]
+    public float baseOrbitSpeed = 180f;
+    public float baseLaunchSpeed = 12f;
+    public float launchAngleOffset = 0f;
+
+    [Header("Charge Settings")]
+    public float chargeRate = 80f;       // how fast orbit/launch speed increase per second
+    public float shrinkRate = 1f;        // orbitRadius shrink speed per second
+    public float maxChargeTime = 2.5f;   // fallback crash timer
 
     private bool isOrbiting = false;
 
@@ -19,35 +27,54 @@ public class SlingshotPlanet : MonoBehaviour
         PlayerShipController player = other.GetComponent<PlayerShipController>();
         if (player != null)
         {
-            StartCoroutine(OrbitForever(player));
+            StartCoroutine(OrbitAndCharge(player));
         }
     }
 
-    IEnumerator OrbitForever(PlayerShipController player)
+    IEnumerator OrbitAndCharge(PlayerShipController player)
     {
         isOrbiting = true;
         Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
-        player.enabled = false; // disable thrust
+        player.enabled = false;
 
-        // determine starting angle
-        Vector2 startDir = (rb.position - (Vector2)transform.position).normalized;
-        float angle = Mathf.Atan2(startDir.y, startDir.x) * Mathf.Rad2Deg;
+        float orbitSpeed = baseOrbitSpeed;
+        float launchSpeed = baseLaunchSpeed;
+        float angle = Mathf.Atan2(rb.position.y - transform.position.y,
+                                  rb.position.x - transform.position.x) * Mathf.Rad2Deg;
+
+        float chargeTimer = 0f;
+        float currentRadius = orbitRadius;
 
         while (true)
         {
-            // increment angle at fixed rate
+            bool charging = Keyboard.current.spaceKey.isPressed;
+            if (charging)
+            {
+                orbitSpeed += chargeRate * Time.deltaTime;
+                launchSpeed += chargeRate * Time.deltaTime;
+                currentRadius = Mathf.MoveTowards(currentRadius, planetRadius, shrinkRate * Time.deltaTime);
+
+                chargeTimer += Time.deltaTime;
+                if (chargeTimer > maxChargeTime || currentRadius <= planetRadius)
+                {
+                    Debug.Log("Overcharged and crashed!");
+                    rb.linearVelocity = Vector2.zero;
+                    player.enabled = false; // TODO trigger real game-over state
+                    isOrbiting = false;
+                    yield break;
+                }
+            }
+
             angle += orbitSpeed * Time.deltaTime;
 
             Vector2 center = transform.position;
-            Vector2 orbitOffset = (Vector2)(Quaternion.Euler(0, 0, angle) * Vector3.right) * orbitRadius;
-            rb.position = center + orbitOffset;
+            Vector2 offset = (Vector2)(Quaternion.Euler(0, 0, angle) * Vector3.right) * currentRadius;
+            rb.position = center + offset;
 
-            // rotate player tangent to the orbit
             Vector2 tangent = new Vector2(-Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad));
             rb.MoveRotation(Mathf.Atan2(tangent.y, tangent.x) * Mathf.Rad2Deg);
 
-            // eject on space
-            if (ejectOnSpace && Keyboard.current.spaceKey.wasPressedThisFrame)
+            if (Keyboard.current.spaceKey.wasReleasedThisFrame)
             {
                 break;
             }
@@ -55,11 +82,10 @@ public class SlingshotPlanet : MonoBehaviour
             yield return null;
         }
 
-        // launch toward tangent direction (+ offset)
         float finalAngle = angle + launchAngleOffset;
-        Vector2 launchDir = new Vector2(Mathf.Cos(finalAngle * Mathf.Deg2Rad), Mathf.Sin(finalAngle * Mathf.Deg2Rad)).normalized;
+        Vector2 dir = new Vector2(Mathf.Cos(finalAngle * Mathf.Deg2Rad), Mathf.Sin(finalAngle * Mathf.Deg2Rad)).normalized;
+        rb.linearVelocity = dir * launchSpeed;
 
-        rb.linearVelocity = launchDir * launchSpeed;
         player.enabled = true;
         isOrbiting = false;
     }
@@ -68,5 +94,8 @@ public class SlingshotPlanet : MonoBehaviour
     {
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, orbitRadius);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, planetRadius);
     }
 }

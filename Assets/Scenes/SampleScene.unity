@@ -119,6 +119,62 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &5567238
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5567240}
+  - component: {fileID: 5567239}
+  m_Layer: 0
+  m_Name: LevelManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &5567239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5567238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca64fcb21dcee6458b91dee75761795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 84128454}
+  blackHole: {fileID: 2079408099}
+  planetPrefabs:
+  - {fileID: 3260952222940801472, guid: 7200b9d2da69d4b45abb2236334a0bb2, type: 3}
+  - {fileID: 4143896618755988509, guid: 3ea22c1bec713c54299cff7184c750a2, type: 3}
+  desiredPlanetsAhead: 8
+  spawnRangeMinX: 100
+  spawnRangeMaxX: 500
+  minY: -400
+  maxY: 400
+  minPlanetSpacing: 100
+  cleanupBuffer: 50
+--- !u!4 &5567240
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5567238}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &84128452
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,8 +279,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thrustForce: 25
-  dragAmount: 0
+  dragAmount: 0.05
   rotationSpeed: 360
+  maxThrustSpeed: 25
   moveAction: {fileID: -1680190386980627800, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
 --- !u!50 &84128456
 Rigidbody2D:
@@ -360,11 +417,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5b2386951ea2f46b063a4e9e96852d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orbitRadius: 30
-  orbitSpeed: 180
-  launchSpeed: 100
-  launchAngleOffset: 45
-  ejectOnSpace: 1
+  planetRadius: 15
+  orbitRadius: 35
+  baseOrbitSpeed: 180
+  baseLaunchSpeed: 90
+  launchAngleOffset: 80
+  chargeRate: 50
+  shrinkRate: 5
+  maxChargeTime: 10
 --- !u!58 &200791888
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -400,7 +460,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 1
+  m_Radius: 1.2
 --- !u!212 &200791889
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -502,11 +562,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5b2386951ea2f46b063a4e9e96852d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orbitRadius: 30
-  orbitSpeed: 180
-  launchSpeed: 100
-  launchAngleOffset: 45
-  ejectOnSpace: 1
+  planetRadius: 15
+  orbitRadius: 35
+  baseOrbitSpeed: 180
+  baseLaunchSpeed: 90
+  launchAngleOffset: 80
+  chargeRate: 50
+  shrinkRate: 5
+  maxChargeTime: 10
 --- !u!58 &281792059
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -542,7 +605,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 1
+  m_Radius: 1.2
 --- !u!212 &281792060
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -644,11 +707,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5b2386951ea2f46b063a4e9e96852d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orbitRadius: 30
-  orbitSpeed: 180
-  launchSpeed: 100
-  launchAngleOffset: 45
-  ejectOnSpace: 1
+  planetRadius: 15
+  orbitRadius: 35
+  baseOrbitSpeed: 180
+  baseLaunchSpeed: 90
+  launchAngleOffset: 80
+  chargeRate: 50
+  shrinkRate: 5
+  maxChargeTime: 10
 --- !u!58 &437493363
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -684,7 +750,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 1
+  m_Radius: 1.2
 --- !u!212 &437493364
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -786,11 +852,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5b2386951ea2f46b063a4e9e96852d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orbitRadius: 30
-  orbitSpeed: 180
-  launchSpeed: 100
-  launchAngleOffset: 45
-  ejectOnSpace: 1
+  planetRadius: 15
+  orbitRadius: 35
+  baseOrbitSpeed: 180
+  baseLaunchSpeed: 90
+  launchAngleOffset: 80
+  chargeRate: 50
+  shrinkRate: 5
+  maxChargeTime: 10
 --- !u!58 &446814422
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -826,7 +895,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 1
+  m_Radius: 1.2
 --- !u!212 &446814423
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -928,11 +997,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5b2386951ea2f46b063a4e9e96852d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orbitRadius: 30
-  orbitSpeed: 180
-  launchSpeed: 100
-  launchAngleOffset: 45
-  ejectOnSpace: 1
+  planetRadius: 15
+  orbitRadius: 35
+  baseOrbitSpeed: 180
+  baseLaunchSpeed: 90
+  launchAngleOffset: 80
+  chargeRate: 50
+  shrinkRate: 5
+  maxChargeTime: 10
 --- !u!58 &482815277
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -968,7 +1040,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 1
+  m_Radius: 1.2
 --- !u!212 &482815278
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1144,7 +1216,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 90
+  field of view: 140
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1193,10 +1265,10 @@ MonoBehaviour:
   followSpeed: 5
   offset: {x: 0, y: 0, z: -30}
   dynamicZoom: 1
-  minZoom: 90
+  minZoom: 120
   maxZoom: 140
   zoomSpeed: 2
-  zoomVelocityMultiplier: 0.4
+  zoomVelocityMultiplier: 0.05
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1343,11 +1415,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5b2386951ea2f46b063a4e9e96852d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orbitRadius: 30
-  orbitSpeed: 180
-  launchSpeed: 100
-  launchAngleOffset: 45
-  ejectOnSpace: 1
+  planetRadius: 15
+  orbitRadius: 35
+  baseOrbitSpeed: 180
+  baseLaunchSpeed: 90
+  launchAngleOffset: 80
+  chargeRate: 50
+  shrinkRate: 5
+  maxChargeTime: 10
 --- !u!58 &619761868
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1383,7 +1458,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 1
+  m_Radius: 1.2
 --- !u!212 &619761869
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1485,11 +1560,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5b2386951ea2f46b063a4e9e96852d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orbitRadius: 30
-  orbitSpeed: 180
-  launchSpeed: 100
-  launchAngleOffset: 45
-  ejectOnSpace: 1
+  planetRadius: 15
+  orbitRadius: 35
+  baseOrbitSpeed: 180
+  baseLaunchSpeed: 90
+  launchAngleOffset: 80
+  chargeRate: 50
+  shrinkRate: 5
+  maxChargeTime: 10
 --- !u!58 &652770795
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1525,7 +1603,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 1
+  m_Radius: 1.2
 --- !u!212 &652770796
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1627,11 +1705,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5b2386951ea2f46b063a4e9e96852d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orbitRadius: 30
-  orbitSpeed: 180
-  launchSpeed: 100
-  launchAngleOffset: 45
-  ejectOnSpace: 1
+  planetRadius: 15
+  orbitRadius: 35
+  baseOrbitSpeed: 180
+  baseLaunchSpeed: 90
+  launchAngleOffset: 80
+  chargeRate: 50
+  shrinkRate: 5
+  maxChargeTime: 10
 --- !u!58 &842362922
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1667,7 +1748,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 1
+  m_Radius: 1.2
 --- !u!212 &842362923
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2193,11 +2274,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5b2386951ea2f46b063a4e9e96852d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orbitRadius: 30
-  orbitSpeed: 180
-  launchSpeed: 100
-  launchAngleOffset: 45
-  ejectOnSpace: 1
+  planetRadius: 15
+  orbitRadius: 35
+  baseOrbitSpeed: 180
+  baseLaunchSpeed: 90
+  launchAngleOffset: 80
+  chargeRate: 50
+  shrinkRate: 5
+  maxChargeTime: 10
 --- !u!58 &1114537545
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2233,7 +2317,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 1
+  m_Radius: 1.2
 --- !u!212 &1114537546
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2335,11 +2419,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5b2386951ea2f46b063a4e9e96852d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orbitRadius: 30
-  orbitSpeed: 180
-  launchSpeed: 100
-  launchAngleOffset: 45
-  ejectOnSpace: 1
+  planetRadius: 15
+  orbitRadius: 35
+  baseOrbitSpeed: 180
+  baseLaunchSpeed: 90
+  launchAngleOffset: 80
+  chargeRate: 50
+  shrinkRate: 5
+  maxChargeTime: 10
 --- !u!58 &1161438749
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2375,7 +2462,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 1
+  m_Radius: 1.2
 --- !u!212 &1161438750
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2477,11 +2564,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5b2386951ea2f46b063a4e9e96852d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orbitRadius: 30
-  orbitSpeed: 180
-  launchSpeed: 100
-  launchAngleOffset: 45
-  ejectOnSpace: 1
+  planetRadius: 15
+  orbitRadius: 35
+  baseOrbitSpeed: 180
+  baseLaunchSpeed: 90
+  launchAngleOffset: 80
+  chargeRate: 50
+  shrinkRate: 5
+  maxChargeTime: 10
 --- !u!58 &1394905733
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2517,7 +2607,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 1
+  m_Radius: 1.2
 --- !u!212 &1394905734
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2826,11 +2916,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5b2386951ea2f46b063a4e9e96852d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orbitRadius: 30
-  orbitSpeed: 180
-  launchSpeed: 100
-  launchAngleOffset: 45
-  ejectOnSpace: 1
+  planetRadius: 15
+  orbitRadius: 35
+  baseOrbitSpeed: 180
+  baseLaunchSpeed: 90
+  launchAngleOffset: 80
+  chargeRate: 50
+  shrinkRate: 5
+  maxChargeTime: 10
 --- !u!58 &1598618075
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2866,7 +2959,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 1
+  m_Radius: 1.2
 --- !u!212 &1598618076
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2937,148 +3030,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1631046922
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1631046925}
-  - component: {fileID: 1631046924}
-  - component: {fileID: 1631046923}
-  - component: {fileID: 1631046926}
-  m_Layer: 0
-  m_Name: SlingPlanet
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!58 &1631046923
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1631046922}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 1
---- !u!212 &1631046924
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1631046922}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!4 &1631046925
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1631046922}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 44.83423, y: -6.94181, z: 0}
-  m_LocalScale: {x: 30, y: 30, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1631046926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1631046922}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c5b2386951ea2f46b063a4e9e96852d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  orbitRadius: 30
-  orbitSpeed: 180
-  launchSpeed: 100
-  launchAngleOffset: 45
-  ejectOnSpace: 1
 --- !u!1 &1687529683
 GameObject:
   m_ObjectHideFlags: 0
@@ -3172,11 +3123,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5b2386951ea2f46b063a4e9e96852d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orbitRadius: 30
-  orbitSpeed: 180
-  launchSpeed: 100
-  launchAngleOffset: 45
-  ejectOnSpace: 1
+  planetRadius: 15
+  orbitRadius: 35
+  baseOrbitSpeed: 180
+  baseLaunchSpeed: 90
+  launchAngleOffset: 80
+  chargeRate: 50
+  shrinkRate: 5
+  maxChargeTime: 10
 --- !u!58 &1795168836
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3212,7 +3166,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 1
+  m_Radius: 1.2
 --- !u!212 &1795168837
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3314,11 +3268,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5b2386951ea2f46b063a4e9e96852d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orbitRadius: 30
-  orbitSpeed: 180
-  launchSpeed: 100
-  launchAngleOffset: 45
-  ejectOnSpace: 1
+  planetRadius: 15
+  orbitRadius: 35
+  baseOrbitSpeed: 180
+  baseLaunchSpeed: 90
+  launchAngleOffset: 80
+  chargeRate: 50
+  shrinkRate: 5
+  maxChargeTime: 10
 --- !u!58 &1923977233
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3354,7 +3311,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 1
+  m_Radius: 1.2
 --- !u!212 &1923977234
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3456,11 +3413,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5b2386951ea2f46b063a4e9e96852d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orbitRadius: 30
-  orbitSpeed: 180
-  launchSpeed: 100
-  launchAngleOffset: 45
-  ejectOnSpace: 1
+  planetRadius: 15
+  orbitRadius: 35
+  baseOrbitSpeed: 180
+  baseLaunchSpeed: 90
+  launchAngleOffset: 80
+  chargeRate: 50
+  shrinkRate: 5
+  maxChargeTime: 10
 --- !u!58 &1947039678
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3496,7 +3456,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 1
+  m_Radius: 1.2
 --- !u!212 &1947039679
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3562,148 +3522,6 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -47.3, y: 107.3, z: 0}
-  m_LocalScale: {x: 30, y: 30, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1965682428
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1965682432}
-  - component: {fileID: 1965682431}
-  - component: {fileID: 1965682430}
-  - component: {fileID: 1965682429}
-  m_Layer: 0
-  m_Name: SlingPlanet (6)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1965682429
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1965682428}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c5b2386951ea2f46b063a4e9e96852d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  orbitRadius: 30
-  orbitSpeed: 180
-  launchSpeed: 100
-  launchAngleOffset: 45
-  ejectOnSpace: 1
---- !u!58 &1965682430
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1965682428}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 1
---- !u!212 &1965682431
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1965682428}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!4 &1965682432
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1965682428}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 261.2, y: 99.4, z: 0}
   m_LocalScale: {x: 30, y: 30, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3854,6 +3672,37 @@ Transform:
   - {fileID: 1707890100}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2079408098
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2079408099}
+  m_Layer: 0
+  m_Name: BlackHole
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2079408099
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079408098}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -65.67564, y: 12.94889, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2098987056
 GameObject:
   m_ObjectHideFlags: 0
@@ -3885,11 +3734,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5b2386951ea2f46b063a4e9e96852d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orbitRadius: 30
-  orbitSpeed: 180
-  launchSpeed: 100
-  launchAngleOffset: 45
-  ejectOnSpace: 1
+  planetRadius: 15
+  orbitRadius: 35
+  baseOrbitSpeed: 180
+  baseLaunchSpeed: 90
+  launchAngleOffset: 80
+  chargeRate: 50
+  shrinkRate: 5
+  maxChargeTime: 10
 --- !u!58 &2098987058
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3925,7 +3777,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 1
+  m_Radius: 1.2
 --- !u!212 &2098987059
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4120,6 +3972,128 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &3521439620428578487
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3260952222940801472, guid: 7200b9d2da69d4b45abb2236334a0bb2, type: 3}
+      propertyPath: m_Name
+      value: SlingPlanet
+      objectReference: {fileID: 0}
+    - target: {fileID: 3260952222940801472, guid: 7200b9d2da69d4b45abb2236334a0bb2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4082089829097417399, guid: 7200b9d2da69d4b45abb2236334a0bb2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 44.83423
+      objectReference: {fileID: 0}
+    - target: {fileID: 4082089829097417399, guid: 7200b9d2da69d4b45abb2236334a0bb2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -6.94181
+      objectReference: {fileID: 0}
+    - target: {fileID: 4082089829097417399, guid: 7200b9d2da69d4b45abb2236334a0bb2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4082089829097417399, guid: 7200b9d2da69d4b45abb2236334a0bb2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4082089829097417399, guid: 7200b9d2da69d4b45abb2236334a0bb2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4082089829097417399, guid: 7200b9d2da69d4b45abb2236334a0bb2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4082089829097417399, guid: 7200b9d2da69d4b45abb2236334a0bb2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4082089829097417399, guid: 7200b9d2da69d4b45abb2236334a0bb2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4082089829097417399, guid: 7200b9d2da69d4b45abb2236334a0bb2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4082089829097417399, guid: 7200b9d2da69d4b45abb2236334a0bb2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7200b9d2da69d4b45abb2236334a0bb2, type: 3}
+--- !u!1001 &5902846218027291048
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4143896618755988509, guid: 3ea22c1bec713c54299cff7184c750a2, type: 3}
+      propertyPath: m_Name
+      value: SlingPlanetBig
+      objectReference: {fileID: 0}
+    - target: {fileID: 4143896618755988509, guid: 3ea22c1bec713c54299cff7184c750a2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8321647029253093684, guid: 3ea22c1bec713c54299cff7184c750a2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 261.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8321647029253093684, guid: 3ea22c1bec713c54299cff7184c750a2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 99.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8321647029253093684, guid: 3ea22c1bec713c54299cff7184c750a2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8321647029253093684, guid: 3ea22c1bec713c54299cff7184c750a2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8321647029253093684, guid: 3ea22c1bec713c54299cff7184c750a2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8321647029253093684, guid: 3ea22c1bec713c54299cff7184c750a2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8321647029253093684, guid: 3ea22c1bec713c54299cff7184c750a2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8321647029253093684, guid: 3ea22c1bec713c54299cff7184c750a2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8321647029253093684, guid: 3ea22c1bec713c54299cff7184c750a2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8321647029253093684, guid: 3ea22c1bec713c54299cff7184c750a2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3ea22c1bec713c54299cff7184c750a2, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -4130,8 +4104,8 @@ SceneRoots:
   - {fileID: 1473625904}
   - {fileID: 865196113}
   - {fileID: 2050916769}
-  - {fileID: 1631046925}
-  - {fileID: 1965682432}
+  - {fileID: 3521439620428578487}
+  - {fileID: 5902846218027291048}
   - {fileID: 281792061}
   - {fileID: 1114537547}
   - {fileID: 200791890}
@@ -4148,3 +4122,5 @@ SceneRoots:
   - {fileID: 1947039680}
   - {fileID: 1161438751}
   - {fileID: 619761870}
+  - {fileID: 5567240}
+  - {fileID: 2079408099}

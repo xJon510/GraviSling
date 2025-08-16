@@ -7,6 +7,7 @@ public class PlayerShipController : MonoBehaviour
     public float thrustForce = 6f;       // how strong WASD boost is
     public float dragAmount = 2f;        // slowdown when no input is pressed
     public float rotationSpeed = 360f;   // degrees per second to rotate toward travel direction
+    public float maxThrustSpeed = 15f;
 
     public InputActionReference moveAction;
 
@@ -42,7 +43,7 @@ public class PlayerShipController : MonoBehaviour
         }
         else if (rb.linearVelocity.sqrMagnitude > 0.01f)
         {
-            // No input – just face the drift direction slowly
+            // No input ï¿½ just face the drift direction slowly
             float targetAngle = Mathf.Atan2(rb.linearVelocity.y, rb.linearVelocity.x) * Mathf.Rad2Deg;
             float newAngle = Mathf.MoveTowardsAngle(rb.rotation, targetAngle, rotationSpeed * Time.fixedDeltaTime);
             rb.MoveRotation(newAngle);
