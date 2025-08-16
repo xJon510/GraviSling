@@ -2,48 +2,50 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    public Transform target;                   // player
-    public float followSpeed = 5f;             // how fast camera catches up
-    public Vector3 offset = new Vector3(0, 0, -10);  // camera offset
+    public Transform target;
+    public Rigidbody2D rb;
+
+    [Header("Position Follow")]
+    public float smoothSpeed = 0.125f;
+    public Vector3 offset;
 
     [Header("Zoom Settings")]
-    public bool dynamicZoom = true;
-    public float minZoom = 5f;   // smallest orthographicSize / FOV
-    public float maxZoom = 10f;  // largest zoom-out
-    public float zoomSpeed = 2f; // how quickly it zooms
-    public float zoomVelocityMultiplier = 0.5f; // how much velocity affects zoom
+    public float minFOV = 120f;
+    public float maxFOV = 140f;
+    public float zoomSpeed = 2f;
+    public float speedThreshold = 20f;
 
     private Camera cam;
-    private Rigidbody2D targetRb;
 
     private void Start()
     {
         cam = GetComponent<Camera>();
-        if (target != null) targetRb = target.GetComponent<Rigidbody2D>();
     }
 
     private void LateUpdate()
     {
-        if (target == null) return;
-
-        // --- Smooth follow position ---
-        Vector3 desiredPos = target.position + offset;
-        transform.position = Vector3.Lerp(transform.position, desiredPos, followSpeed * Time.deltaTime);
-
-        // --- Dynamic zoom out based on velocity ---
-        if (dynamicZoom && targetRb != null)
+        // == Position follow ==
+        if (target != null)
         {
-            float speed = targetRb.linearVelocity.magnitude;
-            float desiredZoom = Mathf.Lerp(minZoom, maxZoom, speed * zoomVelocityMultiplier);
-
-            if (cam.orthographic)
-            {
-                cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, desiredZoom, zoomSpeed * Time.deltaTime);
-            }
-            else
-            {
-                cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, desiredZoom, zoomSpeed * Time.deltaTime);
-            }
+            Vector3 desiredPos = target.position + offset;
+            Vector3 smoothedPos = Vector3.Lerp(transform.position, desiredPos, smoothSpeed);
+            transform.position = smoothedPos;
         }
+
+        // == Dynamic FOV zoom based on velocity magnitude ==
+        float currentSpeed = rb.linearVelocity.magnitude;
+
+        float targetFOV;
+        if (currentSpeed <= speedThreshold)
+        {
+            targetFOV = minFOV;
+        }
+        else
+        {
+            float t = Mathf.InverseLerp(speedThreshold, speedThreshold * 2f, currentSpeed);
+            targetFOV = Mathf.Lerp(minFOV, maxFOV, t);
+        }
+
+        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFOV, Time.deltaTime * zoomSpeed);
     }
 }
