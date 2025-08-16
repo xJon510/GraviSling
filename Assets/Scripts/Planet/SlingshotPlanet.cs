@@ -19,6 +19,7 @@ public class SlingshotPlanet : MonoBehaviour
     public float maxChargeTime = 2.5f;   // fallback crash timer
 
     private bool isOrbiting = false;
+    private int orbitDir = 1;     // +1 = CW, -1 = CCW
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -36,6 +37,12 @@ public class SlingshotPlanet : MonoBehaviour
         isOrbiting = true;
         Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
         player.enabled = false;
+
+        // Determine orbit direction based on incoming velocity vs entry vector
+        Vector2 toPlanet = (Vector2)transform.position - rb.position;
+        Vector2 incomingVel = rb.linearVelocity.normalized;
+        float crossZ = toPlanet.x * incomingVel.y - toPlanet.y * incomingVel.x;   // 2D cross product z-value
+        orbitDir = (crossZ > 0f) ? -1 : 1; // positive → CW, negative → CCW
 
         float orbitSpeed = baseOrbitSpeed;
         float launchSpeed = baseLaunchSpeed;
@@ -59,30 +66,28 @@ public class SlingshotPlanet : MonoBehaviour
                 {
                     Debug.Log("Overcharged and crashed!");
                     rb.linearVelocity = Vector2.zero;
-                    player.enabled = false; // TODO trigger real game-over state
+                    player.enabled = false;
                     isOrbiting = false;
                     yield break;
                 }
             }
 
-            angle += orbitSpeed * Time.deltaTime;
-
+            angle += orbitSpeed * orbitDir * Time.deltaTime;
             Vector2 center = transform.position;
             Vector2 offset = (Vector2)(Quaternion.Euler(0, 0, angle) * Vector3.right) * currentRadius;
             rb.position = center + offset;
 
             Vector2 tangent = new Vector2(-Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad));
+            tangent *= orbitDir; // flip tangent if CCW
             rb.MoveRotation(Mathf.Atan2(tangent.y, tangent.x) * Mathf.Rad2Deg);
 
             if (Keyboard.current.spaceKey.wasReleasedThisFrame)
-            {
                 break;
-            }
 
             yield return null;
         }
 
-        float finalAngle = angle + launchAngleOffset;
+        float finalAngle = angle + (launchAngleOffset * orbitDir);
         Vector2 dir = new Vector2(Mathf.Cos(finalAngle * Mathf.Deg2Rad), Mathf.Sin(finalAngle * Mathf.Deg2Rad)).normalized;
         rb.linearVelocity = dir * launchSpeed;
 
@@ -94,7 +99,6 @@ public class SlingshotPlanet : MonoBehaviour
     {
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, orbitRadius);
-
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, planetRadius);
     }
