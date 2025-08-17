@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerShipController : MonoBehaviour
@@ -8,6 +9,11 @@ public class PlayerShipController : MonoBehaviour
     public float dragAmount = 2f;        // slowdown when no input is pressed
     public float rotationSpeed = 360f;   // degrees per second to rotate toward travel direction
     public float maxThrustSpeed = 15f;
+
+    public TMP_Text speedText;
+
+    public RectTransform minimapIcon;   // ← Drag your minimap player icon here
+    public float minimapRotationOffset = -90f;
 
     public InputActionReference moveAction;
 
@@ -58,6 +64,20 @@ public class PlayerShipController : MonoBehaviour
             float targetAngle = Mathf.Atan2(rb.linearVelocity.y, rb.linearVelocity.x) * Mathf.Rad2Deg;
             float newAngle = Mathf.MoveTowardsAngle(rb.rotation, targetAngle, rotationSpeed * Time.fixedDeltaTime);
             rb.MoveRotation(newAngle);
+        }
+
+        // update speed counter
+        if (speedText != null)
+        {
+            float speed = rb.linearVelocity.magnitude;
+            speedText.text = $"Speed: {speed:F1} km/s";
+        }
+
+        // 4) rotate minimap icon
+        if (minimapIcon != null)
+        {
+            float iconAngle = rb.rotation + minimapRotationOffset;
+            minimapIcon.localEulerAngles = new Vector3(0f, 0f, iconAngle);
         }
     }
 }

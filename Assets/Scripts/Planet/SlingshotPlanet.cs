@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class SlingshotPlanet : MonoBehaviour
 {
@@ -18,8 +19,25 @@ public class SlingshotPlanet : MonoBehaviour
     public float shrinkRate = 1f;        // orbitRadius shrink speed per second
     public float maxChargeTime = 2.5f;   // fallback crash timer
 
+    public TMP_Text speedText;
+
+    public RectTransform minimapIcon;  
+    public float minimapRotationOffset = -90f;
+
     private bool isOrbiting = false;
     private int orbitDir = 1;     // +1 = CW, -1 = CCW
+
+    void Awake()
+    {
+        // Find the UI element once automatically:
+        var speedGO = GameObject.Find("ScreenSpaceCanvas/Speed");
+        if (speedGO != null)
+            speedText = speedGO.GetComponent<TMP_Text>();
+
+        var playerIcon = GameObject.Find("ScreenSpaceCanvas/MiniMap/MiniMapPlayer");
+        if (playerIcon != null)
+            minimapIcon = playerIcon.GetComponent<RectTransform>();
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -80,6 +98,18 @@ public class SlingshotPlanet : MonoBehaviour
             Vector2 tangent = new Vector2(-Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad));
             tangent *= orbitDir; // flip tangent if CCW
             rb.MoveRotation(Mathf.Atan2(tangent.y, tangent.x) * Mathf.Rad2Deg);
+
+            if (speedText != null)
+            {
+                float uiSpeed = (orbitSpeed * 0.5f) + (launchSpeed * 0.5f);
+                speedText.text = $"Speed: {uiSpeed:F1} km/s";
+            }
+
+            if (minimapIcon != null)
+            {
+                float iconAngle = Mathf.Atan2(tangent.y, tangent.x) * Mathf.Rad2Deg + minimapRotationOffset;
+                minimapIcon.localEulerAngles = new Vector3(0f, 0f, iconAngle);
+            }
 
             if (Keyboard.current.spaceKey.wasReleasedThisFrame)
                 break;

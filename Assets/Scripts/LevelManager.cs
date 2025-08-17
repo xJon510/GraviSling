@@ -21,7 +21,7 @@ public class LevelManager : MonoBehaviour
     [Header("Cleanup")]
     public float cleanupBuffer = 50f;   // how far behind black hole before deleting
 
-    private readonly List<GameObject> spawnedPlanets = new List<GameObject>();
+    public readonly List<GameObject> spawnedPlanets = new List<GameObject>();
 
     private void Update()
     {
@@ -72,6 +72,11 @@ public class LevelManager : MonoBehaviour
             GameObject prefab = planetPrefabs[Random.Range(0, planetPrefabs.Length)];
             GameObject newPlanet = Instantiate(prefab, spawnPos, Quaternion.identity);
             spawnedPlanets.Add(newPlanet);
+
+            MiniMapManager minimap = FindObjectOfType<MiniMapManager>();
+            if (minimap != null)
+                minimap.RegisterPlanet(newPlanet.transform);
+
             return true;
         }
         return false;
@@ -96,5 +101,23 @@ public class LevelManager : MonoBehaviour
                 spawnedPlanets.RemoveAt(i);
             }
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (player == null) return;
+
+        Gizmos.color = Color.yellow;
+
+        float startX = player.position.x + spawnRangeMinX;
+        float endX = player.position.x + spawnRangeMaxX;
+
+        Vector3 bottomLeft = new Vector3(startX, minY, 0f);
+        Vector3 topRight = new Vector3(endX, maxY, 0f);
+
+        Vector3 center = (bottomLeft + topRight) * 0.5f;
+        Vector3 size = new Vector3(endX - startX, maxY - minY, 0f);
+
+        Gizmos.DrawWireCube(center, size);
     }
 }
