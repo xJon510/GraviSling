@@ -25,11 +25,22 @@ public class PlayerShipController : MonoBehaviour
         // 1) Apply thrust in input direction
         if (input.sqrMagnitude > 0.01f)
         {
-            rb.linearVelocity += input.normalized * thrustForce * Time.fixedDeltaTime;
+            float currentSpeed = rb.linearVelocity.magnitude;
+            Vector2 velDir = rb.linearVelocity.normalized;
+            Vector2 inputDir = input.normalized;
+
+            float dot = Vector2.Dot(velDir, inputDir); // +1: same way, -1: opposite
+
+            float throttle = 1f;
+            if (dot > 0.5f)  // mostly pushing forward in same direction
+            {
+                throttle = Mathf.InverseLerp(maxThrustSpeed, 0f, currentSpeed);
+            }
+
+            rb.linearVelocity += inputDir * (thrustForce * throttle) * Time.fixedDeltaTime;
         }
         else
         {
-            // 2) drag when no input
             rb.linearVelocity = Vector2.Lerp(rb.linearVelocity, Vector2.zero, dragAmount * Time.fixedDeltaTime);
         }
 

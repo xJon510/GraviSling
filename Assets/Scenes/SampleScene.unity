@@ -791,7 +791,7 @@ GameObject:
   - component: {fileID: 412786349}
   - component: {fileID: 412786348}
   m_Layer: 5
-  m_Name: BkRnd (2)
+  m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -863,7 +863,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 0.3
+  m_PixelsPerUnitMultiplier: 0.4
 --- !u!222 &412786350
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2838,6 +2838,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1276334935 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3260952222940801472, guid: 7200b9d2da69d4b45abb2236334a0bb2, type: 3}
+  m_PrefabInstance: {fileID: 3521439620428578487}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1276334940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1276334935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 589ce787d0988ae4aa0d70109a9171ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  planetFolder: Terran_with_clouds/1
+  skip: 2
+  framesPerSecond: 4
 --- !u!1 &1289548237
 GameObject:
   m_ObjectHideFlags: 0
@@ -2893,7 +2913,6 @@ MonoBehaviour:
   player: {fileID: 84128454}
   parallaxFactor: 0.9
   tileSize: 10000
-  shiftThreshold: 2000
 --- !u!1 &1300705445
 GameObject:
   m_ObjectHideFlags: 0
@@ -2907,7 +2926,7 @@ GameObject:
   - component: {fileID: 1300705449}
   - component: {fileID: 1300705448}
   m_Layer: 5
-  m_Name: BkRnd (1)
+  m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2979,7 +2998,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 0.3
+  m_PixelsPerUnitMultiplier: 0.4
 --- !u!222 &1300705450
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3639,7 +3658,7 @@ GameObject:
   - component: {fileID: 1726969840}
   - component: {fileID: 1726969842}
   m_Layer: 5
-  m_Name: BkRnd
+  m_Name: Center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3693,7 +3712,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 0.3
+  m_PixelsPerUnitMultiplier: 0.4
 --- !u!222 &1726969841
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4617,6 +4636,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4082089829097417399, guid: 7200b9d2da69d4b45abb2236334a0bb2, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 4082089829097417399, guid: 7200b9d2da69d4b45abb2236334a0bb2, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 4082089829097417399, guid: 7200b9d2da69d4b45abb2236334a0bb2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 44.83423
       objectReference: {fileID: 0}
@@ -4656,10 +4683,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5758561775180373428, guid: 7200b9d2da69d4b45abb2236334a0bb2, type: 3}
+      propertyPath: m_Radius
+      value: 0.58
+      objectReference: {fileID: 0}
+    - target: {fileID: 8693544850898762758, guid: 7200b9d2da69d4b45abb2236334a0bb2, type: 3}
+      propertyPath: m_Size.x
+      value: 0.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 8693544850898762758, guid: 7200b9d2da69d4b45abb2236334a0bb2, type: 3}
+      propertyPath: m_Size.y
+      value: 0.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 8693544850898762758, guid: 7200b9d2da69d4b45abb2236334a0bb2, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -855298285791758126, guid: f727096aa0c0c544e9149d4ab9826deb, type: 3}
+    - target: {fileID: 8693544850898762758, guid: 7200b9d2da69d4b45abb2236334a0bb2, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3260952222940801472, guid: 7200b9d2da69d4b45abb2236334a0bb2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1276334940}
   m_SourcePrefab: {fileID: 100100000, guid: 7200b9d2da69d4b45abb2236334a0bb2, type: 3}
 --- !u!1001 &5902846218027291048
 PrefabInstance:

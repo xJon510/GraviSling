@@ -40,7 +40,6 @@ public class InfiniteParallax : MonoBehaviour
 
         // Calculate distance from player to that leftmost tile
         float dist = player.position.x - leftMost.position.x;
-        Debug.Log("Player - leftMost = " + dist);
 
         // If player has moved more than tileSize ahead of that tile, recycle it forward
         if (dist > 1300f)
