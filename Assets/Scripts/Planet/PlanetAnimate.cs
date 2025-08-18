@@ -28,14 +28,8 @@ public class PlanetAnimate : MonoBehaviour
             return;
         }
 
-        // Sort by name so 0,1,2,... loads in correct order
-        System.Array.Sort(loaded, (a, b) =>
-        {
-            // extract leading numbers from the sprite name (before '_')
-            int numA = int.Parse(a.name.Split('_')[0]);
-            int numB = int.Parse(b.name.Split('_')[0]);
-            return numA.CompareTo(numB);
-        });
+        // Simple alphabetical sort (works perfectly if you zero-pad your file names: 00_, 01_, etc)
+        System.Array.Sort(loaded, (a, b) => string.CompareOrdinal(a.name, b.name));
 
         // Apply skip logic
         var tempList = new System.Collections.Generic.List<Sprite>();

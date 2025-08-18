@@ -103,12 +103,12 @@ TextureImporter:
       name: Spaceship_0
       rect:
         serializedVersion: 2
-        x: 20
-        y: 20
-        width: 984
-        height: 984
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 41
+        y: 61
+        width: 882
+        height: 816
+      alignment: 9
+      pivot: {x: 0.5, y: 0.505}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 4acc49f92d6aabc4f97cfbf2cb0a8f89
+    spriteID: ed800fc848716824185cb7ca3c347dae
     internalID: 0
     vertices: []
     indices: 

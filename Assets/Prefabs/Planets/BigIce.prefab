@@ -150,6 +150,7 @@ MonoBehaviour:
   minimapIcon: {fileID: 0}
   minimapRotationOffset: -90
   explosionPlayerPrefab: {fileID: 8843185705750593545, guid: 5e7c94d40e734ad4ea4546353e55c460, type: 3}
+  machRingPrefab: {fileID: 5249955851602394433, guid: 6dd857760829a3c42a40fee45852c4ff, type: 3}
 --- !u!114 &5915530937214725330
 MonoBehaviour:
   m_ObjectHideFlags: 0

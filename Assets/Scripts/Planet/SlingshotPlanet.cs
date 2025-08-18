@@ -25,6 +25,7 @@ public class SlingshotPlanet : MonoBehaviour
     public float minimapRotationOffset = -90f;
 
     public GameObject explosionPlayerPrefab;
+    public GameObject machRingPrefab;
 
     private bool isOrbiting = false;
     private int orbitDir = 1;     // +1 = CW, -1 = CCW
@@ -130,6 +131,14 @@ public class SlingshotPlanet : MonoBehaviour
         float finalAngle = angle + (launchAngleOffset * orbitDir);
         Vector2 dir = new Vector2(Mathf.Cos(finalAngle * Mathf.Deg2Rad), Mathf.Sin(finalAngle * Mathf.Deg2Rad)).normalized;
         rb.linearVelocity = dir * launchSpeed;
+
+        // Spawn Mach Ring on release
+        if (machRingPrefab != null)
+        {
+            float z = player.transform.eulerAngles.z;
+            Quaternion rot = Quaternion.Euler(0f, 0f, z - 90f);   // or z - 79f if that lines up better
+            Instantiate(machRingPrefab, player.transform.position, rot);
+        }
 
         player.enabled = true;
         isOrbiting = false;

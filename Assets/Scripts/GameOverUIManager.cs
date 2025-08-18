@@ -16,6 +16,7 @@ public class GameOverUIManager : MonoBehaviour
     [SerializeField] private GameObject BHInfo;          // The whole panel to enable/disable
     [SerializeField] private TMP_Text SpeedText;
     [SerializeField] private TMP_Text DistanceTextRuntime;
+    [SerializeField] private GameObject levelManager;
 
     [Header("Flavor Lines")]
     [SerializeField] private string[] randomFlavorLines;
@@ -41,6 +42,7 @@ public class GameOverUIManager : MonoBehaviour
         rootPanel.SetActive(true);
 
         BHInfo.SetActive(false);
+        levelManager.SetActive(false);
         SpeedText.gameObject.SetActive(false);
         DistanceTextRuntime.gameObject.SetActive(false);
     }

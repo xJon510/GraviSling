@@ -327,6 +327,7 @@ GameObject:
   - component: {fileID: 84128456}
   - component: {fileID: 84128455}
   - component: {fileID: 84128457}
+  - component: {fileID: 84128459}
   - component: {fileID: 84128458}
   m_Layer: 0
   m_Name: Player
@@ -379,12 +380,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 7851470227991654557, guid: 0895b45f4e4f5a842b681c61499b208b, type: 3}
+  m_Sprite: {fileID: -8389959002623695100, guid: 1f13424337dc5fb408aabcbb6bc459dc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 8.82, y: 6.9}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -400,7 +401,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -423,6 +424,7 @@ MonoBehaviour:
   maxThrustSpeed: 25
   speedText: {fileID: 494475865}
   minimapIcon: {fileID: 970814486}
+  animate: {fileID: 84128459}
   minimapRotationOffset: -90
   moveAction: {fileID: -1680190386980627800, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
 --- !u!50 &84128456
@@ -519,15 +521,31 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 9.84, y: 9.84}
-    newSize: {x: 1, y: 2}
+    pivot: {x: 0.5, y: 0.505}
+    oldSize: {x: 8.82, y: 8.16}
+    newSize: {x: 8.82, y: 6.9}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Size: {x: 9.5, y: 7}
   m_EdgeRadius: 0
+--- !u!114 &84128459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84128452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d130a47c013e6a4dac7f336c700178e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  folderPath: Player/Spaceship
+  framesPerSecond: 4
+  thrustLevel: 0
+  lowThrustMaxFrame: 2
 --- !u!1 &200791886
 GameObject:
   m_ObjectHideFlags: 0
@@ -571,6 +589,7 @@ MonoBehaviour:
   minimapIcon: {fileID: 0}
   minimapRotationOffset: -90
   explosionPlayerPrefab: {fileID: 0}
+  machRingPrefab: {fileID: 0}
 --- !u!58 &200791888
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -804,6 +823,7 @@ MonoBehaviour:
   BHInfo: {fileID: 888284654}
   SpeedText: {fileID: 494475865}
   DistanceTextRuntime: {fileID: 1280540240}
+  levelManager: {fileID: 5567238}
   randomFlavorLines:
   - '"Ya fought well kid" ~ Me'
   - '"DOPA DOWN" ~ Tyler1'
@@ -959,6 +979,7 @@ MonoBehaviour:
   minimapIcon: {fileID: 0}
   minimapRotationOffset: -90
   explosionPlayerPrefab: {fileID: 0}
+  machRingPrefab: {fileID: 0}
 --- !u!58 &281792059
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1474,6 +1495,7 @@ MonoBehaviour:
   minimapIcon: {fileID: 0}
   minimapRotationOffset: -90
   explosionPlayerPrefab: {fileID: 0}
+  machRingPrefab: {fileID: 0}
 --- !u!58 &437493363
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1623,6 +1645,7 @@ MonoBehaviour:
   minimapIcon: {fileID: 0}
   minimapRotationOffset: -90
   explosionPlayerPrefab: {fileID: 0}
+  machRingPrefab: {fileID: 0}
 --- !u!58 &446814422
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1772,6 +1795,7 @@ MonoBehaviour:
   minimapIcon: {fileID: 0}
   minimapRotationOffset: -90
   explosionPlayerPrefab: {fileID: 0}
+  machRingPrefab: {fileID: 0}
 --- !u!58 &482815277
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2468,6 +2492,7 @@ MonoBehaviour:
   minimapIcon: {fileID: 0}
   minimapRotationOffset: -90
   explosionPlayerPrefab: {fileID: 0}
+  machRingPrefab: {fileID: 0}
 --- !u!58 &619761868
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2617,6 +2642,7 @@ MonoBehaviour:
   minimapIcon: {fileID: 0}
   minimapRotationOffset: -90
   explosionPlayerPrefab: {fileID: 0}
+  machRingPrefab: {fileID: 0}
 --- !u!58 &652770795
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3020,6 +3046,7 @@ MonoBehaviour:
   minimapIcon: {fileID: 0}
   minimapRotationOffset: -90
   explosionPlayerPrefab: {fileID: 0}
+  machRingPrefab: {fileID: 0}
 --- !u!58 &842362922
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3211,6 +3238,7 @@ MonoBehaviour:
   minimapIcon: {fileID: 0}
   minimapRotationOffset: -90
   explosionPlayerPrefab: {fileID: 0}
+  machRingPrefab: {fileID: 0}
 --- !u!58 &1114537545
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3360,6 +3388,7 @@ MonoBehaviour:
   minimapIcon: {fileID: 0}
   minimapRotationOffset: -90
   explosionPlayerPrefab: {fileID: 0}
+  machRingPrefab: {fileID: 0}
 --- !u!58 &1161438749
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3899,6 +3928,7 @@ MonoBehaviour:
   minimapIcon: {fileID: 0}
   minimapRotationOffset: -90
   explosionPlayerPrefab: {fileID: 0}
+  machRingPrefab: {fileID: 0}
 --- !u!58 &1394905733
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4389,6 +4419,7 @@ MonoBehaviour:
   minimapIcon: {fileID: 0}
   minimapRotationOffset: -90
   explosionPlayerPrefab: {fileID: 0}
+  machRingPrefab: {fileID: 0}
 --- !u!58 &1598618075
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4901,6 +4932,7 @@ MonoBehaviour:
   minimapIcon: {fileID: 0}
   minimapRotationOffset: -90
   explosionPlayerPrefab: {fileID: 0}
+  machRingPrefab: {fileID: 0}
 --- !u!58 &1795168836
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -5186,6 +5218,7 @@ MonoBehaviour:
   minimapIcon: {fileID: 0}
   minimapRotationOffset: -90
   explosionPlayerPrefab: {fileID: 0}
+  machRingPrefab: {fileID: 0}
 --- !u!58 &1923977233
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -5335,6 +5368,7 @@ MonoBehaviour:
   minimapIcon: {fileID: 0}
   minimapRotationOffset: -90
   explosionPlayerPrefab: {fileID: 0}
+  machRingPrefab: {fileID: 0}
 --- !u!58 &1947039678
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -5851,6 +5885,7 @@ MonoBehaviour:
   minimapIcon: {fileID: 0}
   minimapRotationOffset: -90
   explosionPlayerPrefab: {fileID: 0}
+  machRingPrefab: {fileID: 0}
 --- !u!58 &2098987058
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -6056,11 +6091,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1425495417386670708, guid: 194e1e25369a7984881f434df8aaae33, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 20
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 1425495417386670708, guid: 194e1e25369a7984881f434df8aaae33, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 40
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 1425495417386670708, guid: 194e1e25369a7984881f434df8aaae33, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6289,10 +6324,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SlingPlanetEarth
       objectReference: {fileID: 0}
-    - target: {fileID: 5160875365045681393, guid: bb629c40cee585a44b14a5758612af2b, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6309,10 +6340,6 @@ PrefabInstance:
     - target: {fileID: 4143896618755988509, guid: 3ea22c1bec713c54299cff7184c750a2, type: 3}
       propertyPath: m_Name
       value: SlingPlanetBig
-      objectReference: {fileID: 0}
-    - target: {fileID: 4143896618755988509, guid: 3ea22c1bec713c54299cff7184c750a2, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8321647029253093684, guid: 3ea22c1bec713c54299cff7184c750a2, type: 3}
       propertyPath: m_LocalPosition.x
