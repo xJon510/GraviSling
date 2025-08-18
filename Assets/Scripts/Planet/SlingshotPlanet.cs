@@ -24,6 +24,8 @@ public class SlingshotPlanet : MonoBehaviour
     public RectTransform minimapIcon;  
     public float minimapRotationOffset = -90f;
 
+    public GameObject explosionPlayerPrefab;
+
     private bool isOrbiting = false;
     private int orbitDir = 1;     // +1 = CW, -1 = CCW
 
@@ -85,7 +87,15 @@ public class SlingshotPlanet : MonoBehaviour
                     Debug.Log("Overcharged and crashed!");
                     rb.linearVelocity = Vector2.zero;
                     player.enabled = false;
+
+                    SpriteRenderer sr = player.GetComponent<SpriteRenderer>();
+                    if (sr != null) sr.enabled = false;
+
+                    Instantiate(explosionPlayerPrefab, player.transform.position, Quaternion.identity);
                     isOrbiting = false;
+
+                    StartCoroutine(DelayedGameOver(0.8f));
+
                     yield break;
                 }
             }
@@ -131,5 +141,15 @@ public class SlingshotPlanet : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, orbitRadius);
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, planetRadius);
+    }
+
+    private IEnumerator DelayedGameOver(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        GameOverUIManager.Instance.GameOver(
+            RunStatsTracker.Instance.currentDistance,
+            RunStatsTracker.Instance.currentTopSpeed
+        );
     }
 }

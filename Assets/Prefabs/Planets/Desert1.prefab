@@ -146,6 +146,10 @@ MonoBehaviour:
   chargeRate: 60
   shrinkRate: 4
   maxChargeTime: 60
+  speedText: {fileID: 0}
+  minimapIcon: {fileID: 0}
+  minimapRotationOffset: -90
+  explosionPlayerPrefab: {fileID: 8843185705750593545, guid: 5e7c94d40e734ad4ea4546353e55c460, type: 3}
 --- !u!114 &741186698291330074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,4 +164,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planetFolder: Desert/1
   skip: 2
-  framesPerSecond: 8
+  framesPerSecond: 4

@@ -37,8 +37,9 @@ public class ScoreUpdater : MonoBehaviour
         }
         else
         {
-            float auVal = d / AU;
-            return $"{auVal:F2} AU";       // 0.01 AU
+            //float auVal = d / AU;
+            //return $"{auVal:F2} AU";       // 0.01 AU
+            return $"{d:0} km";            // 6,432 km
         }
     }
 }
