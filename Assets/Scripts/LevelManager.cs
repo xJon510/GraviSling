@@ -69,13 +69,14 @@ public class LevelManager : MonoBehaviour
 
             if (!ok) continue;
 
-            GameObject prefab = planetPrefabs[Random.Range(0, planetPrefabs.Length)];
+            int prefabIndex = Random.Range(0, planetPrefabs.Length);
+            GameObject prefab = planetPrefabs[prefabIndex];
             GameObject newPlanet = Instantiate(prefab, spawnPos, Quaternion.identity);
             spawnedPlanets.Add(newPlanet);
 
             MiniMapManager minimap = FindObjectOfType<MiniMapManager>();
             if (minimap != null)
-                minimap.RegisterPlanet(newPlanet.transform);
+                minimap.RegisterPlanet(newPlanet.transform, prefabIndex);
 
             return true;
         }

@@ -1866,7 +1866,7 @@ MonoBehaviour:
   - {fileID: 2115294502199025809, guid: 6a8f6a21bebd9004a8c225501225ad46, type: 3}
   - {fileID: 7580782886456056904, guid: 934b43d878e6bc748b5da9e0389fd10a, type: 3}
   - {fileID: 8485450543655848291, guid: c2c78b040e1189f458bc37da28cde63a, type: 3}
-  desiredDustAhead: 60
+  desiredDustAhead: 80
   spawnMinX: 100
   spawnMaxX: 800
   minY: -1000
@@ -2450,7 +2450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 193e8401373ab634dbc6a44c83cbd0c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 519420032}
+  cam: {fileID: 84128454}
   factor: 0.4
 --- !u!1 &583531831
 GameObject:
@@ -3409,7 +3409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 193e8401373ab634dbc6a44c83cbd0c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 519420032}
+  cam: {fileID: 84128454}
   factor: 0.6
 --- !u!1 &1114537543
 GameObject:
@@ -3769,7 +3769,7 @@ MonoBehaviour:
   - {fileID: 4108744999199689402, guid: 12b80866bd50c1f47aaf8085ba803a93, type: 3}
   - {fileID: 332336991506645085, guid: 6f580dd0e1e44be4dbff747367360e1a, type: 3}
   - {fileID: 1412413796295146783, guid: 446ac15830a494348b854834cd150f7d, type: 3}
-  desiredDustAhead: 60
+  desiredDustAhead: 80
   spawnMinX: 100
   spawnMaxX: 800
   minY: -1000
@@ -4583,7 +4583,15 @@ MonoBehaviour:
   minimapRect: {fileID: 1513797313}
   worldRangeX: 600
   worldRangeY: 600
-  planetIconPrefab: {fileID: 6225340404143997144, guid: 55c6d178ecccb0d4c9854fe19f7fdccf, type: 3}
+  planetIconPrefabs:
+  - {fileID: 1486754112148296774, guid: 08b1abc2e47a0554e980f441bc3aa723, type: 3}
+  - {fileID: 4048224818382405205, guid: 13f091b2af5e9e949a117f7bd1542c77, type: 3}
+  - {fileID: 3703319106195803392, guid: 690ed28dc6c5d96418800838384b889c, type: 3}
+  - {fileID: 6017747131273576189, guid: e0c70f25e2c4f8b49a03fcfda4c00164, type: 3}
+  - {fileID: 6572569472066697238, guid: 9c30bc18650721f468ed800a8b521752, type: 3}
+  - {fileID: 7752482640209598733, guid: ebb8c5aceb41fb7418422fa975fd9056, type: 3}
+  - {fileID: 4223788589128716887, guid: 977d8e22fc56f4a498325844910a1812, type: 3}
+  - {fileID: 9001918076394098250, guid: d82a6a4fdcc7fe540a18871438aeda6d, type: 3}
   asteroidIconPrefab: {fileID: 2537403156342465075, guid: 85f6eaa3f4c50cd4da6cc7f92504b044, type: 3}
   blackHoleIconPrefab: {fileID: 7099383109578983693, guid: 4a2ed8715a0d06a4d9c4729bd37b35f0, type: 3}
 --- !u!1 &1587405921
@@ -4815,6 +4823,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1639302510 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 765553986109083834, guid: 194e1e25369a7984881f434df8aaae33, type: 3}
+  m_PrefabInstance: {fileID: 452741425772227168}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &1639302513
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1639302510}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 5
+  m_TargetDisplay: 0
 --- !u!1 &1689178386
 GameObject:
   m_ObjectHideFlags: 0
@@ -6422,7 +6458,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 765553986109083834, guid: 194e1e25369a7984881f434df8aaae33, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1639302513}
   m_SourcePrefab: {fileID: 100100000, guid: 194e1e25369a7984881f434df8aaae33, type: 3}
 --- !u!1001 &2100710118123020622
 PrefabInstance:

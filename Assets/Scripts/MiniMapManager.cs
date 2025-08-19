@@ -10,7 +10,7 @@ public class MiniMapManager : MonoBehaviour
     public float worldRangeY = 600f;    // ±Y around player
 
     [Header("Prefabs")]
-    public GameObject planetIconPrefab;
+    public GameObject[] planetIconPrefabs; 
     public GameObject asteroidIconPrefab;
     public GameObject blackHoleIconPrefab;
 
@@ -50,9 +50,12 @@ public class MiniMapManager : MonoBehaviour
     }
 
     // PUBLIC API for your spawners:
-    public void RegisterPlanet(Transform worldTarget)
+    public void RegisterPlanet(Transform worldTarget, int iconIndex)
     {
-        var icon = Instantiate(planetIconPrefab, minimapRect);
+        // safety clamp – if you give me 10 planets but only supply 3 icons I won’t explode
+        iconIndex = Mathf.Clamp(iconIndex, 0, planetIconPrefabs.Length - 1);
+
+        var icon = Instantiate(planetIconPrefabs[iconIndex], minimapRect);
         tracked.Add(new Entry
         {
             worldTarget = worldTarget,
