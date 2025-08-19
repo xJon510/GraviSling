@@ -4,7 +4,7 @@ public class InfiniteParallax : MonoBehaviour
 {
     public Transform cam;
     public Transform player;
-    public float parallaxFactor = 0.3f;
+    public float parallaxFactor = 0.9f;
     public float tileSize = 10000f;
 
     private Vector3 lastCamPos;
