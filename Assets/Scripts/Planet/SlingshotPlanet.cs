@@ -27,6 +27,7 @@ public class SlingshotPlanet : MonoBehaviour
     public GameObject explosionPlayerPrefab;
     public GameObject machRingPrefab;
 
+    private TrailRenderer trail;
     private bool isOrbiting = false;
     private int orbitDir = 1;     // +1 = CW, -1 = CCW
 
@@ -49,6 +50,7 @@ public class SlingshotPlanet : MonoBehaviour
         PlayerShipController player = other.GetComponent<PlayerShipController>();
         if (player != null)
         {
+            trail = player.GetComponentInChildren<TrailRenderer>(true);
             StartCoroutine(OrbitAndCharge(player));
         }
     }
@@ -76,6 +78,10 @@ public class SlingshotPlanet : MonoBehaviour
         while (true)
         {
             bool charging = Keyboard.current.spaceKey.isPressed;
+
+            if (trail != null)
+                trail.gameObject.SetActive(charging);
+
             if (charging)
             {
                 orbitSpeed += chargeRate * Time.deltaTime;
@@ -138,6 +144,12 @@ public class SlingshotPlanet : MonoBehaviour
             float z = player.transform.eulerAngles.z;
             Quaternion rot = Quaternion.Euler(0f, 0f, z - 90f);   // or z - 79f if that lines up better
             Instantiate(machRingPrefab, player.transform.position, rot);
+        }
+
+        if (trail != null)
+        {
+            trail.Clear();
+            trail.gameObject.SetActive(false);
         }
 
         player.enabled = true;

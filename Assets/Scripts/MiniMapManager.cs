@@ -14,6 +14,10 @@ public class MiniMapManager : MonoBehaviour
     public GameObject asteroidIconPrefab;
     public GameObject blackHoleIconPrefab;
 
+    [Header("Gem Prefabs")]
+    public GameObject blueGemIconPrefab;
+    public GameObject redGemIconPrefab;
+
     private class Entry
     {
         public Transform worldTarget;
@@ -81,6 +85,25 @@ public class MiniMapManager : MonoBehaviour
             worldTarget = worldTarget,
             iconRect = icon.GetComponent<RectTransform>(),
             offset = offset
+        });
+    }
+
+    public void RegisterGem(Transform worldTarget, int rarityIndex)
+    {
+        GameObject iconPrefab = null;
+
+        if (rarityIndex == 2)      // blue
+            iconPrefab = blueGemIconPrefab;
+        else if (rarityIndex == 3) // red
+            iconPrefab = redGemIconPrefab;
+
+        if (iconPrefab == null) return; // don’t track yellow/green
+
+        var icon = Instantiate(iconPrefab, minimapRect);
+        tracked.Add(new Entry
+        {
+            worldTarget = worldTarget,
+            iconRect = icon.GetComponent<RectTransform>()
         });
     }
 }

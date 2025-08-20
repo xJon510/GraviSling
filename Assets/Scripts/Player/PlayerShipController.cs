@@ -25,6 +25,17 @@ public class PlayerShipController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        CurrencyGem gem = other.GetComponent<CurrencyGem>();
+        if (gem != null)
+        {
+            // picked up
+            gem.Collect();
+            // increase your currency here...
+        }
+    }
+
     private void FixedUpdate()
     {
         Vector2 input = moveAction.action.ReadValue<Vector2>();
