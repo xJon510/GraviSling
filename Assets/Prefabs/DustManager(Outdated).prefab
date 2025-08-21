@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1602774180496483370
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4189644604216932228}
+  - component: {fileID: 484121815290289841}
+  - component: {fileID: 4756908137569482284}
+  m_Layer: 5
+  m_Name: DustManager(Outdated)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4189644604216932228
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602774180496483370}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 10000, y: 10000}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &484121815290289841
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602774180496483370}
+  m_CullTransparentMesh: 1
+--- !u!114 &4756908137569482284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602774180496483370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05a9324cae6ae074fbddebbad3d0e0e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  blackHole: {fileID: 0}
+  dustPrefabs:
+  - {fileID: 6024271643347732895, guid: d5451500bf10e3047b4c6747b0fa520c, type: 3}
+  - {fileID: 2117252988279797384, guid: d75841d78a8855f47abf211fefe9ce7b, type: 3}
+  - {fileID: 8802797381614418109, guid: 5175494f00095a14e8abe26fb205e31d, type: 3}
+  - {fileID: 2115294502199025809, guid: 6a8f6a21bebd9004a8c225501225ad46, type: 3}
+  - {fileID: 7580782886456056904, guid: 934b43d878e6bc748b5da9e0389fd10a, type: 3}
+  - {fileID: 8485450543655848291, guid: c2c78b040e1189f458bc37da28cde63a, type: 3}
+  desiredDustAhead: 80
+  spawnMinX: 100
+  spawnMaxX: 800
+  minY: -1000
+  maxY: 1000
+  minSpacing: 10
+  cleanupBuffer: 100

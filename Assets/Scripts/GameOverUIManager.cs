@@ -18,6 +18,7 @@ public class GameOverUIManager : MonoBehaviour
     [SerializeField] private TMP_Text DistanceTextRuntime;
     [SerializeField] private TMP_Text GemsCollectedText;
     [SerializeField] private TMP_Text CurrencyTotalText;
+    [SerializeField] private TMP_Text CurrencyTotalHelpText;
     [SerializeField] private GameObject levelManager;
 
     [Header("Flavor Lines")]
@@ -44,7 +45,8 @@ public class GameOverUIManager : MonoBehaviour
         distanceText.text = $"Distance Travelled: {distanceTravelled:F0} m";
         speedText.text = $"Top Speed: {topSpeed:F1} km/s";
         GemsCollectedText.text = $"Gems Collected: {PlayerPrefs.GetInt("gemsThisRun", 0)}";
-        CurrencyTotalText.text = $"Gems Total: {PlayerPrefs.GetInt("currency", 0)}";
+        CurrencyTotalText.text = $"{PlayerPrefs.GetInt("currency", 0)}";
+        CurrencyTotalHelpText.text = $"{PlayerPrefs.GetInt("currency", 0)}";
 
         // fade in
         rootCanvasGroup.alpha = 1f;
