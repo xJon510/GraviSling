@@ -14,6 +14,7 @@ public class GameOverUIManager : MonoBehaviour
 
     [Header("Hide UI References")]
     [SerializeField] private GameObject BHInfo;          // The whole panel to enable/disable
+    [SerializeField] private GameObject player;         
     [SerializeField] private TMP_Text SpeedText;
     [SerializeField] private TMP_Text DistanceTextRuntime;
     [SerializeField] private TMP_Text GemsCollectedText;
@@ -54,6 +55,7 @@ public class GameOverUIManager : MonoBehaviour
         rootCanvasGroup.blocksRaycasts = true;
 
         BHInfo.SetActive(false);
+        player.SetActive(false);
         levelManager.SetActive(false);
         SpeedText.gameObject.SetActive(false);
         DistanceTextRuntime.gameObject.SetActive(false);
