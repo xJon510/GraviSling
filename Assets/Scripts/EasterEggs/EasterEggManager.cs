@@ -26,12 +26,18 @@ public class EasterEggManager : MonoBehaviour
     public Transform player;
     public List<EggDef> eggs = new();
     public Transform eggLayerParent;                  // drag your EasterEggLayer here
+    public Transform backgroundLayerParent;
+    public string backgroundLayerId = "Shooting_Star";
     public string autoFindLayerName = "EasterEggLayer";
     public bool inheritLayerZ = true;
     public bool overrideSortingLayer = false;         // leave false if parent already handles sorting
     public string sortingLayerName = "BG_Eggs";       // used only if overrideSortingLayer = true
     public int sortingOrder = 0;
     public int maxConcurrent = 1;
+
+    [Header("Spawn Chance")]
+    [Range(0f, 1f)]
+    public float spawnChance = 0.5f;
 
     [Header("Black Hole Cleanup")]
     public bool useBlackHoleCleanup = true;
@@ -54,10 +60,12 @@ public class EasterEggManager : MonoBehaviour
         foreach (var def in eggs)
         {
             var q = new Queue<GameObject>(def.poolSize);
+
+            Transform parent = (def.id == backgroundLayerId && backgroundLayerParent != null) ? backgroundLayerParent : (eggLayerParent != null ? eggLayerParent : transform);
+
             for (int i = 0; i < def.poolSize; i++)
             {
-                // create under the parallax layer parent if present
-                var go = Instantiate(def.prefab, eggLayerParent != null ? eggLayerParent : transform);
+                var go = Instantiate(def.prefab, parent);
                 go.SetActive(false);
 
                 if (overrideSortingLayer)
@@ -72,7 +80,10 @@ public class EasterEggManager : MonoBehaviour
     // Call this from your background-panel “shifted” event, OR poll in Update:
     public void OnBackgroundPanelShifted()
     {
-        TrySpawn();
+        if (Random.value <= spawnChance)
+        {
+            TrySpawn();
+        }
     }
 
     void Update()

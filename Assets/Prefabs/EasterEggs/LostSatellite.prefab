@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &547635592940054052
 RectTransform:
   m_ObjectHideFlags: 0
@@ -88,7 +88,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33f4bf5a28ebe8a49be2d1edcf8b2a2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wobbleAmp: 0.5
+  wobbleAmp: 2
   wobbleFreq: 0.6
   spinDegPerSec: 10
-  offscreenMargin: 0.1
+  driftSpeedMin: 5
+  driftSpeedMax: 10
