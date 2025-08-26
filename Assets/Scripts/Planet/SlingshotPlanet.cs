@@ -77,7 +77,7 @@ public class SlingshotPlanet : MonoBehaviour
 
         while (true)
         {
-            bool charging = Keyboard.current.spaceKey.isPressed;
+            bool charging = BoostInput.Pressed;
 
             if (trail != null)
                 trail.gameObject.SetActive(charging);
@@ -128,7 +128,7 @@ public class SlingshotPlanet : MonoBehaviour
                 minimapIcon.localEulerAngles = new Vector3(0f, 0f, iconAngle);
             }
 
-            if (Keyboard.current.spaceKey.wasReleasedThisFrame)
+            if (BoostInput.WasReleasedThisFrame())
                 break;
 
             yield return null;

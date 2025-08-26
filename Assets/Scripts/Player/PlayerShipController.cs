@@ -38,7 +38,8 @@ public class PlayerShipController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector2 input = moveAction.action.ReadValue<Vector2>();
+        Vector2 input = moveAction.action.ReadValue<Vector2>() + JoystickInput.Vector;
+        input = Vector2.ClampMagnitude(input, 1f);
 
         // 1) Apply thrust in input direction
         if (input.sqrMagnitude > 0.01f)
