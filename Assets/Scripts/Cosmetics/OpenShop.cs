@@ -31,4 +31,6 @@ public class OpenShop : MonoBehaviour
         shopGroup.interactable = false;
         shopGroup.blocksRaycasts = false;
     }
+
+    //dopa down
 }
