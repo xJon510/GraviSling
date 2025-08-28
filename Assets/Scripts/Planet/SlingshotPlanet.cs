@@ -75,9 +75,14 @@ public class SlingshotPlanet : MonoBehaviour
         float chargeTimer = 0f;
         float currentRadius = orbitRadius;
 
+        // --- swallow any pre-orbit taps/flags ---
+        BoostInput.ClearReleaseFlag();
+        bool prevPressed = true;        // force a *fresh* press after capture
+        bool charging = false;       // only charge after fresh press in orbit
+
         while (true)
         {
-            bool charging = BoostInput.Pressed;
+            charging = BoostInput.Pressed;
 
             if (trail != null)
                 trail.gameObject.SetActive(charging);

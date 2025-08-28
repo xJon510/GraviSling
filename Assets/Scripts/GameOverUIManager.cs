@@ -44,9 +44,9 @@ public class GameOverUIManager : MonoBehaviour
     {
         // set values
         flavorText.text = randomFlavorLines[Random.Range(0, randomFlavorLines.Length)];
-        distanceText.text = $"Distance Travelled: {distanceTravelled:F0} m";
-        speedText.text = $"Top Speed: {topSpeed:F1} km/s";
-        GemsCollectedText.text = $"Gems Collected: {PlayerPrefs.GetInt("gemsThisRun", 0)}";
+        distanceText.text = $"{distanceTravelled:F0} m";
+        speedText.text = $"{topSpeed:F1} km/s";
+        GemsCollectedText.text = $"{PlayerPrefs.GetInt("gemsThisRun", 0)}";
         CurrencyTotalText.text = $"{PlayerPrefs.GetInt("currency", 0)}";
         CurrencyTotalHelpText.text = $"{PlayerPrefs.GetInt("currency", 0)}";
 

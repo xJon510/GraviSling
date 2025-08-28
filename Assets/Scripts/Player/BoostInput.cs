@@ -36,4 +36,9 @@ public static class BoostInput
             releasedFlag = true;
         mobilePressed = false;
     }
+
+    public static void ClearReleaseFlag()
+    {
+        releasedFlag = false;
+    }
 }
