@@ -5,6 +5,7 @@ public class OpenShop : MonoBehaviour
 {
     [SerializeField] CanvasGroup shopGroup;   // assign in Inspector
     public TMP_Text TotalBalanceText;
+    public GameObject PreviewShipIcon;
 
     // Hook this to your Button OnClick()
     public void Open()
@@ -19,6 +20,8 @@ public class OpenShop : MonoBehaviour
         shopGroup.interactable = true;
         shopGroup.blocksRaycasts = true;
 
+        PreviewShipIcon.SetActive(true);
+
         TotalBalanceText.text = $"{PlayerPrefs.GetInt("currency", 0)}";
     }
 
@@ -30,6 +33,8 @@ public class OpenShop : MonoBehaviour
         shopGroup.alpha = 0f;
         shopGroup.interactable = false;
         shopGroup.blocksRaycasts = false;
+
+        PreviewShipIcon.SetActive(false);
     }
 
     //dopa down
