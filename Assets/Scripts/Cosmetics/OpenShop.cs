@@ -4,8 +4,10 @@ using TMPro;
 public class OpenShop : MonoBehaviour
 {
     [SerializeField] CanvasGroup shopGroup;   // assign in Inspector
+    public GameObject shopUI;
     public TMP_Text TotalBalanceText;
     public GameObject PreviewShipIcon;
+    [SerializeField] CanvasGroup GameOverGroup;
 
     // Hook this to your Button OnClick()
     public void Open()
@@ -20,6 +22,12 @@ public class OpenShop : MonoBehaviour
         shopGroup.interactable = true;
         shopGroup.blocksRaycasts = true;
 
+        GameOverGroup.alpha = 0f;
+        GameOverGroup.interactable = false;
+        GameOverGroup.blocksRaycasts = false;
+
+        shopUI.SetActive(true);
+
         PreviewShipIcon.SetActive(true);
 
         TotalBalanceText.text = $"{PlayerPrefs.GetInt("currency", 0)}";
@@ -33,6 +41,12 @@ public class OpenShop : MonoBehaviour
         shopGroup.alpha = 0f;
         shopGroup.interactable = false;
         shopGroup.blocksRaycasts = false;
+
+        GameOverGroup.alpha = 1f;
+        GameOverGroup.interactable = true;
+        GameOverGroup.blocksRaycasts = true;
+
+        shopUI.SetActive(false);
 
         PreviewShipIcon.SetActive(false);
     }

@@ -46665,6 +46665,7 @@ GameObject:
   - component: {fileID: 913240295}
   - component: {fileID: 913240296}
   - component: {fileID: 913240297}
+  - component: {fileID: 913240298}
   m_Layer: 5
   m_Name: ShopUI
   m_TagString: Untagged
@@ -46746,6 +46747,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &913240298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913240293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aee66f6cfb27a9449ae8e552f1f8ad55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delay: 0.1
 --- !u!1 &921560299 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5740252311696981819, guid: ea4b7d12372c26349bca0390eb722e1f, type: 3}
@@ -52028,15 +52042,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.04905659, g: 0.04905659, b: 0.04905659, a: 0.70980394}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 5866534821994269802, guid: 16942e6bea938bd42ad94927c58f561c, type: 3}
-  m_Type: 2
+  m_Sprite: {fileID: 0}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -52044,7 +52058,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1.4
+  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1025274480
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -87422,8 +87436,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shopGroup: {fileID: 913240295}
+  shopUI: {fileID: 913240293}
   TotalBalanceText: {fileID: 752960959}
   PreviewShipIcon: {fileID: 1094714407}
+  GameOverGroup: {fileID: 2095134484}
 --- !u!1 &1876647625
 GameObject:
   m_ObjectHideFlags: 0
@@ -89781,8 +89797,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shopGroup: {fileID: 913240295}
+  shopUI: {fileID: 913240293}
   TotalBalanceText: {fileID: 752960959}
   PreviewShipIcon: {fileID: 1094714407}
+  GameOverGroup: {fileID: 2095134484}
 --- !u!95 &2140227583
 Animator:
   serializedVersion: 7
