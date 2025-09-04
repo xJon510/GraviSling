@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
+    public static CameraFollow Instance { get; private set; }
+    private bool _paused = false;
+
     public Transform target;
     public Rigidbody2D rb;
 
@@ -22,8 +25,15 @@ public class CameraFollow : MonoBehaviour
         cam = GetComponent<Camera>();
     }
 
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     private void LateUpdate()
     {
+        if (_paused) return;   // <-- NEW
+
         // == Position follow ==
         if (target != null)
         {
@@ -33,7 +43,7 @@ public class CameraFollow : MonoBehaviour
         }
 
         // == Dynamic FOV zoom based on velocity magnitude ==
-        float currentSpeed = rb.linearVelocity.magnitude;
+        float currentSpeed = rb ? rb.linearVelocity.magnitude : 0f;
 
         float targetFOV;
         if (currentSpeed <= speedThreshold)
@@ -48,4 +58,23 @@ public class CameraFollow : MonoBehaviour
 
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFOV, Time.deltaTime * zoomSpeed);
     }
+
+    /// <summary>Pause/unpause the follow without disabling the component.</summary>
+    public void SetPaused(bool paused, bool snapToTargetOnResume = true)
+    {
+        _paused = paused;
+
+        if (!paused && snapToTargetOnResume && target != null)
+        {
+            // Snap position to target so we don't lerp from an old spot on the first live frame.
+            transform.position = target.position + offset;
+
+            // Optional: snap FOV to its current target to avoid a one-frame pop.
+            float currentSpeed = rb ? rb.linearVelocity.magnitude : 0f;
+            float t = (currentSpeed <= speedThreshold) ? 0f
+                : Mathf.InverseLerp(speedThreshold, speedThreshold * 2f, currentSpeed);
+            cam.fieldOfView = Mathf.Lerp(minFOV, maxFOV, t);
+        }
+    }
+
 }
