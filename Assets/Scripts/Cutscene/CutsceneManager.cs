@@ -9,6 +9,14 @@ using System.Linq;
 
 public class CutsceneManager : MonoBehaviour
 {
+    public const string DontShowKey = "Cutscene_DontShowAgain";
+
+    public static bool ShouldPlay()
+    {
+        // default is 0 (play), skip if == 1
+        return PlayerPrefs.GetInt(DontShowKey, 0) == 0;
+    }
+
     [Header("Global")]
     [Tooltip("If true, cutscene runs on Start(). Otherwise call StartCutscene() manually.")]
     public bool playOnStart = true;
@@ -86,8 +94,16 @@ public class CutsceneManager : MonoBehaviour
     void Start()
     {
         CacheFullTexts();
-        PrepareInitialState();
 
+        if (playOnStart && !ShouldPlay())
+        {
+            // Skip immediately, *before* we prepare visuals or disable scripts.
+            FastForwardToGameplay();
+            return;
+        }
+
+        // Normal path
+        PrepareInitialState();
         if (playOnStart) StartCutscene();
     }
 
@@ -124,6 +140,12 @@ public class CutsceneManager : MonoBehaviour
 
     public void StartCutscene()
     {
+        if (!ShouldPlay())
+        {
+            FastForwardToGameplay();
+            return;
+        }
+
         StopAllCoroutines();
         StartCoroutine(RunCutscene());
     }
@@ -389,13 +411,31 @@ public class CutsceneManager : MonoBehaviour
         return true;
     }
 
-
-#if UNITY_EDITOR
-    // Convenience to pull full texts again if you tweak in playmode
-    [ContextMenu("Refresh Full Texts From Inspector")]
-    void EditorRefreshFullTexts()
+    void FastForwardToGameplay()
     {
-        CacheFullTexts();
+        // Kill any cutscene UI if it was left active in the scene/prefab
+        if (coverCg) { coverCg.gameObject.SetActive(false); }
+        if (part1Root) { part1Root.SetActive(false); }
+        if (part2Root) { part2Root.SetActive(false); }
+        if (part3Text) { part3Text.gameObject.SetActive(false); }
+        if (rocketSmoke) { rocketSmoke.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear); rocketSmoke.gameObject.SetActive(false); }
+
+        // Reactivate gameplay objects
+        foreach (var go in reactivateAfterCutscene)
+            if (go) go.SetActive(true);
+
+        // Re-enable anything we disabled for the cutscene
+        ToggleBehaviours(disableDuringCutscene, true);
+        ToggleBehaviours(enableAtEnd, true);
+
+        // Show tutorial if needed
+        if (tutorialManagerGO && TutorialManager.ShouldShow())
+            tutorialManagerGO.SetActive(true);
+
+        // Unpause camera/game
+        CameraFollow.Instance?.SetPaused(false, snapToTargetOnResume: true);
+
+        // We’re done with the manager
+        gameObject.SetActive(false);
     }
-#endif
 }

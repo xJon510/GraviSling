@@ -20,6 +20,12 @@ public class PlayerShipController : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    // Pause Cache stuff
+    private Vector2 _savedVel;
+    private float _savedAngVel;
+    private bool _savedSimulated;
+    private bool _isPausedDrift;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -100,4 +106,32 @@ public class PlayerShipController : MonoBehaviour
 
         animate.thrustLevel = thrustLevel;
     }
+
+    public void PauseDrift()
+    {
+        if (_isPausedDrift) return;
+        _isPausedDrift = true;
+
+        // cache state
+        _savedVel = rb.linearVelocity;
+        _savedAngVel = rb.angularVelocity;
+        _savedSimulated = rb.simulated;
+
+        // stop physics simulation (no drifting, no rotation)
+        rb.simulated = false;
+        // (Optional) if you want UI to show 0 speed while paused:
+        rb.linearVelocity = Vector2.zero; rb.angularVelocity = 0f;
+    }
+
+    public void ResumeDrift()
+    {
+        if (!_isPausedDrift) return;
+        _isPausedDrift = false;
+
+        // restore physics
+        rb.simulated = _savedSimulated;
+        rb.linearVelocity = _savedVel;
+        rb.angularVelocity = _savedAngVel;
+    }
+
 }
