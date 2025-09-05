@@ -41184,6 +41184,7 @@ MonoBehaviour:
   disableObjectsWhileOpen:
   - {fileID: 1513797312}
   - {fileID: 1272769367}
+  - {fileID: 84128452}
   pauseAudio: 0
 --- !u!1 &459614764
 GameObject:
@@ -98579,7 +98580,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1513797313
 RectTransform:
   m_ObjectHideFlags: 0
