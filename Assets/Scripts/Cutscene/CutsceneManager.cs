@@ -154,6 +154,9 @@ public class CutsceneManager : MonoBehaviour
     {
         step = Step.CoverFade;
 
+        foreach (var go in reactivateAfterCutscene)
+            if (go) go.SetActive(false);
+
         CameraFollow.Instance?.SetPaused(true);
 
         // Activate Part 1 before fading cover so it’s ready underneath
@@ -202,7 +205,7 @@ public class CutsceneManager : MonoBehaviour
         if (typingCo != null) yield return typingCo;
 
         // Optional brief hold or allow tap here
-        yield return StartCoroutine(WaitForAdvanceTapOrTimeout(postLaunchHold));
+        yield return StartCoroutine(WaitForAdvanceTap());
 
         // END — Reactivate gameplay objects
         step = Step.Ending;

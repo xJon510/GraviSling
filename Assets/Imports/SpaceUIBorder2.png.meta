@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 4d92b1b55673ee840a569f9ea5747019
+guid: 5f067910e1e908a46aab24c201174390
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2444736223003020520
-    second: SpaceUIBorder_0
+      213: 5709478849797857759
+    second: SpaceUIBorder2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,23 +126,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SpaceUIBorder_0
+      name: SpaceUIBorder2_0
       rect:
         serializedVersion: 2
         x: 48
         y: 200
         width: 927
         height: 597
-      alignment: 9
-      pivot: {x: 0.495, y: 0.36}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 170, y: 170, z: 170, w: 170}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8ec00ad54a27de120800000000000000
-      internalID: 2444736223003020520
+      spriteID: fd1aec683c42c3f40800000000000000
+      internalID: 5709478849797857759
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: b90a636584cbb394199fbdd8354afc2b
+    spriteID: 5c018392d15d9d0458857607c6d4b5c8
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      SpaceUIBorder_0: 2444736223003020520
+      SpaceUIBorder2_0: 5709478849797857759
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
