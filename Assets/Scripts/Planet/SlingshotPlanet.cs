@@ -173,9 +173,6 @@ public class SlingshotPlanet : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
 
-        GameOverUIManager.Instance.GameOver(
-            RunStatsTracker.Instance.currentDistance,
-            RunStatsTracker.Instance.currentTopSpeed
-        );
+        GameOverUIManager.Instance.GameOver();
     }
 }

@@ -86,11 +86,11 @@ public class PlayerShipController : MonoBehaviour
         }
 
         // update speed counter
+        float speed = rb.linearVelocity.magnitude;
+        RunStatsModel.I?.UpdateSpeed(speed);
+
         if (speedText != null)
-        {
-            float speed = rb.linearVelocity.magnitude;
             speedText.text = $"Speed: {speed:F1} km/s";
-        }
 
         // 4) rotate minimap icon
         if (minimapIcon != null)

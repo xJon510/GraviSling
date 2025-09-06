@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MiniMapManager : MonoBehaviour
 {
@@ -18,92 +19,128 @@ public class MiniMapManager : MonoBehaviour
     public GameObject blueGemIconPrefab;
     public GameObject redGemIconPrefab;
 
+    [Header("Performance")]
+    [Tooltip("If >0, spread icon updates across multiple frames (lower = smoother UI, higher = less lag). 0 = update all every frame.")]
+    public int staggerFrameCount = 0;
+
     private class Entry
     {
         public Transform worldTarget;
         public RectTransform iconRect;
         public Vector2 offset;
+        public GameObject prefabRef;
     }
 
     private readonly List<Entry> tracked = new();
+    private readonly Dictionary<GameObject, Queue<GameObject>> pool = new();
+
+    private int updateIndex = 0;
 
     void Update()
     {
-        foreach (var e in tracked.ToArray())
+        if (tracked.Count == 0) return;
+
+        // update budget: all if staggerFrameCount==0, else a slice
+        int updatesThisFrame = tracked.Count;
+        if (staggerFrameCount > 0)
+            updatesThisFrame = Mathf.CeilToInt(tracked.Count / (float)staggerFrameCount);
+
+        for (int i = 0; i < updatesThisFrame; i++)
         {
-            if (e.worldTarget == null)
+            if (tracked.Count == 0) break;
+
+            updateIndex %= tracked.Count; // wrap around
+            var e = tracked[updateIndex];
+
+            if (e.worldTarget == null || !e.worldTarget.gameObject.activeSelf)
             {
-                // world object destroyed
-                Destroy(e.iconRect.gameObject);
-                tracked.Remove(e);
+                // recycle icon
+                RecycleEntry(e);
+                tracked.RemoveAt(updateIndex);
+                // don't advance updateIndex since we removed current
                 continue;
             }
 
-            // convert world position to minimap coords
-            Vector3 offset = e.worldTarget.position - player.position;
-
-            float mapX = Mathf.Clamp(offset.x / worldRangeX, -1.1f, 1.1f);  // normalized [-1..1]
-            float mapY = Mathf.Clamp(offset.y / worldRangeY, -1.1f, 1.1f);
-
-            // convert to rect anchoredPosition
-            float halfW = minimapRect.rect.width * 0.5f;
-            float halfH = minimapRect.rect.height * 0.5f;
-            Vector2 anchored = new Vector2(mapX * halfW, mapY * halfH) + e.offset;
-            e.iconRect.anchoredPosition = anchored;
+            UpdateEntryPosition(e);
+            updateIndex++;
         }
     }
 
-    // PUBLIC API for your spawners:
+    private void UpdateEntryPosition(Entry e)
+    {
+        Vector3 offset = e.worldTarget.position - player.position;
+
+        float mapX = Mathf.Clamp(offset.x / worldRangeX, -1.1f, 1.1f);
+        float mapY = Mathf.Clamp(offset.y / worldRangeY, -1.1f, 1.1f);
+
+        float halfW = minimapRect.rect.width * 0.5f;
+        float halfH = minimapRect.rect.height * 0.5f;
+        Vector2 anchored = new Vector2(mapX * halfW, mapY * halfH) + e.offset;
+
+        e.iconRect.anchoredPosition = anchored;
+    }
+
+    private void RecycleEntry(Entry e)
+    {
+        if (!pool.ContainsKey(e.prefabRef))
+            pool[e.prefabRef] = new Queue<GameObject>();
+
+        e.iconRect.gameObject.SetActive(false);
+        pool[e.prefabRef].Enqueue(e.iconRect.gameObject);
+    }
+
+    private GameObject GetFromPool(GameObject prefab)
+    {
+        if (pool.TryGetValue(prefab, out var q) && q.Count > 0)
+        {
+            var go = q.Dequeue();
+            go.SetActive(true);
+            return go;
+        }
+        return Instantiate(prefab, minimapRect);
+    }
+
+    // ---------------------- Public API ----------------------
+
     public void RegisterPlanet(Transform worldTarget, int iconIndex)
     {
-        // safety clamp – if you give me 10 planets but only supply 3 icons I won’t explode
         iconIndex = Mathf.Clamp(iconIndex, 0, planetIconPrefabs.Length - 1);
-
-        var icon = Instantiate(planetIconPrefabs[iconIndex], minimapRect);
-        tracked.Add(new Entry
-        {
-            worldTarget = worldTarget,
-            iconRect = icon.GetComponent<RectTransform>()
-        });
+        var prefab = planetIconPrefabs[iconIndex];
+        Register(worldTarget, prefab, Vector2.zero);
     }
 
     public void RegisterAsteroid(Transform worldTarget)
     {
-        var icon = Instantiate(asteroidIconPrefab, minimapRect);
-        tracked.Add(new Entry
-        {
-            worldTarget = worldTarget,
-            iconRect = icon.GetComponent<RectTransform>()
-        });
+        Register(worldTarget, asteroidIconPrefab, Vector2.zero);
     }
 
     public void RegisterBlackHole(Transform worldTarget, Vector2 offset)
     {
-        var icon = Instantiate(blackHoleIconPrefab, minimapRect);
-        tracked.Add(new Entry
-        {
-            worldTarget = worldTarget,
-            iconRect = icon.GetComponent<RectTransform>(),
-            offset = offset
-        });
+        Register(worldTarget, blackHoleIconPrefab, offset);
     }
 
     public void RegisterGem(Transform worldTarget, int rarityIndex)
     {
-        GameObject iconPrefab = null;
+        GameObject prefab = null;
+        if (rarityIndex == 2) prefab = blueGemIconPrefab;
+        else if (rarityIndex == 3) prefab = redGemIconPrefab;
+        if (prefab != null) Register(worldTarget, prefab, Vector2.zero);
+    }
 
-        if (rarityIndex == 2)      // blue
-            iconPrefab = blueGemIconPrefab;
-        else if (rarityIndex == 3) // red
-            iconPrefab = redGemIconPrefab;
+    private void Register(Transform worldTarget, GameObject prefab, Vector2 offset)
+    {
+        var icon = GetFromPool(prefab);
+        var rect = icon.GetComponent<RectTransform>();
 
-        if (iconPrefab == null) return; // don’t track yellow/green
-
-        var icon = Instantiate(iconPrefab, minimapRect);
         tracked.Add(new Entry
         {
             worldTarget = worldTarget,
-            iconRect = icon.GetComponent<RectTransform>()
+            iconRect = rect,
+            offset = offset,
+            prefabRef = prefab
         });
+
+        // Make sure the icon has no layout components (ContentSizeFitter, LayoutGroup, etc.)
+        // Just an Image/CanvasRenderer. This avoids layout rebuild cost.
     }
 }

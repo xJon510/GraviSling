@@ -66,10 +66,7 @@ public class BlackHoleDrift : MonoBehaviour
             var prb = player.GetComponent<Rigidbody2D>();
             if (prb != null) prb.linearVelocity = Vector2.zero;
 
-            GameOverUIManager.Instance.GameOver(
-                RunStatsTracker.Instance.currentDistance,
-                RunStatsTracker.Instance.currentTopSpeed
-            );
+            GameOverUIManager.Instance.GameOver();
             deadPlayer = true;
         }
     }

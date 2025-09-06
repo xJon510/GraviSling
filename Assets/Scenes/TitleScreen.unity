@@ -9937,7 +9937,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4405514854332024396, guid: b7704c1e45be3094fbec4fa87b4f46da, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4405514854332024396, guid: b7704c1e45be3094fbec4fa87b4f46da, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -9946,7 +9946,7 @@ PrefabInstance:
     - target: {fileID: 4405514854332024396, guid: b7704c1e45be3094fbec4fa87b4f46da, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1871342177}
+      objectReference: {fileID: 0}
     - target: {fileID: 4405514854332024396, guid: b7704c1e45be3094fbec4fa87b4f46da, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -10083,9 +10083,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1830421359294882212, guid: b7704c1e45be3094fbec4fa87b4f46da, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1871342176}
-    - targetCorrespondingSourceObject: {fileID: 1830421359294882212, guid: b7704c1e45be3094fbec4fa87b4f46da, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1871342177}
   m_SourcePrefab: {fileID: 100100000, guid: b7704c1e45be3094fbec4fa87b4f46da, type: 3}
 --- !u!1 &182352995
 GameObject:
@@ -27055,7 +27052,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d552135b30290b45abd2faa234ffd7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cursorTex: {fileID: 2800000, guid: 33da49f5727490a449c43ef3b0e50526, type: 3}
+  cursorTex: {fileID: 2800000, guid: bd3f470f0d19ef54295f189e4afae0f9, type: 3}
   hotspot: {x: 0, y: 0}
   mode: 0
 --- !u!4 &1590249414
@@ -27593,18 +27590,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1871342177
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1871342172}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e21c711950a9f5a4fbddcb29f618721e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1871873880
 GameObject:
   m_ObjectHideFlags: 0

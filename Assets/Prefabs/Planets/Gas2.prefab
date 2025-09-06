@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6398895529919231893}
   - component: {fileID: 5528567508626267684}
   - component: {fileID: 3971575551833981061}
-  - component: {fileID: 781546447668014427}
+  - component: {fileID: 4387224821713118938}
   m_Layer: 0
   m_Name: Gas2
   m_TagString: Untagged
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 13.3, y: 106.3, z: 0}
-  m_LocalScale: {x: 75, y: 75, z: 1}
+  m_LocalScale: {x: 110, y: 110, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -58,7 +58,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 138ca0f4dc7b64d4abf8c56d9a1ec968, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -855298285791758126, guid: faeef2c44f289ac449c5c36c3d321122, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 43f19bd847b87634ea35a19badaf1d0d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -125,7 +125,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.73
+  m_Radius: 0.5
 --- !u!114 &3971575551833981061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,7 +151,7 @@ MonoBehaviour:
   minimapRotationOffset: -90
   explosionPlayerPrefab: {fileID: 8843185705750593545, guid: 5e7c94d40e734ad4ea4546353e55c460, type: 3}
   machRingPrefab: {fileID: 5249955851602394433, guid: 6dd857760829a3c42a40fee45852c4ff, type: 3}
---- !u!114 &781546447668014427
+--- !u!114 &4387224821713118938
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -160,9 +160,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2617432554801296396}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 589ce787d0988ae4aa0d70109a9171ff, type: 3}
+  m_Script: {fileID: 11500000, guid: fef6f5aa466924f45b386bc108ce4c82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planetFolder: Gas_giant_or_Toxic/4
-  skip: 2
-  framesPerSecond: 4
+  columns: 10
+  rows: 6
+  totalFrames: 60
+  fps: 4
+  randomStartPhase: 1
+  viewportPadding: 0.08
+  targetCamera: {fileID: 0}

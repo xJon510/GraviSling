@@ -40,15 +40,24 @@ public class GameOverUIManager : MonoBehaviour
     /// <summary>
     /// Call this to trigger the game over screen
     /// </summary>
-    public void GameOver(float distanceTravelled, float topSpeed)
+    public void GameOver()
     {
+        var stats = RunStatsModel.I;
+        if (stats == null) return;
+
+        // finalize run and update all-time records
+        stats.EndRunAndPersist();
+
         // set values
         flavorText.text = randomFlavorLines[Random.Range(0, randomFlavorLines.Length)];
-        distanceText.text = $"{distanceTravelled:F0} m";
-        speedText.text = $"{topSpeed:F1} km/s";
-        GemsCollectedText.text = $"{PlayerPrefs.GetInt("gemsThisRun", 0)}";
-        CurrencyTotalText.text = $"{PlayerPrefs.GetInt("currency", 0)}";
-        CurrencyTotalHelpText.text = $"{PlayerPrefs.GetInt("currency", 0)}";
+
+        distanceText.text = $"{stats.currentDistance:0} km";
+        speedText.text = $"{stats.topSpeedThisRun:0.0} km/s";
+
+        GemsCollectedText.text = PlayerPrefs.GetInt("gemsThisRun", 0).ToString();
+        int currency = PlayerPrefs.GetInt("currency", 0);
+        CurrencyTotalText.text = currency.ToString();
+        CurrencyTotalHelpText.text = currency.ToString();
 
         // fade in
         rootCanvasGroup.alpha = 1f;

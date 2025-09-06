@@ -6,40 +6,32 @@ public class ScoreUpdater : MonoBehaviour
     public Transform player;
     public TMP_Text scoreText;
 
-    private float furthestX = 0f;
+    private float lastShown = float.MinValue;
 
-    // 1 AU 150,000,000 km
-    private const float AU = 150_000f;
+    void Start()
+    {
+        if (player) RunStatsModel.I?.ResetRun(player.position.x);
+    }
 
     void Update()
     {
         if (player == null || scoreText == null) return;
 
-        float currentX = player.position.x;
+        RunStatsModel.I?.UpdateDistanceByX(player.position.x);
 
-        if (currentX > furthestX)
+        float d = RunStatsModel.I.currentDistance;
+        // Only push text if the displayed value would change
+        float rounded = d < 100f ? Mathf.Round(d * 10f) * 0.1f : Mathf.Round(d);
+        if (!Mathf.Approximately(rounded, lastShown))
         {
-            furthestX = currentX;
-            scoreText.text = FormatDistance(furthestX);
+            scoreText.text = FormatDistance(rounded, d < 100f);
+            lastShown = rounded;
         }
     }
 
-    string FormatDistance(float d)
+    string FormatDistance(float shown, bool small)
     {
-        // d is in km (your label is km)
-        if (d < 100f)
-        {
-            return $"{d:F1} km";           // 57.3 km
-        }
-        else if (d < 15000f)
-        {
-            return $"{d:0} km";            // 6,432 km
-        }
-        else
-        {
-            //float auVal = d / AU;
-            //return $"{auVal:F2} AU";       // 0.01 AU
-            return $"{d:0} km";            // 6,432 km
-        }
+        if (small) return $"{shown:F1} km";
+        return $"{shown:0} km";
     }
 }

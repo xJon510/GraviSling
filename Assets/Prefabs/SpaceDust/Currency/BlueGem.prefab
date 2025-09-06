@@ -146,6 +146,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 1
+  OffsetMultiplier: 1.5
+  player: {fileID: 0}
   flyDuration: 0.5
   scaleCurve:
     serializedVersion: 2
