@@ -130,7 +130,9 @@ GameObject:
   - component: {fileID: 5567240}
   - component: {fileID: 5567243}
   - component: {fileID: 5567239}
+  - component: {fileID: 5567244}
   - component: {fileID: 5567241}
+  - component: {fileID: 5567245}
   - component: {fileID: 5567242}
   m_Layer: 0
   m_Name: LevelManager
@@ -192,7 +194,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5567238}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21e60f8a356ac3c45be4bbaae4dfd72c, type: 3}
   m_Name: 
@@ -222,7 +224,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5567238}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 289a535b77b24fc4cab8cdff0e919992, type: 3}
   m_Name: 
@@ -277,6 +279,77 @@ MonoBehaviour:
   cleanupBuffer: 50
   initialPoolPerPrefab: 10
   opsBudgetPerFrame: 2
+  _spawnedPlanets: []
+--- !u!114 &5567244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5567238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 472bb33dd3fa296449e80df25b6e49ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 84128454}
+  minimap: {fileID: 1513797317}
+  asteroidPrefabs:
+  - {fileID: 4115788874552263585, guid: 6024a5003434ed047bec3e5142d34b75, type: 3}
+  - {fileID: 9094837177591475365, guid: 86d11de9769abf24bbcf3ce34187b325, type: 3}
+  - {fileID: 9039885381873357849, guid: 4a0a6ef33f95ba145b9737b8e37a7ec8, type: 3}
+  - {fileID: 6925916154662006595, guid: b0fd4647f3582cd4ba0f63326b508583, type: 3}
+  - {fileID: 2441902481862901792, guid: fd6191487358ee14cb7aef38cc67d245, type: 3}
+  - {fileID: 3907478218974723933, guid: 1d0cf13acaa78354f94474013177efd1, type: 3}
+  - {fileID: 5374466913077173669, guid: 30ee539b175a15f43b82001dfa3d65b7, type: 3}
+  poolSize: 50
+  halfWidth: 600
+  halfHeight: 400
+  padX: 0
+  padY: 0
+  inset: 6
+  jitter: 20
+  randomizeOnSpawn: 1
+  randomizeOnWrap: 1
+  driftSpeedRange: {x: 0.5, y: 2}
+  angularVelRange: {x: -50, y: 50}
+--- !u!114 &5567245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5567238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e83e74e5fa4f45647878f041fadbf06a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 84128454}
+  minimap: {fileID: 1513797317}
+  gemPrefabs:
+  - {fileID: 5562559452838225357, guid: 34d51d47ac22aef4789e02640bf81a8e, type: 3}
+  - {fileID: 122088053697349296, guid: a25731229d08d1f479a9d67bcb920d88, type: 3}
+  - {fileID: 1190097408164053227, guid: 5ea91ab81652d81449c3765c86973708, type: 3}
+  - {fileID: 6449135208333819483, guid: 4d1bce5e7c539e945b25f14054579844, type: 3}
+  rarityWeights:
+  - 0.8
+  - 0.15
+  - 0.04
+  - 0.01
+  poolSize: 24
+  halfWidth: 600
+  halfHeight: 400
+  padX: 200
+  padY: 200
+  initialSpawnInset: 12
+  inset: 6
+  jitter: 15
+  randomizeOnSpawn: 1
+  randomizeOnWrap: 1
+  inwardSpeedBias: 0.35
+  driftSpeedRange: {x: 0.25, y: 0.9}
+  angularVelRange: {x: -30, y: 30}
 --- !u!1 &13009315
 GameObject:
   m_ObjectHideFlags: 0
@@ -23659,7 +23732,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 2.5
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -49489,7 +49562,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 43f19bd847b87634ea35a19badaf1d0d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -98778,7 +98851,7 @@ MonoBehaviour:
   player: {fileID: 84128454}
   minimapRect: {fileID: 1513797313}
   worldRangeX: 600
-  worldRangeY: 600
+  worldRangeY: 400
   planetIconPrefabs:
   - {fileID: 1486754112148296774, guid: 08b1abc2e47a0554e980f441bc3aa723, type: 3}
   - {fileID: 4048224818382405205, guid: 13f091b2af5e9e949a117f7bd1542c77, type: 3}
@@ -122472,8 +122545,10 @@ MonoBehaviour:
   tutorialManagerGO: {fileID: 454823378}
   disableDuringCutscene:
   - {fileID: 84128455}
+  - {fileID: 5567244}
   enableAtEnd:
   - {fileID: 84128455}
+  - {fileID: 5567244}
   typeSpeed: 40
   commaPause: 0.06
   periodPause: 0.12
@@ -137631,10 +137706,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1612485834477141349, guid: a25731229d08d1f479a9d67bcb920d88, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 84128454}
     - target: {fileID: 5653223520859899607, guid: a25731229d08d1f479a9d67bcb920d88, type: 3}
       propertyPath: m_LocalPosition.x
       value: 65.73001
@@ -137925,7 +137996,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2736485771134760715, guid: 4d1bce5e7c539e945b25f14054579844, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 81.14
+      value: 84.86
       objectReference: {fileID: 0}
     - target: {fileID: 2736485771134760715, guid: 4d1bce5e7c539e945b25f14054579844, type: 3}
       propertyPath: m_LocalPosition.y
@@ -137971,10 +138042,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7981875828837909767, guid: 4d1bce5e7c539e945b25f14054579844, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 84128454}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -139393,7 +139460,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2575275011464444928, guid: 34d51d47ac22aef4789e02640bf81a8e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 58
+      value: 56.21
       objectReference: {fileID: 0}
     - target: {fileID: 2575275011464444928, guid: 34d51d47ac22aef4789e02640bf81a8e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -139439,10 +139506,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8742819917098885375, guid: 34d51d47ac22aef4789e02640bf81a8e, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 84128454}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -139691,13 +139754,9 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6766935370685887040, guid: 5ea91ab81652d81449c3765c86973708, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 84128454}
     - target: {fileID: 8360547714652025636, guid: 5ea91ab81652d81449c3765c86973708, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 73.23001
+      value: 74.9
       objectReference: {fileID: 0}
     - target: {fileID: 8360547714652025636, guid: 5ea91ab81652d81449c3765c86973708, type: 3}
       propertyPath: m_LocalPosition.y

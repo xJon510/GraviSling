@@ -48,7 +48,7 @@ public class PlanetManager : MonoBehaviour
     public int opsBudgetPerFrame = 6;
 
     // ---------- internals ----------
-    private readonly List<GameObject> _spawnedPlanets = new List<GameObject>(256);
+    public List<GameObject> _spawnedPlanets = new List<GameObject>(256);
 
     // pool per prefab index
     private readonly List<Queue<GameObject>> _pools = new List<Queue<GameObject>>(16);

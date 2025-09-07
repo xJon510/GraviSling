@@ -34,7 +34,7 @@ public class JoystickShaft : MonoBehaviour
 
         // Nice default: round caps sprite, semi-transparent
         var img = shaft ? shaft.GetComponent<Image>() : null;
-        if (img && img.sprite == null) img.sprite = UnityEngine.Resources.GetBuiltinResource<Sprite>("UISprite.psd");
+        if (img && img.sprite == null) img.sprite = Resources.GetBuiltinResource<Sprite>("UI/Skin/UISprite.psd");
         if (img) img.raycastTarget = false;
     }
 

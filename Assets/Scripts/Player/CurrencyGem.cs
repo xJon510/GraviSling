@@ -1,18 +1,21 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Collider2D))]
 public class CurrencyGem : MonoBehaviour
 {
-    public int value = 1;   // could be used later for rare gems
+    public int value = 1;
     public float OffsetMultiplier = 1.5f;
-    private bool collected = false;
-
-    [Header("References")]
-    [SerializeField] private Transform player;
 
     [Header("Animation")]
-    // Animation settings
     public float flyDuration = 0.35f;
     public AnimationCurve scaleCurve = AnimationCurve.EaseInOut(0, 0.6f, 1, 1.1f);
+
+    // injected
+    private Transform player;
+    private GemRecycleSimple manager;
+
+    // state
+    private bool collected = false;
     private float t = 0f;
     private Vector3 startPos;
     private Vector3 originalScale;
@@ -20,41 +23,50 @@ public class CurrencyGem : MonoBehaviour
     private Collider2D col;
     private Vector3 flyOffset;
 
-
-    private void Awake()
+    void Awake()
     {
-        originalScale = transform.localScale;
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
+        originalScale = transform.localScale;
     }
+
+    public void SetPlayer(Transform p) => player = p;       // manager injects
+    public void SetManager(GemRecycleSimple m) => manager = m; // manager injects
 
     public void Collect()
     {
         if (collected) return;
-        collected = true;
 
+        // If no player yet (e.g., cutscene), just bank immediately.
+        if (player == null)
+        {
+            BankAndRecycle();
+            return;
+        }
+
+        collected = true;
         if (rb) rb.simulated = false;
         if (col) col.enabled = false;
 
         startPos = transform.position;
         t = 0f;
-
-        // Give a random "push outwards" radius
         flyOffset = Random.insideUnitCircle.normalized * OffsetMultiplier;
     }
 
-    private void Update()
+    void Update()
     {
-        if (!collected || player == null) return;
+        if (!collected) return;
 
-        t += Time.deltaTime / flyDuration;
-        if (t >= 1f)
+        // If player becomes available mid-animation, continue; otherwise, finish instantly.
+        if (player == null)
         {
-            FinishCollect();
+            BankAndRecycle();
             return;
         }
 
-        // Start position -> outward offset -> player
+        t += Time.deltaTime / flyDuration;
+        if (t >= 1f) { BankAndRecycle(); return; }
+
         Vector3 target = Vector3.Lerp(startPos + (Vector3)flyOffset, player.position, t);
         transform.position = target;
 
@@ -62,15 +74,36 @@ public class CurrencyGem : MonoBehaviour
         transform.localScale = originalScale * s;
     }
 
-    void FinishCollect()
+    void BankAndRecycle()
     {
+        // update totals
         int lifetime = PlayerPrefs.GetInt("currency", 0);
         PlayerPrefs.SetInt("currency", lifetime + value);
 
         int run = PlayerPrefs.GetInt("gemsThisRun", 0);
         PlayerPrefs.SetInt("gemsThisRun", run + value);
-
         PlayerPrefs.Save();
-        Destroy(gameObject);
+
+        collected = false; // clear before recycle
+
+        if (manager != null)
+        {
+            manager.Recycle(this);
+        }
+        else
+        {
+            // Fallback (shouldn't happen): just reset locally
+            ResetForReuse();
+        }
+    }
+
+    // Called by manager after re-positioning to make this gem active again
+    public void ResetForReuse()
+    {
+        collected = false;
+        t = 0f;
+        transform.localScale = originalScale;
+        if (col) { col.enabled = true; }
+        if (rb) { rb.simulated = true; }
     }
 }

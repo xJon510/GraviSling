@@ -32,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 22.535484, y: -1.802242, z: 0}
-  m_LocalScale: {x: 50, y: 50, z: 1}
+  m_LocalScale: {x: 60, y: 60, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   folderPath: Currency/Yellow
-  framesPerSecond: 1
+  framesPerSecond: 2
 --- !u!50 &8297430588595905150
 Rigidbody2D:
   serializedVersion: 5
@@ -147,7 +147,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   value: 1
   OffsetMultiplier: 1.5
-  player: {fileID: 0}
   flyDuration: 0.5
   scaleCurve:
     serializedVersion: 2
