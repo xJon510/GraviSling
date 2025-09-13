@@ -144,6 +144,8 @@ public class SlingshotTitle : MonoBehaviour
             var ring = Instantiate(machRingPrefab, rb.position, rot);
             var p = ring.transform.position;
             ring.transform.position = new Vector3(p.x, p.y, p.z + 70f);
+
+            SFXTitleManager.Instance?.PlayMachRingExplosionBySpeed(launchSpeed);
         }
 
         Vector2 dir = CardinalToVector2(launchDirection);
