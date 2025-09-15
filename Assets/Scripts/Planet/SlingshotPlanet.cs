@@ -8,6 +8,7 @@ public class SlingshotPlanet : MonoBehaviour
     [Header("Visual/Collision")]
     public float planetRadius = 1f;      // “surface” radius, crash when orbitRadius reaches this
     public float orbitRadius = 2f;
+    public float shipFacingOffsetDeg = -90f;
 
     [Header("Orbit Settings")]
     public float baseOrbitSpeed = 180f;
@@ -119,7 +120,9 @@ public class SlingshotPlanet : MonoBehaviour
 
             Vector2 tangent = new Vector2(-Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad));
             tangent *= orbitDir; // flip tangent if CCW
-            rb.MoveRotation(Mathf.Atan2(tangent.y, tangent.x) * Mathf.Rad2Deg);
+            float tangentDeg = Mathf.Atan2(tangent.y, tangent.x) * Mathf.Rad2Deg;
+
+            rb.MoveRotation(tangentDeg + shipFacingOffsetDeg);
 
             if (speedText != null)
             {
@@ -147,7 +150,7 @@ public class SlingshotPlanet : MonoBehaviour
         if (machRingPrefab != null)
         {
             float z = player.transform.eulerAngles.z;
-            Quaternion rot = Quaternion.Euler(0f, 0f, z - 90f);   // or z - 79f if that lines up better
+            Quaternion rot = Quaternion.Euler(0f, 0f, z);   // or z - 79f if that lines up better
             Instantiate(machRingPrefab, player.transform.position, rot);
         }
 

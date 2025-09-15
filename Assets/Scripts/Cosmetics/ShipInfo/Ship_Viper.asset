@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50753057f8996d848a31a458ff5ac3f7, type: 3}
+  m_Name: Ship_Viper
+  m_EditorClassIdentifier: 
+  displayName: Viper
+  rarity: 1
+  icon: {fileID: -1868056567, guid: 7d22443089bf5564cb3fca72712a9b18, type: 3}
+  playerPrefKey: Ship_Viper
+  unlockCost: 200
+  unlockedByDefault: 0
+  animatorController: {fileID: 9100000, guid: 7cfaefca46ba88544830e2a74bd8bb3d, type: 2}

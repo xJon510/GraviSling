@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50753057f8996d848a31a458ff5ac3f7, type: 3}
+  m_Name: Ship_Dart
+  m_EditorClassIdentifier: 
+  displayName: Dart
+  rarity: 0
+  icon: {fileID: -827980764, guid: 52b6931cabbfbb74f9d9ee4e0e52fe59, type: 3}
+  playerPrefKey: Ship_Dart
+  unlockCost: 100
+  unlockedByDefault: 0
+  animatorController: {fileID: 9100000, guid: 549b36bee575a6b4a9b4c4eb2cc63565, type: 2}

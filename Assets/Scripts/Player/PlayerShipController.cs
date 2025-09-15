@@ -15,6 +15,7 @@ public class PlayerShipController : MonoBehaviour
     public RectTransform minimapIcon;   // ← Drag your minimap player icon here
     public PlayerAnimate animate;
     public float minimapRotationOffset = -90f;
+    public float shipFacingOffsetDeg = -90f;
 
     public InputActionReference moveAction;
 
@@ -74,6 +75,7 @@ public class PlayerShipController : MonoBehaviour
         {
             // Face where the player is currently *trying* to thrust
             float targetAngle = Mathf.Atan2(input.y, input.x) * Mathf.Rad2Deg;
+            targetAngle += shipFacingOffsetDeg;
             float newAngle = Mathf.MoveTowardsAngle(rb.rotation, targetAngle, rotationSpeed * Time.fixedDeltaTime);
             rb.MoveRotation(newAngle);
         }
@@ -81,6 +83,7 @@ public class PlayerShipController : MonoBehaviour
         {
             // No input � just face the drift direction slowly
             float targetAngle = Mathf.Atan2(rb.linearVelocity.y, rb.linearVelocity.x) * Mathf.Rad2Deg;
+            targetAngle += shipFacingOffsetDeg;
             float newAngle = Mathf.MoveTowardsAngle(rb.rotation, targetAngle, rotationSpeed * Time.fixedDeltaTime);
             rb.MoveRotation(newAngle);
         }
@@ -95,7 +98,7 @@ public class PlayerShipController : MonoBehaviour
         // 4) rotate minimap icon
         if (minimapIcon != null)
         {
-            float iconAngle = rb.rotation + minimapRotationOffset;
+            float iconAngle = rb.rotation + shipFacingOffsetDeg - minimapRotationOffset;
             minimapIcon.localEulerAngles = new Vector3(0f, 0f, iconAngle);
         }
 

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50753057f8996d848a31a458ff5ac3f7, type: 3}
+  m_Name: Ship_Onyx
+  m_EditorClassIdentifier: 
+  displayName: Onyx
+  rarity: 4
+  icon: {fileID: -419091381, guid: cef0f4e62a65e224888681d14b1b73d0, type: 3}
+  playerPrefKey: Ship_Onyx
+  unlockCost: 500
+  unlockedByDefault: 0
+  animatorController: {fileID: 9100000, guid: f6cb9959726108c4f8df72f2fe8d6102, type: 2}

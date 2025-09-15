@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50753057f8996d848a31a458ff5ac3f7, type: 3}
+  m_Name: Ship_Comet
+  m_EditorClassIdentifier: 
+  displayName: Comet
+  rarity: 0
+  icon: {fileID: 7851470227991654557, guid: 0895b45f4e4f5a842b681c61499b208b, type: 3}
+  playerPrefKey: Ship_Comet
+  unlockCost: 0
+  unlockedByDefault: 1
+  animatorController: {fileID: 9100000, guid: 94012564818bbfa4b80b43e824cb255d, type: 2}
