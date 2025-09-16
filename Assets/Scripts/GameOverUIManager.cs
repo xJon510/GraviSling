@@ -22,6 +22,7 @@ public class GameOverUIManager : MonoBehaviour
     [SerializeField] private TMP_Text CurrencyTotalText;
     [SerializeField] private TMP_Text CurrencyTotalHelpText;
     [SerializeField] private GameObject levelManager;
+    [SerializeField] private GameObject MiniMap;
 
     [Header("Flavor Lines")]
     [SerializeField] private string[] randomFlavorLines;
@@ -70,6 +71,7 @@ public class GameOverUIManager : MonoBehaviour
         levelManager.SetActive(false);
         SpeedText.gameObject.SetActive(false);
         DistanceTextRuntime.gameObject.SetActive(false);
+        MiniMap.SetActive(false);
     }
 
     // for your restart button

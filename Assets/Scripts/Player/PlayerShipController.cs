@@ -13,7 +13,6 @@ public class PlayerShipController : MonoBehaviour
     public TMP_Text speedText;
 
     public RectTransform minimapIcon;   // ← Drag your minimap player icon here
-    public PlayerAnimate animate;
     public float minimapRotationOffset = -90f;
     public float shipFacingOffsetDeg = -90f;
 
@@ -101,13 +100,6 @@ public class PlayerShipController : MonoBehaviour
             float iconAngle = rb.rotation + shipFacingOffsetDeg - minimapRotationOffset;
             minimapIcon.localEulerAngles = new Vector3(0f, 0f, iconAngle);
         }
-
-        // Drive animation
-        float inputMag = input.magnitude; // you already have 'input' in scope
-        float normalizedSpeed = rb.linearVelocity.magnitude / maxThrustSpeed;
-        float thrustLevel = Mathf.Max(inputMag, normalizedSpeed);
-
-        animate.thrustLevel = thrustLevel;
     }
 
     public void PauseDrift()
