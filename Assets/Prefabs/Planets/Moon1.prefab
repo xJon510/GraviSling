@@ -159,11 +159,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planetRadius: 10
   orbitRadius: 27
+  shipFacingOffsetDeg: -90
   baseOrbitSpeed: 180
   baseLaunchSpeed: 90
   launchAngleOffset: 80
   chargeRate: 80
-  shrinkRate: 2
+  shrinkRate: 3
   maxChargeTime: 60
   speedText: {fileID: 0}
   minimapIcon: {fileID: 0}

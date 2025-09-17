@@ -39,6 +39,27 @@ AnimationClip:
     classID: 114
     script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
     flags: 2
+  - serializedVersion: 2
+    curve:
+    - time: 0
+      value: {fileID: 1435521033, guid: c6e0acd00825c8a448afe76365e5662b, type: 3}
+    - time: 0.1
+      value: {fileID: -321709981, guid: c6e0acd00825c8a448afe76365e5662b, type: 3}
+    - time: 0.2
+      value: {fileID: -809556502, guid: c6e0acd00825c8a448afe76365e5662b, type: 3}
+    - time: 0.26666668
+      value: {fileID: 319669185, guid: c6e0acd00825c8a448afe76365e5662b, type: 3}
+    - time: 0.35
+      value: {fileID: -1776269527, guid: c6e0acd00825c8a448afe76365e5662b, type: 3}
+    - time: 0.45
+      value: {fileID: 1076295178, guid: c6e0acd00825c8a448afe76365e5662b, type: 3}
+    - time: 0.55
+      value: {fileID: 1435521033, guid: c6e0acd00825c8a448afe76365e5662b, type: 3}
+    attribute: m_Sprite
+    path: 
+    classID: 212
+    script: {fileID: 0}
+    flags: 2
   m_SampleRate: 60
   m_WrapMode: 0
   m_Bounds:
@@ -55,7 +76,23 @@ AnimationClip:
       isPPtrCurve: 1
       isIntCurve: 0
       isSerializeReferenceCurve: 0
+    - serializedVersion: 2
+      path: 0
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
     pptrCurveMapping:
+    - {fileID: 1435521033, guid: c6e0acd00825c8a448afe76365e5662b, type: 3}
+    - {fileID: -321709981, guid: c6e0acd00825c8a448afe76365e5662b, type: 3}
+    - {fileID: -809556502, guid: c6e0acd00825c8a448afe76365e5662b, type: 3}
+    - {fileID: 319669185, guid: c6e0acd00825c8a448afe76365e5662b, type: 3}
+    - {fileID: -1776269527, guid: c6e0acd00825c8a448afe76365e5662b, type: 3}
+    - {fileID: 1076295178, guid: c6e0acd00825c8a448afe76365e5662b, type: 3}
+    - {fileID: 1435521033, guid: c6e0acd00825c8a448afe76365e5662b, type: 3}
     - {fileID: 1435521033, guid: c6e0acd00825c8a448afe76365e5662b, type: 3}
     - {fileID: -321709981, guid: c6e0acd00825c8a448afe76365e5662b, type: 3}
     - {fileID: -809556502, guid: c6e0acd00825c8a448afe76365e5662b, type: 3}

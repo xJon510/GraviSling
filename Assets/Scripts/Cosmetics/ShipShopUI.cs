@@ -23,10 +23,18 @@ public class ShipShopUI : MonoBehaviour
     [Header("Buttons")]
     public Button buttonUnlock;
     public Button buttonEquip;
+    public TMP_Text previewEquipText;
 
     [Header("Equipped state")]
     [Tooltip("PlayerPrefs key storing the currently equipped ship key")]
     public string equippedKeyPref = "Equipped_ShipKey";
+
+    [Header("Rarity Colors")]
+    public Color colorCommon = Color.white;
+    public Color colorUncommon = Color.green;
+    public Color colorRare = Color.blue;
+    public Color colorEpic = new Color(0.6f, 0f, 1f);   // purple-ish
+    public Color colorLegendary = new Color(1f, 0.65f, 0f); // orange-gold
 
     private ShipCosmetic _selected;
 
@@ -91,6 +99,11 @@ public class ShipShopUI : MonoBehaviour
         if (previewName) previewName.text = _selected.displayName;
         if (previewRarity) previewRarity.text = _selected.rarity.ToString().ToUpperInvariant();
 
+        // apply rarity colors
+        Color rarityColor = GetColorForRarity(_selected.rarity);
+        if (previewName) previewName.color = rarityColor;
+        if (previewRarity) previewRarity.color = rarityColor;
+
         bool owned = _selected.IsUnlocked();
         if (previewCostText) previewCostText.text = owned ? "" : $"Unlock: {_selected.unlockCost}";
 
@@ -108,6 +121,8 @@ public class ShipShopUI : MonoBehaviour
         if (_selected == null) return;
 
         bool owned = _selected.IsUnlocked();
+        string equippedKey = GetEquippedKey();
+        bool isEquipped = owned && equippedKey == _selected.playerPrefKey;
 
         if (groupUnlock) groupUnlock.SetActive(!owned);
         if (groupOwned) groupOwned.SetActive(owned);
@@ -117,6 +132,10 @@ public class ShipShopUI : MonoBehaviour
 
         // Equip button grays out if already equipped
         if (buttonEquip) buttonEquip.interactable = owned && GetEquippedKey() != _selected.playerPrefKey;
+
+        if (previewEquipText)
+            previewEquipText.text = isEquipped ? "Equipped" : "Equip";
+
     }
 
     // --- Actions ---
@@ -160,5 +179,17 @@ public class ShipShopUI : MonoBehaviour
     {
         PlayerPrefs.SetString(equippedKeyPref, key);
         PlayerPrefs.Save();
+    }
+    private Color GetColorForRarity(ShipRarity rarity)
+    {
+        switch (rarity)
+        {
+            case ShipRarity.Common: return colorCommon;
+            case ShipRarity.Uncommon: return colorUncommon;
+            case ShipRarity.Rare: return colorRare;
+            case ShipRarity.Epic: return colorEpic;
+            case ShipRarity.Legendary: return colorLegendary;
+            default: return Color.white;
+        }
     }
 }

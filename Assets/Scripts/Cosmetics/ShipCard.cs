@@ -16,6 +16,7 @@ public class ShipCard : MonoBehaviour
     public GameObject lockBadge;  // small lock icon or overlay
     public Button selectButton;   // clicking the whole card
     public Button fastEquipButton;        // only visible when owned
+    public TMP_Text equipButtonText;
 
     [Header("Equipped State")]
     [Tooltip("PlayerPrefs key that stores the currently equipped ship")]
@@ -59,6 +60,10 @@ public class ShipCard : MonoBehaviour
             string equippedKey = PlayerPrefs.GetString(equippedKeyPref, "");
             bool isEquipped = owned && equippedKey == data.playerPrefKey;
             fastEquipButton.interactable = owned && !isEquipped;
+
+            // Update button text
+            if (equipButtonText)
+                equipButtonText.text = isEquipped ? "Equipped" : "Equip";
         }
 
         // apply animator to preview
