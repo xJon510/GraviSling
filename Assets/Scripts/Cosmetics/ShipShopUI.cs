@@ -25,6 +25,20 @@ public class ShipShopUI : MonoBehaviour
     public Button buttonEquip;
     public TMP_Text previewEquipText;
 
+    [Header("Color Button Images")]
+    public Image unlockButtonBorder;
+    public Image equipButtonBorder;
+    public Image randomizeButtonBorder;
+
+    public Image unlockButtonBkRnd;
+    public Image equipButtonBkRnd;
+    public Image randomizeButtonBkRnd;
+
+    public TMP_Text unlockName;
+    public TMP_Text equipName;
+    public TMP_Text randomizeName;
+
+
     [Header("Equipped state")]
     [Tooltip("PlayerPrefs key storing the currently equipped ship key")]
     public string equippedKeyPref = "Equipped_ShipKey";
@@ -35,6 +49,13 @@ public class ShipShopUI : MonoBehaviour
     public Color colorRare = Color.blue;
     public Color colorEpic = new Color(0.6f, 0f, 1f);   // purple-ish
     public Color colorLegendary = new Color(1f, 0.65f, 0f); // orange-gold
+
+    [Header("Rarity BkRnd Colors")]
+    public Color colorCommonBkRnd = Color.white;
+    public Color colorUncommonBkRnd = Color.green;
+    public Color colorRareBkRnd = Color.blue;
+    public Color colorEpicBkRnd = new Color(0.6f, 0f, 1f);   // purple-ish
+    public Color colorLegendaryBkRnd = new Color(1f, 0.65f, 0f); // orange-gold
 
     private ShipCosmetic _selected;
 
@@ -103,6 +124,19 @@ public class ShipShopUI : MonoBehaviour
         Color rarityColor = GetColorForRarity(_selected.rarity);
         if (previewName) previewName.color = rarityColor;
         if (previewRarity) previewRarity.color = rarityColor;
+        if (unlockButtonBorder) unlockButtonBorder.color = rarityColor;
+        if (equipButtonBorder) equipButtonBorder.color = rarityColor;
+        if (randomizeButtonBorder) randomizeButtonBorder.color = rarityColor;
+
+        if (unlockName) unlockName.color = rarityColor;
+        if (equipName) equipName.color = rarityColor;
+        if (randomizeName) randomizeName.color = rarityColor;
+
+
+        Color rarityBkRndColor = GetColorForRarityBkRnd(_selected.rarity);
+        if (unlockButtonBkRnd) unlockButtonBkRnd.color = rarityBkRndColor;
+        if (equipButtonBkRnd) equipButtonBkRnd.color = rarityBkRndColor;
+        if (randomizeButtonBkRnd) randomizeButtonBkRnd.color = rarityBkRndColor;
 
         bool owned = _selected.IsUnlocked();
         if (previewCostText) previewCostText.text = owned ? "" : $"Unlock: {_selected.unlockCost}";
@@ -189,6 +223,19 @@ public class ShipShopUI : MonoBehaviour
             case ShipRarity.Rare: return colorRare;
             case ShipRarity.Epic: return colorEpic;
             case ShipRarity.Legendary: return colorLegendary;
+            default: return Color.white;
+        }
+    }
+
+    private Color GetColorForRarityBkRnd(ShipRarity rarity)
+    {
+        switch (rarity)
+        {
+            case ShipRarity.Common: return colorCommonBkRnd;
+            case ShipRarity.Uncommon: return colorUncommonBkRnd;
+            case ShipRarity.Rare: return colorRareBkRnd;
+            case ShipRarity.Epic: return colorEpicBkRnd;
+            case ShipRarity.Legendary: return colorLegendaryBkRnd;
             default: return Color.white;
         }
     }
