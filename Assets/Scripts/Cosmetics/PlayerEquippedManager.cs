@@ -42,6 +42,14 @@ public class PlayerEquippedManager : MonoBehaviour
     public RefreshMode refreshMode = RefreshMode.RecreateComponent;
     public enum RefreshMode { RecreateComponent, RebuildFromSpriteShape }
 
+    private const string DontShowKey = "Cutscene_DontShowAgain";
+
+    private static bool ShouldPlay()
+    {
+        // default is 0 (play), skip if == 1
+        return PlayerPrefs.GetInt(DontShowKey, 0) == 0;
+    }
+
     [Serializable]
     public class ShipAnimatorBinding
     {
@@ -61,6 +69,15 @@ public class PlayerEquippedManager : MonoBehaviour
     void Start()
     {
         ApplyEquippedFromPrefs();
+
+        targetAnimator.Play(idleStateName, 0, 0f);
+        targetAnimator.Update(0f); // forces SpriteRenderer to this frame immediately
+
+        RecreatePolygonCollider();
+        if (ShouldPlay())
+        {
+            targetShipObject.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -68,6 +85,7 @@ public class PlayerEquippedManager : MonoBehaviour
     /// </summary>
     public void ApplyEquippedFromPrefs()
     {
+        targetShipObject.SetActive(true);
         string equippedKey = PlayerPrefs.GetString(equippedKeyPref, defaultShipKey);
         ApplyForKey(equippedKey);
     }

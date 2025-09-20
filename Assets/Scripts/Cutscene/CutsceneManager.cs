@@ -21,6 +21,7 @@ public class CutsceneManager : MonoBehaviour
     [Tooltip("If true, cutscene runs on Start(). Otherwise call StartCutscene() manually.")]
     public bool playOnStart = true;
 
+    public GameObject playerShipObject;
     [Tooltip("Objects to re-enable when the cutscene fully ends.")]
     public List<GameObject> reactivateAfterCutscene = new List<GameObject>();
 
@@ -58,6 +59,9 @@ public class CutsceneManager : MonoBehaviour
 
     [Header("Tutorial")]
     public GameObject tutorialManagerGO;
+
+    [Header("Gameplay Hooks")]
+    public PlayerEquippedManager equippedManager;
 
     [Header("Script Toggles")]
     [Tooltip("These components will be disabled at cutscene start, then re-enabled when it ends.")]
@@ -175,7 +179,7 @@ public class CutsceneManager : MonoBehaviour
         // Transition to PART 2
         if (part1Root) part1Root.SetActive(false);
         if (part2Root) part2Root.SetActive(true);
-        yield return StartCoroutine(FadeCanvas(part2Cg, 0f, 1f, part2FadeInTime));
+        yield return StartCoroutine(FadeCanvas(part2Cg, 1f, 0f, part2FadeInTime));
 
         step = Step.Part2;
         yield return StartCoroutine(TypeLine(part2Text, p2Full));
@@ -233,6 +237,8 @@ public class CutsceneManager : MonoBehaviour
         }
 
         CameraFollow.Instance?.SetPaused(false, snapToTargetOnResume: true);
+
+        if (equippedManager) equippedManager.ApplyEquippedFromPrefs();
 
         // Disable manager if you want
         gameObject.SetActive(false);
@@ -434,9 +440,11 @@ public class CutsceneManager : MonoBehaviour
         // Show tutorial if needed
         if (tutorialManagerGO && TutorialManager.ShouldShow())
             tutorialManagerGO.SetActive(true);
-
+        
         // Unpause camera/game
         CameraFollow.Instance?.SetPaused(false, snapToTargetOnResume: true);
+
+        playerShipObject.SetActive(true);
 
         // We’re done with the manager
         gameObject.SetActive(false);
