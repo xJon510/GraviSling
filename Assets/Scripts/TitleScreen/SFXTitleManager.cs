@@ -13,6 +13,7 @@ public class SFXTitleManager : MonoBehaviour
     public AudioClip machRingExplosionClip;
     public AudioClip buttonSFX;
     public AudioClip uiHoverClip;
+    public AudioClip explosionSFX;
 
     [Header("Button Hookup")]
     [Tooltip("Assign any UI Buttons you want to auto-wire for click SFX.")]
@@ -97,6 +98,19 @@ public class SFXTitleManager : MonoBehaviour
         float oldPitch = audioSource.pitch;
         audioSource.pitch = Random.Range(hoverPitchMin, hoverPitchMax);
         audioSource.PlayOneShot(uiHoverClip, hoverVolume);
+        audioSource.pitch = oldPitch;
+    }
+
+    public void PlayExplosion(float volume = 1f)
+    {
+        if (!audioSource || !explosionSFX) return;
+
+        float oldPitch = audioSource.pitch;
+
+        audioSource.pitch = Random.Range(0.95f, 1.05f);
+
+        audioSource.PlayOneShot(explosionSFX, volume);
+
         audioSource.pitch = oldPitch;
     }
 }

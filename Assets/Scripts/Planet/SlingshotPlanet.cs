@@ -107,6 +107,8 @@ public class SlingshotPlanet : MonoBehaviour
                     Instantiate(explosionPlayerPrefab, player.transform.position, Quaternion.identity);
                     isOrbiting = false;
 
+                    SFXTitleManager.Instance?.PlayExplosion();
+
                     StartCoroutine(DelayedGameOver(0.8f));
 
                     yield break;
@@ -153,6 +155,8 @@ public class SlingshotPlanet : MonoBehaviour
             Quaternion rot = Quaternion.Euler(0f, 0f, z);   // or z - 79f if that lines up better
             Instantiate(machRingPrefab, player.transform.position, rot);
         }
+
+        SFXTitleManager.Instance?.PlayMachRingExplosionBySpeed(launchSpeed);
 
         if (trail != null)
         {

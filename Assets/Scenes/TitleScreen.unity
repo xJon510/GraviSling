@@ -10999,7 +10999,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -499.99994, y: 0}
+  m_AnchoredPosition: {x: -500, y: 0}
   m_SizeDelta: {x: 1680, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &334699709
@@ -16527,7 +16527,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 499.99988}
+  m_AnchoredPosition: {x: 0, y: 499.99985}
   m_SizeDelta: {x: 2520, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &760074265
@@ -27103,6 +27103,7 @@ MonoBehaviour:
   machRingExplosionClip: {fileID: 8300000, guid: 50f9b506970089946b702bb355dfc47b, type: 3}
   buttonSFX: {fileID: 8300000, guid: 19da984d85336ca46bbe503d6546923b, type: 3}
   uiHoverClip: {fileID: 8300000, guid: 7673facea4294d54c9362970fce7694e, type: 3}
+  explosionSFX: {fileID: 8300000, guid: 2ec2230df178f554e8df5c653733cd5f, type: 3}
   buttons:
   - {fileID: 1223236796}
   - {fileID: 1993881384}
@@ -27665,7 +27666,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -499.99988}
+  m_AnchoredPosition: {x: 0, y: -499.99985}
   m_SizeDelta: {x: 2520, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1567844203
@@ -28718,7 +28719,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 499.99994, y: 0}
+  m_AnchoredPosition: {x: 500, y: 0}
   m_SizeDelta: {x: 1680, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2007791314
