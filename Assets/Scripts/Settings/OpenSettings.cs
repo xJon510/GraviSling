@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -38,6 +39,7 @@ public class OpenSettings : MonoBehaviour
     bool _isOpen = false;
     float _prevTimeScale = 1f;
     readonly Dictionary<GameObject, bool> _prevObjectActive = new Dictionary<GameObject, bool>();
+    readonly Dictionary<Behaviour, bool> _prevBehaviourEnabled = new();
     PlayerShipController _psc;
     Coroutine _fadeCo;
 
@@ -85,7 +87,7 @@ public class OpenSettings : MonoBehaviour
         }
 
         // Disable gameplay stuff
-        ToggleBehaviours(disableBehavioursWhileOpen, false);
+        StoreAndDisableBehaviours(disableBehavioursWhileOpen);
         StoreAndDeactivateObjects(disableObjectsWhileOpen);
 
         // Pause player drift
@@ -110,7 +112,7 @@ public class OpenSettings : MonoBehaviour
         if (!_isOpen) return;
 
         // Restore gameplay stuff
-        ToggleBehaviours(disableBehavioursWhileOpen, true);
+        RestoreBehavioursToSavedStates();
         RestoreObjectsToSavedStates();
 
         // Unpause options
@@ -119,6 +121,10 @@ public class OpenSettings : MonoBehaviour
 
         // Resume player drift
         ResumePlayerPhysics();
+
+        // Snap the currently-orbiting ship back to the tangent
+        SlingshotPlanet.Active?.ReseedFromCurrentPosition();
+        StartCoroutine(ReseedNextFixed());
 
         // Hide UI
         if (settingsRoot)
@@ -139,12 +145,23 @@ public class OpenSettings : MonoBehaviour
     }
 
     // --- helpers ---
-
-    void ToggleBehaviours(List<Behaviour> list, bool enable)
+    void StoreAndDisableBehaviours(List<Behaviour> list)
     {
+        _prevBehaviourEnabled.Clear();
         if (list == null) return;
         foreach (var b in list)
-            if (b) b.enabled = enable;
+        {
+            if (!b) continue;
+            _prevBehaviourEnabled[b] = b.enabled;   // remember prior state
+            b.enabled = false;
+        }
+    }
+
+    void RestoreBehavioursToSavedStates()
+    {
+        foreach (var kv in _prevBehaviourEnabled)
+            if (kv.Key) kv.Key.enabled = kv.Value;  // restore prior state
+        _prevBehaviourEnabled.Clear();
     }
 
     void StoreAndDeactivateObjects(List<GameObject> list)
@@ -253,5 +270,11 @@ public class OpenSettings : MonoBehaviour
             _rb3d.isKinematic = false;
             _rb3d.useGravity = true;
         }
+    }
+
+    IEnumerator ReseedNextFixed()
+    {
+        yield return new WaitForFixedUpdate();
+        SlingshotPlanet.Active?.ReseedFromCurrentPosition();
     }
 }

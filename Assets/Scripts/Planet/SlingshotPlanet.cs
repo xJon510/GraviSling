@@ -32,6 +32,12 @@ public class SlingshotPlanet : MonoBehaviour
     private bool isOrbiting = false;
     private int orbitDir = 1;     // +1 = CW, -1 = CCW
 
+    public static SlingshotPlanet Active;
+    private Rigidbody2D cachedRb;
+    private PlayerShipController cachedPlayer;
+    private float currentAngleDeg;
+
+
     void Awake()
     {
         // Find the UI element once automatically:
@@ -59,7 +65,11 @@ public class SlingshotPlanet : MonoBehaviour
     IEnumerator OrbitAndCharge(PlayerShipController player)
     {
         isOrbiting = true;
+        Active = this;
+        cachedPlayer = player;
         Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
+        cachedRb = rb;
+
         player.enabled = false;
 
         // Determine orbit direction based on incoming velocity vs entry vector
@@ -70,7 +80,7 @@ public class SlingshotPlanet : MonoBehaviour
 
         float orbitSpeed = baseOrbitSpeed;
         float launchSpeed = baseLaunchSpeed;
-        float angle = Mathf.Atan2(rb.position.y - transform.position.y,
+        currentAngleDeg = Mathf.Atan2(rb.position.y - transform.position.y,
                                   rb.position.x - transform.position.x) * Mathf.Rad2Deg;
 
         float chargeTimer = 0f;
@@ -115,12 +125,12 @@ public class SlingshotPlanet : MonoBehaviour
                 }
             }
 
-            angle += orbitSpeed * orbitDir * Time.deltaTime;
+            currentAngleDeg += orbitSpeed * orbitDir * Time.deltaTime;
             Vector2 center = transform.position;
-            Vector2 offset = (Vector2)(Quaternion.Euler(0, 0, angle) * Vector3.right) * currentRadius;
+            Vector2 offset = (Vector2)(Quaternion.Euler(0, 0, currentAngleDeg) * Vector3.right) * currentRadius;
             rb.position = center + offset;
 
-            Vector2 tangent = new Vector2(-Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad));
+            Vector2 tangent = new Vector2(-Mathf.Sin(currentAngleDeg * Mathf.Deg2Rad), Mathf.Cos(currentAngleDeg * Mathf.Deg2Rad));
             tangent *= orbitDir; // flip tangent if CCW
             float tangentDeg = Mathf.Atan2(tangent.y, tangent.x) * Mathf.Rad2Deg;
 
@@ -144,7 +154,7 @@ public class SlingshotPlanet : MonoBehaviour
             yield return null;
         }
 
-        float finalAngle = angle + (launchAngleOffset * orbitDir);
+        float finalAngle = currentAngleDeg + (launchAngleOffset * orbitDir);
         Vector2 dir = new Vector2(Mathf.Cos(finalAngle * Mathf.Deg2Rad), Mathf.Sin(finalAngle * Mathf.Deg2Rad)).normalized;
         rb.linearVelocity = dir * launchSpeed;
 
@@ -166,6 +176,9 @@ public class SlingshotPlanet : MonoBehaviour
 
         player.enabled = true;
         isOrbiting = false;
+        if (Active == this) Active = null;
+        cachedRb = null;
+        cachedPlayer = null;
     }
 
     private void OnDrawGizmosSelected()
@@ -181,5 +194,25 @@ public class SlingshotPlanet : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         GameOverUIManager.Instance.GameOver();
+    }
+
+    public void ReseedFromCurrentPosition()
+    {
+        if (!isOrbiting || !cachedRb) return;
+
+        Vector2 center = transform.position;
+        Vector2 offset = cachedRb.position - center;
+
+        // reseed the driving angle so the coroutine uses the correct value after unpause
+        currentAngleDeg = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
+
+        // compute tangent and set rotation immediately (not MoveRotation)
+        Vector2 tangent = new Vector2(-Mathf.Sin(currentAngleDeg * Mathf.Deg2Rad),
+                                       Mathf.Cos(currentAngleDeg * Mathf.Deg2Rad));
+        tangent *= orbitDir;
+        float tangentDeg = Mathf.Atan2(tangent.y, tangent.x) * Mathf.Rad2Deg;
+
+        // Force immediate orientation so visuals match before next physics step
+        cachedRb.SetRotation(tangentDeg + shipFacingOffsetDeg);
     }
 }
