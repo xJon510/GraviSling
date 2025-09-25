@@ -30,7 +30,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Cols: 12
-    - _Cutoff: 0.1
+    - _Cutoff: 1
     - _Rows: 10
     m_Colors:
     - _BaseTint: {r: 1, g: 1, b: 1, a: 1}

@@ -68,8 +68,17 @@ Shader "Unlit/FlipbookMesh_Atlas"
                 o.uv = v.uv;
 
                 float4 instTint = UNITY_ACCESS_INSTANCED_PROP(Props, _ITint);
-                float useBase = step(length(instTint), 1e-6);
-                o.color = v.color * lerp(instTint, _BaseTint, useBase);
+
+                // use _BaseTint when _ITint is "unset" ( zero)
+                float useBase = 1.0 - step(1e-6, length(instTint)); // <-- was inverted
+                float4 chosen = lerp(instTint, _BaseTint, useBase);
+
+                // If instancing isn't enabled in this variant, always use material tint
+                #ifndef UNITY_INSTANCING_ENABLED
+                    chosen = _BaseTint;
+                #endif
+
+                o.color = v.color * chosen;
                 return o;
             }
 
