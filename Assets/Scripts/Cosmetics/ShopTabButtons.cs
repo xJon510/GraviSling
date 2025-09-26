@@ -32,6 +32,7 @@ public class ShopTabButtons : MonoBehaviour
 
     [Header("Start State")]
     [SerializeField] private Tab startTab = Tab.Ship;
+    [SerializeField] private ShopGroupsSwapper groupsSwapper;
 
     private Coroutine slideRoutine;
     private Tab currentTab;
@@ -59,6 +60,13 @@ public class ShopTabButtons : MonoBehaviour
             SetPos(shipPanel, new Vector2(-slideDistance, 0f));
             SetPos(trailPanel, Vector2.zero);
             SetSliderX(+sliderAbsX);
+        }
+
+        if (groupsSwapper)
+        {
+            groupsSwapper.UpdateForTab(
+                startTab == Tab.Ship ? ShopGroupsSwapper.Tab.Ship : ShopGroupsSwapper.Tab.Trail
+            );
         }
 
         UpdateTabTextColors();
@@ -130,6 +138,13 @@ public class ShopTabButtons : MonoBehaviour
 
         currentTab = target;
         UpdateTabTextColors();
+
+        if (groupsSwapper)
+        {
+            groupsSwapper.UpdateForTab(
+                target == Tab.Ship ? ShopGroupsSwapper.Tab.Ship : ShopGroupsSwapper.Tab.Trail
+            );
+        }
 
         SetButtonsInteractable(true);
         slideRoutine = null;

@@ -5,6 +5,8 @@ using System.Collections;
 [RequireComponent(typeof(Button))]
 public class SettingsToggleButton : MonoBehaviour
 {
+    public enum AudioChannel { Music, SFX }
+
     [System.Serializable]
     public class ToggleImage
     {
@@ -15,6 +17,11 @@ public class SettingsToggleButton : MonoBehaviour
 
     [Header("Audio Control")]
     public AudioSource targetAudioSource;
+    public AudioChannel channel = AudioChannel.Music;
+
+    [Tooltip("Optional override. Leave empty to auto-use GS_MUTE_<CHANNEL>.")]
+    public string customPrefsKey = "";
+
     public bool startMuted = false;
 
     [Header("UI Tint Targets")]
@@ -42,13 +49,19 @@ public class SettingsToggleButton : MonoBehaviour
     private Button _button;
     private bool _isMuted;
     private Coroutine _colorCo, _slideCo, _fadeCo;
+    string PrefsKey =>
+        !string.IsNullOrWhiteSpace(customPrefsKey)
+            ? customPrefsKey
+            : (channel == AudioChannel.Music ? "GS_MUTE_MUSIC" : "GS_MUTE_SFX");
 
     void Awake()
     {
         _button = GetComponent<Button>();
         _button.onClick.AddListener(OnToggleClicked);
 
-        _isMuted = startMuted;
+        int defaultVal = startMuted ? 1 : 0;
+        _isMuted = PlayerPrefs.GetInt(PrefsKey, defaultVal) == 1;
+
         if (targetAudioSource) targetAudioSource.mute = _isMuted;
 
         // Snap initial visuals
@@ -64,26 +77,47 @@ public class SettingsToggleButton : MonoBehaviour
 
     void OnToggleClicked()
     {
-        if (!targetAudioSource) return;
+        SetMuted(!_isMuted, persist: true, animate: true);
+    }
 
-        // Flip state + apply to audio
-        _isMuted = !_isMuted;
-        targetAudioSource.mute = _isMuted;
+    /// <summary>
+    /// Public setter other systems can call (e.g., when sliders set volume=0).
+    /// </summary>
+    public void SetMuted(bool muted, bool persist = true, bool animate = true)
+    {
+        _isMuted = muted;
 
-        // Animate all three: colors, knob, labels
-        if (_colorCo != null) StopCoroutine(_colorCo);
-        _colorCo = StartCoroutine(LerpColors(_isMuted, colorLerpDuration));
+        if (targetAudioSource) targetAudioSource.mute = _isMuted;
 
-        if (_slideCo != null) StopCoroutine(_slideCo);
-        _slideCo = StartCoroutine(SlideKnob(_isMuted, slideDuration));
+        if (persist)
+        {
+            PlayerPrefs.SetInt(PrefsKey, _isMuted ? 1 : 0);
+            PlayerPrefs.Save();
+        }
 
-        if (_fadeCo != null) StopCoroutine(_fadeCo);
-        _fadeCo = StartCoroutine(FadeLabels(_isMuted, labelFadeDuration));
+        if (animate)
+        {
+            if (_colorCo != null) StopCoroutine(_colorCo);
+            _colorCo = StartCoroutine(LerpColors(_isMuted, colorLerpDuration));
+
+            if (_slideCo != null) StopCoroutine(_slideCo);
+            _slideCo = StartCoroutine(SlideKnob(_isMuted, slideDuration));
+
+            if (_fadeCo != null) StopCoroutine(_fadeCo);
+            _fadeCo = StartCoroutine(FadeLabels(_isMuted, labelFadeDuration));
+        }
+        else
+        {
+            ApplyColorsImmediate();
+            ApplyKnobImmediate();
+            ApplyLabelsImmediate();
+        }
     }
 
     // ----- Immediate apply for initial state -----
     void ApplyColorsImmediate()
     {
+        if (toggleImages == null) return;
         foreach (var t in toggleImages)
         {
             if (!t.image) continue;

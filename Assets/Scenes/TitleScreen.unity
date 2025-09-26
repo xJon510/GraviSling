@@ -5398,7 +5398,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 509.77942, y: -162.07446}
+  m_AnchoredPosition: {x: 509.7794, y: -162.07446}
   m_SizeDelta: {x: 1019.55884, y: 108.04964}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &74325899
@@ -10952,6 +10952,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetAudioSource: {fileID: 1464645430}
+  channel: 1
+  customPrefsKey: 
   startMuted: 0
   toggleImages:
   - image: {fileID: 635192016}
@@ -11541,7 +11543,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 509.77942, y: -54.02482}
+  m_AnchoredPosition: {x: 509.7794, y: -54.02482}
   m_SizeDelta: {x: 1019.55884, y: 108.04964}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &282892998
@@ -17403,6 +17405,7 @@ GameObject:
   m_Component:
   - component: {fileID: 508929699}
   - component: {fileID: 508929698}
+  - component: {fileID: 508929700}
   m_Layer: 0
   m_Name: MusicManager
   m_TagString: Untagged
@@ -17522,6 +17525,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &508929700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508929697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 340ff45a024a57c49b6168f3e5a75ec0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetAudioSource: {fileID: 508929698}
+  channel: 0
+  customPrefsKey: 
+  defaultMutedIfUnset: 0
+  applyInAwake: 1
 --- !u!1 &544936202
 GameObject:
   m_ObjectHideFlags: 0
@@ -17558,7 +17578,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 509.77942, y: -378.17377}
+  m_AnchoredPosition: {x: 509.7794, y: -378.17377}
   m_SizeDelta: {x: 1019.55884, y: 108.04964}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &544936204
@@ -18874,7 +18894,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 509.77942, y: -270.12408}
+  m_AnchoredPosition: {x: 509.7794, y: -270.12408}
   m_SizeDelta: {x: 1019.55884, y: 108.04964}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &820787385
@@ -25261,7 +25281,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 509.77942, y: -486.2234}
+  m_AnchoredPosition: {x: 509.7794, y: -486.2234}
   m_SizeDelta: {x: 1019.55884, y: 108.04964}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1162849351
@@ -31117,6 +31137,7 @@ GameObject:
   - component: {fileID: 1464645428}
   - component: {fileID: 1464645430}
   - component: {fileID: 1464645429}
+  - component: {fileID: 1464645431}
   m_Layer: 0
   m_Name: SFXManager
   m_TagString: Untagged
@@ -31302,6 +31323,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1464645431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1464645427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 340ff45a024a57c49b6168f3e5a75ec0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetAudioSource: {fileID: 1464645430}
+  channel: 1
+  customPrefsKey: 
+  defaultMutedIfUnset: 0
+  applyInAwake: 1
 --- !u!1 &1492733677
 GameObject:
   m_ObjectHideFlags: 0
@@ -32634,6 +32672,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetAudioSource: {fileID: 508929698}
+  channel: 0
+  customPrefsKey: 
   startMuted: 0
   toggleImages:
   - image: {fileID: 2002849289}
