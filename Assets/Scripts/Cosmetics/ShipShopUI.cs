@@ -75,8 +75,13 @@ public class ShipShopUI : MonoBehaviour
 
     void Start()
     {
-        // Auto-select first card if nothing selected
-        if (_selected == null && cards.Length > 0 && cards[0] != null)
+        // Try to select whatever is currently equipped
+        string equippedKey = GetEquippedKey(); // reads PlayerPrefs "Equipped_ShipKey"
+        ShipCard equippedCard = FindCardByEquippedKey(equippedKey);
+
+        if (equippedCard != null)
+            OnCardSelected(equippedCard.data);
+        else if (_selected == null && cards.Length > 0 && cards[0] != null)
             OnCardSelected(cards[0].data);
 
         RefreshAllCards();
@@ -101,6 +106,14 @@ public class ShipShopUI : MonoBehaviour
     private void OnCardSelected(ShipCosmetic data)
     {
         _selected = data;
+
+        if (_selected != null)
+        {
+            string trimmedName = TrimShipPrefix(_selected.playerPrefKey);
+            PlayerPrefs.SetString("SelectedShip", trimmedName);
+            PlayerPrefs.Save();
+        }
+
         UpdatePreview();
         UpdateButtons();
     }
@@ -110,6 +123,14 @@ public class ShipShopUI : MonoBehaviour
         SetEquippedKey(data.playerPrefKey);
         RefreshAllCards();
         UpdateButtons();
+    }
+    private ShipCard FindCardByEquippedKey(string equippedKey)
+    {
+        if (string.IsNullOrEmpty(equippedKey)) return null;
+        foreach (var c in cards)
+            if (c && c.data && string.Equals(c.data.playerPrefKey, equippedKey, System.StringComparison.OrdinalIgnoreCase))
+                return c;
+        return null;
     }
 
     private void UpdatePreview()
@@ -238,5 +259,12 @@ public class ShipShopUI : MonoBehaviour
             case ShipRarity.Legendary: return colorLegendaryBkRnd;
             default: return Color.white;
         }
+    }
+    private string TrimShipPrefix(string key)
+    {
+        const string prefix = "Ship_";
+        if (!string.IsNullOrEmpty(key) && key.StartsWith(prefix))
+            return key.Substring(prefix.Length);
+        return key;
     }
 }

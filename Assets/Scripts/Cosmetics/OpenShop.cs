@@ -7,6 +7,7 @@ public class OpenShop : MonoBehaviour
     public GameObject shopUI;
     public TMP_Text TotalBalanceText;
     [SerializeField] CanvasGroup GameOverGroup;
+    public TMP_Text ShipName;
 
     // Hook this to your Button OnClick()
     public void Open()
@@ -26,6 +27,12 @@ public class OpenShop : MonoBehaviour
         GameOverGroup.blocksRaycasts = false;
 
         shopUI.SetActive(true);
+
+        string key = PlayerPrefs.GetString("Equipped_ShipKey", "");
+        if (key.StartsWith("Ship_"))
+            key = key.Substring("Ship_".Length);
+
+        ShipName.text = key;
 
         TotalBalanceText.text = $"{PlayerPrefs.GetInt("currency", 0)}";
     }

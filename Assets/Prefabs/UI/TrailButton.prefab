@@ -162,6 +162,7 @@ GameObject:
   - component: {fileID: 1980590702530645666}
   - component: {fileID: 296738694793774976}
   - component: {fileID: 5404185288476623968}
+  - component: {fileID: 327945154934908260}
   m_Layer: 5
   m_Name: TrailButton
   m_TagString: Untagged
@@ -273,6 +274,27 @@ MonoBehaviour:
   desktopOnly: 1
   minInterval: 0.1
   targetSelectable: {fileID: 0}
+--- !u!114 &327945154934908260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3073566425466240928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0201b869e34e3543a6ae84ece74afec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trailKey: Trail_Default
+  displayName: Default Trail
+  colorImage: {fileID: 8469679310292208191}
+  lockBadge: {fileID: 1929756116901513110}
+  selectButton: {fileID: 1980590702530645666}
+  checkmarkImage: {fileID: 3326614306790754100}
+  checkUnlockedColor: {r: 1, g: 1, b: 1, a: 1}
+  checkEquippedColor: {r: 0, g: 1, b: 0, a: 1}
+  unlockByDefault: 0
 --- !u!1 &6300821424260534762
 GameObject:
   m_ObjectHideFlags: 0
