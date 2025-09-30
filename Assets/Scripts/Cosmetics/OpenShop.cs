@@ -48,7 +48,7 @@ public class OpenShop : MonoBehaviour
         if (key2.StartsWith("Trail_"))
             key2 = key2.Substring("Trail_".Length);
 
-        TrailName.text = key2;
+        TrailName.text = key2.Replace("_", " ");
     }
     private void ApplyEquippedTrailColorToPips()
     {
