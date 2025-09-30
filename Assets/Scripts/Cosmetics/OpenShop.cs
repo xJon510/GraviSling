@@ -1,5 +1,6 @@
-using UnityEngine;
+using System.Linq;
 using TMPro;
+using UnityEngine;
 
 public class OpenShop : MonoBehaviour
 {
@@ -8,6 +9,11 @@ public class OpenShop : MonoBehaviour
     public TMP_Text TotalBalanceText;
     [SerializeField] CanvasGroup GameOverGroup;
     public TMP_Text ShipName;
+    public TMP_Text TrailName;
+
+    [Header("Trail")]
+    [SerializeField] private TrailShopUI trailShop; // assign in Inspector
+    [SerializeField] private string equippedTrailPrefKey = "Equipped_TrailKey";
 
     // Hook this to your Button OnClick()
     public void Open()
@@ -35,6 +41,30 @@ public class OpenShop : MonoBehaviour
         ShipName.text = key;
 
         TotalBalanceText.text = $"{PlayerPrefs.GetInt("currency", 0)}";
+
+        ApplyEquippedTrailColorToPips();
+
+        string key2 = PlayerPrefs.GetString("Equipped_TrailKey", "");
+        if (key2.StartsWith("Trail_"))
+            key2 = key2.Substring("Trail_".Length);
+
+        TrailName.text = key2;
+    }
+    private void ApplyEquippedTrailColorToPips()
+    {
+        if (UIPipEmitter.Instance == null) return;
+        if (trailShop == null || trailShop.cards == null || trailShop.cards.Length == 0) return;
+
+        string equippedTrailKey = PlayerPrefs.GetString(equippedTrailPrefKey, "");
+        if (string.IsNullOrEmpty(equippedTrailKey)) return;
+
+        var card = trailShop.cards.FirstOrDefault(c =>
+            c != null && string.Equals(c.trailKey, equippedTrailKey, System.StringComparison.OrdinalIgnoreCase));
+
+        if (card != null && card.IsUnlocked())
+        {
+            UIPipEmitter.Instance.SetStartColor(card.GetColor(), retintAlive: true);
+        }
     }
 
     // Optional helper if you want to close it somewhere else

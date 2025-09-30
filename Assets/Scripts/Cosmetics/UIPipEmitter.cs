@@ -4,6 +4,17 @@ using System.Collections.Generic;
 
 public class UIPipEmitter : MonoBehaviour
 {
+    public static UIPipEmitter Instance { get; private set; }
+    void OnEnable()
+    {
+        Instance = this;
+    }
+
+    void OnDisable()
+    {
+        if (Instance == this) Instance = null;
+    }
+
     [Header("UI")]
     [SerializeField] RectTransform container;   // parent under Overlay canvas
     [SerializeField] Sprite pipSprite;
@@ -16,7 +27,7 @@ public class UIPipEmitter : MonoBehaviour
     [SerializeField] Vector2 startSpeed = new Vector2(80f, 140f);
     [SerializeField] Vector2 dirJitter = new Vector2(-15f, 15f); // degrees
     [SerializeField] Color startColor = new Color(1, 1, 1, 0.9f);
-    [SerializeField] Color endColor = new Color(1, 1, 1, 0.0f);
+    //[SerializeField] Color endColor = new Color(1, 1, 1, 0.0f);
 
     private struct Pip
     {
@@ -124,12 +135,38 @@ public class UIPipEmitter : MonoBehaviour
 
         // color/size over life
         p.a = startColor;
-        p.b = endColor;
+        p.b = startColor;
         float s0 = Random.Range(startSize.x, startSize.y);
         p.s0 = Vector2.one * s0;
         p.s1 = Vector2.one * (s0 * 0.5f);
 
         p.rt.gameObject.SetActive(true);
         pool[idx] = p;
+    }
+
+    // --- Public API: set the color from a TrailCard selection ---
+    public void SetStartColor(Color c, bool retintAlive = true)
+    {
+        startColor = c;
+
+        if (!retintAlive) return;
+
+        // Optionally recolor currently alive pips immediately so the change feels instant.
+        for (int i = 0; i < pool.Count; i++)
+        {
+            var p = pool[i];
+            if (!p.alive) continue;
+
+            // keep the same alpha the pip already had at its current progress
+            var img = p.rt.GetComponent<Image>();
+            float currentAlpha = img.color.a;
+
+            p.a = new Color(c.r, c.g, c.b, p.a.a);
+            p.b = new Color(c.r, c.g, c.b, p.b.a);
+
+            img.color = new Color(c.r, c.g, c.b, currentAlpha);
+
+            pool[i] = p;
+        }
     }
 }

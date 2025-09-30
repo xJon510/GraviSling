@@ -20,6 +20,7 @@ public class TrailCard : MonoBehaviour
     public GameObject lockBadge;   // shown when locked
     public Button selectButton;    // click to select this card
     public Image checkmarkImage;        // the check icon
+    public GameObject selectedHighlight;
 
     [Header("Checkmark Colors")]
     [Tooltip("Color for unlocked but NOT equipped trails.")]
@@ -34,7 +35,7 @@ public class TrailCard : MonoBehaviour
     public event Action<TrailCard> OnSelected;
 
     // --- Unlock state helpers ---
-    private string UnlockPrefKey => $"TrailUnlocked_{trailKey}";
+    public string UnlockPrefKey => $"TrailUnlocked_{trailKey}";
     private const string kTrailsInitFlag = "Trails_DefaultInitialized";
 
     public bool IsUnlocked()
@@ -55,7 +56,21 @@ public class TrailCard : MonoBehaviour
 
     void Awake()
     {
-        if (selectButton) selectButton.onClick.AddListener(() => OnSelected?.Invoke(this));
+        if (selectButton)
+        {
+            selectButton.onClick.AddListener(() =>
+            {
+                OnSelected?.Invoke(this);
+
+                // Push color to the emitter singleton
+                if (UIPipEmitter.Instance)
+                {
+                    UIPipEmitter.Instance.SetStartColor(GetColor(), retintAlive: true);
+                }
+            });
+        }
+
+        if (selectedHighlight) selectedHighlight.SetActive(false);
 
         // One-time default unlock
         if (unlockByDefault && PlayerPrefs.GetInt(kTrailsInitFlag, 0) == 0 && !IsUnlocked())
@@ -99,5 +114,9 @@ public class TrailCard : MonoBehaviour
                 checkmarkImage.color = isEquipped ? checkEquippedColor : checkUnlockedColor;
             }
         }
+    }
+    public void SetSelectedVisual(bool isSelected)
+    {
+        if (selectedHighlight) selectedHighlight.SetActive(isSelected);
     }
 }

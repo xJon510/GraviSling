@@ -33,7 +33,12 @@ public class TrailShopUI : MonoBehaviour
     [Tooltip("PlayerPrefs key storing the currently equipped trail key.")]
     public string equippedKeyPref = "Equipped_TrailKey";
 
+    [Header("Live Trail Material")]
+    [Tooltip("The material used by the in-game trail (UI/Default or custom).")]
+    public Material trailMaterial;
+
     private TrailCard _selected;
+    private TrailCard _lastSelectedForHighlight;
 
     void Awake()
     {
@@ -50,6 +55,7 @@ public class TrailShopUI : MonoBehaviour
     void Start()
     {
         RefreshAllCards();
+        RestoreInitialSelectionHighlight();
         UpdateButtons();
         UpdatePreview();
     }
@@ -73,7 +79,21 @@ public class TrailShopUI : MonoBehaviour
     // --- Selection & UI ---
     private void OnCardSelected(TrailCard card)
     {
+        if (_lastSelectedForHighlight)
+            _lastSelectedForHighlight.SetSelectedVisual(false);
+
         _selected = card;
+
+        if (_selected != null)
+        {
+            _selected.SetSelectedVisual(true);
+            _lastSelectedForHighlight = _selected;
+
+            string trimmedName = TrimTrailPrefix(_selected.UnlockPrefKey);
+            PlayerPrefs.SetString("SelectedTrail", trimmedName);
+            PlayerPrefs.Save();
+        }
+
         UpdatePreview();
         UpdateButtons();
     }
@@ -141,8 +161,12 @@ public class TrailShopUI : MonoBehaviour
         SetEquippedKey(_selected.trailKey);
         RefreshAllCards();
         UpdateButtons();
-        // Hook your live trail-applier here if desired
-        // TrailApplier.Instance.Apply(_selected.GetColor(), _selected.trailKey);
+
+        // --- Apply to live trail material ---
+        if (trailMaterial != null)
+        {
+            trailMaterial.color = _selected.GetColor();
+        }
     }
 
     // --- Equipped persistence ---
@@ -153,5 +177,54 @@ public class TrailShopUI : MonoBehaviour
     {
         PlayerPrefs.SetString(equippedKeyPref, key);
         PlayerPrefs.Save();
+    }
+    private string TrimTrailPrefix(string key)
+    {
+        const string prefix = "TrailUnlocked_Trail_";
+        if (!string.IsNullOrEmpty(key) && key.StartsWith(prefix))
+            return key.Substring(prefix.Length);
+        return key;
+    }
+
+    // --- Initial highlight on open/start ---
+    private void RestoreInitialSelectionHighlight()
+    {
+        // Prefer last explicit selection if present
+        string selectedKey = PlayerPrefs.GetString("SelectedTrailKey", "");
+
+        TrailCard card = null;
+
+        if (!string.IsNullOrEmpty(selectedKey))
+        {
+            card = cards.FirstOrDefault(c =>
+                c && string.Equals(c.trailKey, selectedKey, System.StringComparison.OrdinalIgnoreCase));
+        }
+
+        // Fallback to EQUIPPED trail if no saved selection
+        if (card == null)
+        {
+            string eq = GetEquippedKey();
+            if (!string.IsNullOrEmpty(eq))
+            {
+                card = cards.FirstOrDefault(c =>
+                    c && string.Equals(c.trailKey, eq, System.StringComparison.OrdinalIgnoreCase));
+            }
+        }
+
+        // Final fallback: first existing card
+        if (card == null)
+            card = cards.FirstOrDefault(c => c != null);
+
+        if (card != null)
+        {
+            // Set internal state + visuals so everything stays consistent
+            _selected = card;
+            _selected.SetSelectedVisual(true);
+            _lastSelectedForHighlight = _selected;
+
+            // Keep preview/buttons in sync
+            UpdatePreview();
+            UpdateButtons();
+        }
     }
 }

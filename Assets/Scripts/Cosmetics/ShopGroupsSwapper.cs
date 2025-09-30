@@ -1,4 +1,3 @@
-using Mono.Cecil.Cil;
 using System;
 using TMPro;
 using UnityEngine;
@@ -25,6 +24,19 @@ public class ShopGroupsSwapper : MonoBehaviour
     public TMP_Text ShipName;
     public TMP_Text TrailName;
 
+    private int _trailShowCountThisEnable = 0;
+
+    void OnEnable()
+    {
+        _trailShowCountThisEnable = 0;
+    }
+
+    void OnDisable()
+    {
+        // Reset so a fresh open treats next Show* as "first time"
+        _trailShowCountThisEnable = 0;
+    }
+
     public void ShowShip()
     {
         SetVisible(unlockShipButton, ownedShipGroup);
@@ -35,15 +47,15 @@ public class ShopGroupsSwapper : MonoBehaviour
         ShipName.gameObject.SetActive(true);
         TrailName.gameObject.SetActive(false);
 
-        string selected = PlayerPrefs.GetString("SelectedShip", "");
-        if (string.IsNullOrEmpty(selected))
+        string selectedShip = PlayerPrefs.GetString("SelectedShip", "");
+        if (string.IsNullOrEmpty(selectedShip))
         {
             // fallback: read from Equipped_ShipKey and trim
             string equipped = PlayerPrefs.GetString("Equipped_ShipKey", "");
-            selected = TrimPrefix(equipped, "Ship_");
+            selectedShip = TrimPrefix(equipped, "Ship_");
         }
 
-        ShipName.text = selected;
+        ShipName.text = selectedShip;
     }
 
     public void ShowTrail()
@@ -55,7 +67,30 @@ public class ShopGroupsSwapper : MonoBehaviour
 
         TrailName.gameObject.SetActive(true);
         ShipName.gameObject.SetActive(false);
-        TrailName.text = TrimPrefix(PlayerPrefs.GetString("Equipped_TrailKey", ""), "Trail_").Replace("_", " ");
+
+        string displayTrail;
+
+        if (_trailShowCountThisEnable == 0)
+        {
+            // First time this UI is enabled & Trail tab shown -> use EQUIPPED
+            string equippedTrail = PlayerPrefs.GetString("Equipped_TrailKey", "");
+            displayTrail = TrimPrefix(equippedTrail, "Trail_");
+        }
+        else
+        {
+            // Subsequent shows while enabled -> use SELECTED (sticky within session)
+            string selectedTrail = PlayerPrefs.GetString("SelectedTrail", "");
+            if (string.IsNullOrEmpty(selectedTrail))
+            {
+                // safety fallback if nothing was selected yet
+                string equippedTrail = PlayerPrefs.GetString("Equipped_TrailKey", "");
+                selectedTrail = TrimPrefix(equippedTrail, "Trail_");
+            }
+            displayTrail = selectedTrail;
+        }
+
+        TrailName.text = (displayTrail ?? string.Empty).Replace("_", " ");
+        _trailShowCountThisEnable++;
     }
 
     public void UpdateForTab(Tab tab)
