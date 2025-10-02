@@ -65,6 +65,15 @@ public class PlayerEquippedManager : MonoBehaviour
         [Tooltip("Scale used when overrideScale is ticked.")]
         public Vector3 scale = Vector3.one;
     }
+    void Awake()
+    {
+        // If no equipped key has ever been saved, persist the default now.
+        if (string.IsNullOrEmpty(PlayerPrefs.GetString(equippedKeyPref, "")))
+        {
+            PlayerPrefs.SetString(equippedKeyPref, defaultShipKey);
+            PlayerPrefs.Save();
+        }
+    }
 
     void Start()
     {

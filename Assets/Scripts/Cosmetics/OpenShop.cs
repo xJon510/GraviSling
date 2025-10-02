@@ -34,11 +34,15 @@ public class OpenShop : MonoBehaviour
 
         shopUI.SetActive(true);
 
-        string key = PlayerPrefs.GetString("Equipped_ShipKey", "");
-        if (key.StartsWith("Ship_"))
-            key = key.Substring("Ship_".Length);
+        string selectedShip = PlayerPrefs.GetString("SelectedShip", "");
+        if (string.IsNullOrEmpty(selectedShip))
+        {
+            // fallback: read from Equipped_ShipKey and trim
+            string equipped = PlayerPrefs.GetString("Equipped_ShipKey", "");
+            selectedShip = TrimPrefix(equipped, "Ship_");
+        }
 
-        ShipName.text = key;
+        ShipName.text = selectedShip;
 
         TotalBalanceText.text = $"{PlayerPrefs.GetInt("currency", 0)}";
 
@@ -81,6 +85,12 @@ public class OpenShop : MonoBehaviour
         GameOverGroup.blocksRaycasts = true;
 
         shopUI.SetActive(false);
+    }
+    private string TrimPrefix(string value, string prefix)
+    {
+        if (value.StartsWith(prefix))
+            return value.Substring(prefix.Length);
+        return value;
     }
 
     //dopa down

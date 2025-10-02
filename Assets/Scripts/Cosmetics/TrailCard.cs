@@ -34,6 +34,10 @@ public class TrailCard : MonoBehaviour
 
     public event Action<TrailCard> OnSelected;
 
+    [Header("Equipped State")]
+    [Tooltip("PlayerPrefs key that stores the currently equipped trail")]
+    public string equippedKeyPref = "Equipped_TrailKey";
+
     // --- Unlock state helpers ---
     public string UnlockPrefKey => $"TrailUnlocked_{trailKey}";
     private const string kTrailsInitFlag = "Trails_DefaultInitialized";
@@ -85,17 +89,8 @@ public class TrailCard : MonoBehaviour
 
     public void Refresh()
     {
-        bool unlocked = IsUnlocked();
-
-        if (lockBadge) lockBadge.SetActive(!IsUnlocked());
-
-        if (checkmarkImage)
-        {
-            // Visible only when unlocked
-            checkmarkImage.gameObject.SetActive(unlocked);
-            if (unlocked)
-                checkmarkImage.color = checkUnlockedColor;
-        }
+        string equippedKey = PlayerPrefs.GetString(equippedKeyPref, "");
+        Refresh(equippedKey);
     }
     public void Refresh(string equippedKey)
     {
