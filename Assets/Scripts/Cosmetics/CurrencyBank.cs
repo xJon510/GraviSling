@@ -1,9 +1,11 @@
 // CurrencyBank.cs
 using UnityEngine;
+using System;
 
 public static class CurrencyBank
 {
     private const string CurrencyKey = "currency";
+    public static event Action OnCurrencyChanged;
 
     public static int Get() => PlayerPrefs.GetInt(CurrencyKey, 0);
 
@@ -11,6 +13,7 @@ public static class CurrencyBank
     {
         PlayerPrefs.SetInt(CurrencyKey, Mathf.Max(0, amount));
         PlayerPrefs.Save();
+        OnCurrencyChanged?.Invoke();
     }
 
     public static bool CanAfford(int cost) => Get() >= cost;

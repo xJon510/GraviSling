@@ -26,17 +26,6 @@ public class ShopGroupsSwapper : MonoBehaviour
 
     private int _trailShowCountThisEnable = 0;
 
-    void OnEnable()
-    {
-        _trailShowCountThisEnable = 0;
-    }
-
-    void OnDisable()
-    {
-        // Reset so a fresh open treats next Show* as "first time"
-        _trailShowCountThisEnable = 0;
-    }
-
     public void ShowShip()
     {
         SetVisible(unlockShipButton, ownedShipGroup);

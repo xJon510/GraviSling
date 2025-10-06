@@ -46,13 +46,20 @@ public class OpenShop : MonoBehaviour
 
         TotalBalanceText.text = $"{PlayerPrefs.GetInt("currency", 0)}";
 
-        ApplyEquippedTrailColorToPips();
+        string selectedTrail = PlayerPrefs.GetString("SelectedTrail", "");
+        if (string.IsNullOrEmpty(selectedTrail))
+        {
+            // fallback: read from Equipped_ShipKey and trim
+            string equipped = PlayerPrefs.GetString("Equipped_TrailKey", "");
+            selectedTrail = TrimPrefix(equipped, "Ship_");
+            ApplyEquippedTrailColorToPips();
+        }
+        else
+        {
+            ApplySelectedTrailColorToPips();
+        }
 
-        string key2 = PlayerPrefs.GetString("Equipped_TrailKey", "");
-        if (key2.StartsWith("Trail_"))
-            key2 = key2.Substring("Trail_".Length);
-
-        TrailName.text = key2.Replace("_", " ");
+        TrailName.text = selectedTrail.Replace("_", " ");
     }
     private void ApplyEquippedTrailColorToPips()
     {
@@ -66,6 +73,22 @@ public class OpenShop : MonoBehaviour
             c != null && string.Equals(c.trailKey, equippedTrailKey, System.StringComparison.OrdinalIgnoreCase));
 
         if (card != null && card.IsUnlocked())
+        {
+            UIPipEmitter.Instance.SetStartColor(card.GetColor(), retintAlive: true);
+        }
+    }
+    private void ApplySelectedTrailColorToPips()
+    {
+        if (UIPipEmitter.Instance == null) return;
+        if (trailShop == null || trailShop.cards == null || trailShop.cards.Length == 0) return;
+
+        string selectedTrailKey = PlayerPrefs.GetString("SelectedTrail", "");
+        if (string.IsNullOrEmpty(selectedTrailKey)) return;
+
+        var card = trailShop.cards.FirstOrDefault(c =>
+            c != null && string.Equals(c.trailKey, selectedTrailKey, System.StringComparison.OrdinalIgnoreCase));
+
+        if (card != null)
         {
             UIPipEmitter.Instance.SetStartColor(card.GetColor(), retintAlive: true);
         }
