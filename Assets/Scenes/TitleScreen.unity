@@ -30723,7 +30723,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "v1.0.1 \xA9 2025 Freeeazy"
+  m_text: "v1.0.0 \xA9 2025 Freeeazy"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 68b915d596db6fb4e81350705ae60575, type: 2}
   m_sharedMaterial: {fileID: 8756010901543804886, guid: 68b915d596db6fb4e81350705ae60575, type: 2}
