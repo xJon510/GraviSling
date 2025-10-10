@@ -44,7 +44,9 @@ public class OpenShop : MonoBehaviour
 
         ShipName.text = selectedShip;
 
-        TotalBalanceText.text = $"{PlayerPrefs.GetInt("currency", 0)}";
+        int currency = PlayerPrefs.GetInt("currency", 0);
+
+        TotalBalanceText.text = currency.ToString("N0");
 
         string selectedTrail = PlayerPrefs.GetString("SelectedTrail", "");
         if (string.IsNullOrEmpty(selectedTrail))

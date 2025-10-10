@@ -56,10 +56,12 @@ public class GameOverUIManager : MonoBehaviour
         distanceText.text = $"{stats.currentDistance:0} km";
         speedText.text = $"{stats.topSpeedThisRun:0.0} km/s";
 
-        GemsCollectedText.text = PlayerPrefs.GetInt("gemsThisRun", 0).ToString();
+        int gems = PlayerPrefs.GetInt("gemsThisRun", 0);
         int currency = PlayerPrefs.GetInt("currency", 0);
-        CurrencyTotalText.text = currency.ToString();
-        CurrencyTotalHelpText.text = currency.ToString();
+
+        GemsCollectedText.text = gems.ToString("N0");     // 1,000
+        CurrencyTotalText.text = currency.ToString("N0"); // 1,000
+        CurrencyTotalHelpText.text = currency.ToString("N0");
 
         // fade in
         rootCanvasGroup.alpha = 1f;

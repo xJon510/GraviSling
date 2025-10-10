@@ -146,23 +146,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 100
-  OffsetMultiplier: 1.5
-  flyDuration: 0.5
+  OffsetMultiplier: 0
+  flyDuration: 0.4
   scaleCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.6
-      inSlope: 0
-      outSlope: 0
+      value: 1.0998627
+      inSlope: -0.37762305
+      outSlope: -0.37762305
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.079331845
     - serializedVersion: 3
       time: 1
-      value: 1.1
+      value: 0.8000008
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -275,5 +275,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.16, y: 0.2}
+  m_Size: {x: 0.2, y: 0.25}
   m_EdgeRadius: 0

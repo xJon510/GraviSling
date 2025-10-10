@@ -1,7 +1,14 @@
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
+using System;
 using System.Linq;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+internal static class PairEquipSync
+{
+    public static bool Active = false;
+}
 
 public class TrailShopUI : MonoBehaviour
 {
@@ -40,6 +47,10 @@ public class TrailShopUI : MonoBehaviour
     private TrailCard _selected;
     private TrailCard _lastSelectedForHighlight;
 
+    public ShipShopUI ShipShopManager;
+    private static string s_SelectedKeyThisScene = null;
+    private static int s_SceneToken = -1;
+
     void Awake()
     {
         foreach (var c in cards.Where(c => c != null))
@@ -55,6 +66,7 @@ public class TrailShopUI : MonoBehaviour
     void Start()
     {
         RefreshAllCards();
+        EnsureSceneToken();
         RestoreInitialSelectionHighlight();
         UpdateButtons();
         UpdatePreview();
@@ -88,6 +100,7 @@ public class TrailShopUI : MonoBehaviour
         {
             _selected.SetSelectedVisual(true);
             _lastSelectedForHighlight = _selected;
+            s_SelectedKeyThisScene = _selected.trailKey;
 
             string trimmedName = TrimTrailPrefix(_selected.UnlockPrefKey);
             PlayerPrefs.SetString("SelectedTrail", trimmedName);
@@ -154,20 +167,64 @@ public class TrailShopUI : MonoBehaviour
         }
     }
 
-    private void EquipSelected()
+    public void EquipSelected()
     {
         if (_selected == null || !_selected.IsUnlocked()) return;
 
-        SetEquippedKey(_selected.trailKey);
-        RefreshAllCards();
-        UpdateButtons();
-
-        // --- Apply to live trail material ---
-        if (trailMaterial != null)
+        // Prevent ping-pong while we equip both sides at once
+        if (!PairEquipSync.Active)
         {
-            trailMaterial.color = _selected.GetColor();
+            PairEquipSync.Active = true;
+            try
+            {
+                // 1) Equip the selected trail locally
+                SetEquippedKey(_selected.trailKey);
+                RefreshAllCards();
+                UpdateButtons();
+
+                // 2) Also equip the currently selected ship (if any & different AND unlocked)
+                if (ShipShopManager != null)
+                {
+                    string shipSelectedKey = ShipShopManager.GetSelectedKey();
+                    string shipEquippedKey = ShipShopManager.GetEquippedKeyPublic();
+
+                    bool changedShip = false;
+                    if (!string.IsNullOrEmpty(shipSelectedKey)
+                        && shipSelectedKey != shipEquippedKey
+                        && ShipShopManager.IsUnlocked(shipSelectedKey))
+                    {
+                        changedShip = ShipShopManager.TrySetEquippedKeyPublic(shipSelectedKey);
+                    }
+
+                    if (!changedShip)
+                    {
+                        // Do NOT alter ship; just refresh visuals against the real equipped ship
+                        ShipShopManager.RefreshUIWithEquippedKey();
+                    }
+                }
+
+                // 3) Apply live material color (your existing behavior)
+                if (trailMaterial != null)
+                {
+                    trailMaterial.color = _selected.GetColor();
+                }
+            }
+            finally
+            {
+                PairEquipSync.Active = false;
+            }
+        }
+        else
+        {
+            // We're being called as part of the pair sync: just equip self quietly
+            SetEquippedKey(_selected.trailKey);
+            RefreshAllCards();
+            UpdateButtons();
+            if (trailMaterial != null)
+                trailMaterial.color = _selected.GetColor();
         }
     }
+
 
     // --- Equipped persistence ---
     private string GetEquippedKey() =>
@@ -189,18 +246,15 @@ public class TrailShopUI : MonoBehaviour
     // --- Initial highlight on open/start ---
     private void RestoreInitialSelectionHighlight()
     {
-        // Prefer last explicit selection if present
-        string selectedKey = PlayerPrefs.GetString("SelectedTrailKey", "");
-
+        // 1) If player already picked a card in THIS scene, honor that
         TrailCard card = null;
-
-        if (!string.IsNullOrEmpty(selectedKey))
+        if (!string.IsNullOrEmpty(s_SelectedKeyThisScene))
         {
             card = cards.FirstOrDefault(c =>
-                c && string.Equals(c.trailKey, selectedKey, System.StringComparison.OrdinalIgnoreCase));
+                c && string.Equals(c.trailKey, s_SelectedKeyThisScene, System.StringComparison.OrdinalIgnoreCase));
         }
 
-        // Fallback to EQUIPPED trail if no saved selection
+        // 2) Otherwise, default to EQUIPPED key on first open after scene load
         if (card == null)
         {
             string eq = GetEquippedKey();
@@ -211,20 +265,84 @@ public class TrailShopUI : MonoBehaviour
             }
         }
 
-        // Final fallback: first existing card
+        // 3) Final fallback: first valid card
         if (card == null)
             card = cards.FirstOrDefault(c => c != null);
 
         if (card != null)
         {
-            // Set internal state + visuals so everything stays consistent
+            if (_lastSelectedForHighlight && _lastSelectedForHighlight != card)
+                _lastSelectedForHighlight.SetSelectedVisual(false);
+
             _selected = card;
             _selected.SetSelectedVisual(true);
             _lastSelectedForHighlight = _selected;
 
-            // Keep preview/buttons in sync
+            UIPipEmitter.Instance.SetStartColor(card.GetColor());
+
             UpdatePreview();
             UpdateButtons();
         }
+    }
+
+
+    // Expose currently selected trailKey (null if none)
+    public string GetSelectedKey() => _selected ? _selected.trailKey : null;
+
+    // Expose currently equipped key
+    public string GetEquippedKeyPublic() => GetEquippedKey();
+
+    // Public setter that also refreshes local UI
+    public void SetEquippedKeyPublic(string key)
+    {
+        SetEquippedKey(key);
+        RefreshAllCards();
+        UpdateButtons();
+        UpdatePreview();
+    }
+
+    // Quick UI refresh helper (when other side changed something)
+    public void RefreshUIOnly()
+    {
+        RefreshAllCards();
+        UpdateButtons();
+        UpdatePreview();
+    }
+
+    // Is a given key unlocked?
+    public bool IsUnlocked(string key)
+    {
+        if (string.IsNullOrEmpty(key)) return false;
+        var card = cards.FirstOrDefault(c => c && string.Equals(c.trailKey, key, StringComparison.OrdinalIgnoreCase));
+        return card != null && card.IsUnlocked();
+    }
+
+    // Is the current selection unlocked?
+    public bool IsSelectedUnlocked() => IsUnlocked(GetSelectedKey());
+
+    // Safe public equip: NO-OP if locked (prevents falling back to default)
+    public bool TrySetEquippedKeyPublic(string key)
+    {
+        if (!IsUnlocked(key)) return false;
+        SetEquippedKey(key);
+        RefreshAllCards();
+        UpdateButtons();
+        UpdatePreview();
+        return true;
+    }
+
+    // Force a visual refresh using the actually equipped key
+    public void RefreshUIWithEquippedKey()
+    {
+        var eq = GetEquippedKey();
+        foreach (var c in cards) if (c) c.Refresh(eq);
+        UpdateButtons();
+        UpdatePreview();
+    }
+
+    private void EnsureSceneToken()
+    {
+        int token = SceneManager.GetActiveScene().buildIndex;
+        s_SelectedKeyThisScene = null;
     }
 }

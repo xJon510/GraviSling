@@ -8,7 +8,7 @@ public class CurrencyGem : MonoBehaviour
 
     [Header("Animation")]
     public float flyDuration = 0.35f;
-    public AnimationCurve scaleCurve = AnimationCurve.EaseInOut(0, 0.6f, 1, 1.1f);
+    public AnimationCurve scaleCurve = AnimationCurve.EaseInOut(0, 1f, 1, 0.7f);
 
     // injected
     private Transform player;
@@ -76,6 +76,11 @@ public class CurrencyGem : MonoBehaviour
 
     void BankAndRecycle()
     {
+        if (SFXTitleManager.Instance != null)
+        {
+            SFXTitleManager.Instance.PlayCurrencyCollect();
+        }
+
         // update totals
         int lifetime = PlayerPrefs.GetInt("currency", 0);
         PlayerPrefs.SetInt("currency", lifetime + value);

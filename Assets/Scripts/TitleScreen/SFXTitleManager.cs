@@ -35,6 +35,12 @@ public class SFXTitleManager : MonoBehaviour
     [Range(0f, 0.5f)] public float randomJitter = 0.05f; // ±jitter around final pitch
     [Range(0.5f, 1.5f)] public float basePitch = 1f;
 
+    [Header("Gem / Currency Pickup")]
+    public AudioClip currencyCollectClip;
+    [Range(0f, 1f)] public float currencyCollectVolume = 0.65f;
+    [Range(0.8f, 1.2f)] public float currencyCollectPitchMin = 0.95f;
+    [Range(0.8f, 1.2f)] public float currencyCollectPitchMax = 1.05f;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -111,6 +117,16 @@ public class SFXTitleManager : MonoBehaviour
 
         audioSource.PlayOneShot(explosionSFX, volume);
 
+        audioSource.pitch = oldPitch;
+    }
+
+    public void PlayCurrencyCollect()
+    {
+        if (!audioSource || !currencyCollectClip) return;
+
+        float oldPitch = audioSource.pitch;
+        audioSource.pitch = Random.Range(currencyCollectPitchMin, currencyCollectPitchMax);
+        audioSource.PlayOneShot(currencyCollectClip, currencyCollectVolume);
         audioSource.pitch = oldPitch;
     }
 }

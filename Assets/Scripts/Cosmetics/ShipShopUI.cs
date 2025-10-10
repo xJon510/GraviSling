@@ -38,6 +38,7 @@ public class ShipShopUI : MonoBehaviour
     public TMP_Text equipName;
     public TMP_Text randomizeName;
 
+    public TrailShopUI TrailShopManager;
 
     [Header("Equipped state")]
     [Tooltip("PlayerPrefs key storing the currently equipped ship key")]
@@ -214,17 +215,56 @@ public class ShipShopUI : MonoBehaviour
         }
     }
 
-    private void EquipSelected()
+    public void EquipSelected()
     {
         if (_selected == null || !_selected.IsUnlocked()) return;
-        SetEquippedKey(_selected.playerPrefKey);
 
-        RefreshAllCards();
-        UpdateButtons();
+        if (!PairEquipSync.Active)
+        {
+            PairEquipSync.Active = true;
+            try
+            {
+                // 1) Equip the selected ship locally
+                SetEquippedKey(_selected.playerPrefKey);
+                RefreshAllCards();
+                UpdateButtons();
 
-        // TODO: call into your ship/skin applier to update the in-game preview
-        // ShipSkinApplier.Instance.Apply(_selected);
+                // 2) Also equip the currently selected trail (if any & different)
+                if (TrailShopManager != null)
+                {
+                    string trailSelectedKey = TrailShopManager.GetSelectedKey();
+                    string trailEquippedKey = TrailShopManager.GetEquippedKeyPublic();
+
+                    bool changedTrail = false;
+                    if (!string.IsNullOrEmpty(trailSelectedKey)
+                        && trailSelectedKey != trailEquippedKey
+                        && TrailShopManager.IsUnlocked(trailSelectedKey))
+                    {
+                        // Safe attempt; won't fall back to default if somehow disallowed
+                        changedTrail = TrailShopManager.TrySetEquippedKeyPublic(trailSelectedKey);
+                    }
+
+                    if (!changedTrail)
+                    {
+                        // Do NOT alter trail; just refresh visuals against the real equipped key
+                        TrailShopManager.RefreshUIWithEquippedKey();
+                    }
+                }
+            }
+            finally
+            {
+                PairEquipSync.Active = false;
+            }
+        }
+        else
+        {
+            // Quiet equip when we're already inside a paired transaction
+            SetEquippedKey(_selected.playerPrefKey);
+            RefreshAllCards();
+            UpdateButtons();
+        }
     }
+
 
     // --- Equipped persistence ---
     private string GetEquippedKey() =>
@@ -266,5 +306,56 @@ public class ShipShopUI : MonoBehaviour
         if (!string.IsNullOrEmpty(key) && key.StartsWith(prefix))
             return key.Substring(prefix.Length);
         return key;
+    }
+
+    // Expose currently selected ship key (null if none)
+    public string GetSelectedKey() => _selected ? _selected.playerPrefKey : null;
+
+    // Expose currently equipped key
+    public string GetEquippedKeyPublic() => GetEquippedKey();
+
+    // Public setter that also refreshes local UI
+    public void SetEquippedKeyPublic(string key)
+    {
+        SetEquippedKey(key);
+        RefreshAllCards();
+        UpdateButtons();
+        UpdatePreview();
+    }
+
+    // Quick UI refresh helper (when other side changed something)
+    public void RefreshUIOnly()
+    {
+        RefreshAllCards();
+        UpdateButtons();
+        UpdatePreview();
+    }
+
+    // Is a given ship key unlocked?
+    public bool IsUnlocked(string key)
+    {
+        if (string.IsNullOrEmpty(key)) return false;
+        var card = cards.FirstOrDefault(c => c && c.data &&
+            string.Equals(c.data.playerPrefKey, key, System.StringComparison.OrdinalIgnoreCase));
+        return card != null && card.data.IsUnlocked();
+    }
+
+    // Safe public equip: NO-OP if locked
+    public bool TrySetEquippedKeyPublic(string key)
+    {
+        if (!IsUnlocked(key)) return false;
+        SetEquippedKey(key);
+        RefreshAllCards();
+        UpdateButtons();
+        UpdatePreview();
+        return true;
+    }
+
+    // Force a visual refresh using the actually equipped key
+    public void RefreshUIWithEquippedKey()
+    {
+        RefreshAllCards();
+        UpdateButtons();
+        UpdatePreview();
     }
 }
