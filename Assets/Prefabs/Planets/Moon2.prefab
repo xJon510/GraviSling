@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 2830347180311503607}
   - component: {fileID: 846950258525864043}
   - component: {fileID: 5280860213247105254}
+  - component: {fileID: 1819929373983861732}
   - component: {fileID: 8294646524914567233}
-  - component: {fileID: 4948937637482371476}
   m_Layer: 0
   m_Name: Moon2
   m_TagString: Untagged
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 27.4, y: -49.1, z: 0}
-  m_LocalScale: {x: 35, y: 35, z: 1}
+  m_LocalScale: {x: 55, y: 55, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -58,7 +58,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: a58cb8787685b724abe36386db70883c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -855298285791758126, guid: 900a9ef0561b23e4f8230267c1864b43, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 43f19bd847b87634ea35a19badaf1d0d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -125,7 +125,26 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.7
+  m_Radius: 0.5
+--- !u!114 &1819929373983861732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8288644677173597165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef6f5aa466924f45b386bc108ce4c82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  columns: 10
+  rows: 6
+  totalFrames: 60
+  fps: 4
+  randomStartPhase: 1
+  viewportPadding: 0.08
+  targetCamera: {fileID: 0}
 --- !u!114 &8294646524914567233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,29 +158,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planetRadius: 10
-  orbitRadius: 25
+  orbitRadius: 27
+  shipFacingOffsetDeg: -90
   baseOrbitSpeed: 180
   baseLaunchSpeed: 90
   launchAngleOffset: 80
-  chargeRate: 50
-  shrinkRate: 5
-  maxChargeTime: 10
+  chargeRate: 80
+  shrinkRate: 3
+  maxChargeTime: 60
   speedText: {fileID: 0}
   minimapIcon: {fileID: 0}
   minimapRotationOffset: -90
   explosionPlayerPrefab: {fileID: 8843185705750593545, guid: 5e7c94d40e734ad4ea4546353e55c460, type: 3}
---- !u!114 &4948937637482371476
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8288644677173597165}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 589ce787d0988ae4aa0d70109a9171ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  planetFolder: Barren_or_Moon/2
-  skip: 2
-  framesPerSecond: 8
+  machRingPrefab: {fileID: 5249955851602394433, guid: 6dd857760829a3c42a40fee45852c4ff, type: 3}
