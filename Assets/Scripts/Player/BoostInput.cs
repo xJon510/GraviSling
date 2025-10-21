@@ -3,16 +3,20 @@ using UnityEngine.InputSystem;
 
 public static class BoostInput
 {
+    public static bool InputEnabled = true;
+
     private static bool mobilePressed = false;
     private static bool releasedFlag = false; // consumed on read
 
     /// <summary>True while boost is being held (mobile or spacebar).</summary>
     public static bool Pressed
-        => mobilePressed || (Keyboard.current != null && Keyboard.current.spaceKey.isPressed);
+        => InputEnabled && (mobilePressed || (Keyboard.current != null && Keyboard.current.spaceKey.isPressed));
 
     /// <summary>True only on the frame boost was released (mobile or spacebar).</summary>
     public static bool WasReleasedThisFrame()
     {
+        if (!InputEnabled) return false;
+
         bool desktop = Keyboard.current != null && Keyboard.current.spaceKey.wasReleasedThisFrame;
         bool v = releasedFlag || desktop;
         releasedFlag = false; // consume

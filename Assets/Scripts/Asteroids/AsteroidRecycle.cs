@@ -5,6 +5,7 @@ public class AsteroidRecycleSimple : MonoBehaviour
 {
     [Header("References")]
     public Transform player;
+    public Transform Earth;
     public MiniMapManager minimap;                // optional; will auto-find if left null
 
     [Header("Asteroid Prefabs & Pool")]
@@ -45,7 +46,8 @@ public class AsteroidRecycleSimple : MonoBehaviour
 
     void Start()
     {
-        Vector2 c = player ? (Vector2)player.position : Vector2.zero;
+        Vector2 c = Earth ? (Vector2)Earth.position : Vector2.zero;
+        float safeRadius = 100f;
 
         for (int i = 0; i < poolSize; i++)
         {
@@ -54,10 +56,18 @@ public class AsteroidRecycleSimple : MonoBehaviour
             var t = go.transform;
 
             // Initial random position inside the inner area
-            var pos = new Vector2(
-                Random.Range(c.x - halfWidth, c.x + halfWidth),
-                Random.Range(c.y - halfHeight, c.y + halfHeight)
-            );
+            Vector2 pos;
+            int safety = 0;
+            do
+            {
+                pos = new Vector2(
+                    Random.Range(c.x - halfWidth, c.x + halfWidth),
+                    Random.Range(c.y - halfHeight, c.y + halfHeight)
+                );
+                safety++;
+            }
+            while (Vector2.Distance(pos, c) < safeRadius && safety < 30);
+
             t.position = pos;
 
             // Register once with minimap

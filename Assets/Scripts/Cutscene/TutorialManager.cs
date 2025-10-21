@@ -60,6 +60,9 @@ public class TutorialManager : MonoBehaviour
         (uiRoot ? uiRoot : gameObject).SetActive(true);
         ToggleBehaviours(disableWhileOpen, false);
         StoreAndDeactivateObjects(disableObjectsWhileOpen);
+
+        BoostInput.InputEnabled = false;
+
         if (pauseAudio) AudioListener.pause = true;
         active = true;
     }
@@ -71,6 +74,9 @@ public class TutorialManager : MonoBehaviour
         {
             ToggleBehaviours(disableWhileOpen, true);
             RestoreObjectsToSavedStates();
+
+            BoostInput.InputEnabled = true;
+
             if (pauseAudio) AudioListener.pause = false;
             active = false;
         }

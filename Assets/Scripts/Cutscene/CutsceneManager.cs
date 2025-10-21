@@ -51,7 +51,8 @@ public class CutsceneManager : MonoBehaviour
     [Tooltip("Optional transform of the ship to nudge upward during launch.")]
     public Transform ship;
     [Tooltip("How far to move ship up during launch (units). Set 0 to disable movement.")]
-    public float launchRiseDistance = 5f;
+    public Transform risePosition;
+    private float launchRiseDistance;
     [Tooltip("Seconds for the launch rise movement.")]
     public float launchRiseTime = 1.2f;
     [Tooltip("Small delay after launch before we end the cutscene.")]
@@ -105,6 +106,8 @@ public class CutsceneManager : MonoBehaviour
             FastForwardToGameplay();
             return;
         }
+
+        launchRiseDistance = risePosition.position.y - ship.position.y;
 
         // Normal path
         PrepareInitialState();
