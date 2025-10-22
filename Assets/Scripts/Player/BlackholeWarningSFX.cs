@@ -46,7 +46,7 @@ public class BlackholeWarningSFX : MonoBehaviour
 
     [Tooltip("Beyond this distance, the beep fades out and stops.")]
     [SerializeField] private float farDistance = 60f;
-    private const float flashCutoffDistance = 1500f;
+    private const float flashCutoffDistance = 1600f;
 
     [Header("Cadence (closer = faster)")]
     [Tooltip("Fastest interval (seconds) when very close.")]

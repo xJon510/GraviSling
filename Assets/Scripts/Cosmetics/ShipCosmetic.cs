@@ -1,7 +1,7 @@
 // ShipCosmetic.cs
 using UnityEngine;
 
-public enum ShipRarity { Common, Uncommon, Rare, Epic, Legendary }
+public enum ShipRarity { Common, Uncommon, Rare, Epic, Legendary, Mythic }
 
 [CreateAssetMenu(fileName = "Ship_", menuName = "GraviSling/Ship Cosmetic", order = 0)]
 public class ShipCosmetic : ScriptableObject

@@ -48,15 +48,17 @@ public class ShipShopUI : MonoBehaviour
     public Color colorCommon = Color.white;
     public Color colorUncommon = Color.green;
     public Color colorRare = Color.blue;
-    public Color colorEpic = new Color(0.6f, 0f, 1f);   // purple-ish
-    public Color colorLegendary = new Color(1f, 0.65f, 0f); // orange-gold
+    public Color colorEpic = new Color(0.6f, 0f, 1f);
+    public Color colorLegendary = new Color(1f, 0.65f, 0f);
+    public Color colorMythic = new Color(0.831f, 0.357f, 1.000f);
 
     [Header("Rarity BkRnd Colors")]
     public Color colorCommonBkRnd = Color.white;
     public Color colorUncommonBkRnd = Color.green;
     public Color colorRareBkRnd = Color.blue;
-    public Color colorEpicBkRnd = new Color(0.6f, 0f, 1f);   // purple-ish
-    public Color colorLegendaryBkRnd = new Color(1f, 0.65f, 0f); // orange-gold
+    public Color colorEpicBkRnd = new Color(0.6f, 0f, 1f);
+    public Color colorLegendaryBkRnd = new Color(1f, 0.65f, 0f);
+    public Color colorMythicBkRnd = new Color(0.102f, 0.000f, 0.157f);
 
     private ShipCosmetic _selected;
 
@@ -284,6 +286,7 @@ public class ShipShopUI : MonoBehaviour
             case ShipRarity.Rare: return colorRare;
             case ShipRarity.Epic: return colorEpic;
             case ShipRarity.Legendary: return colorLegendary;
+            case ShipRarity.Mythic: return colorMythic;
             default: return Color.white;
         }
     }
@@ -297,6 +300,7 @@ public class ShipShopUI : MonoBehaviour
             case ShipRarity.Rare: return colorRareBkRnd;
             case ShipRarity.Epic: return colorEpicBkRnd;
             case ShipRarity.Legendary: return colorLegendaryBkRnd;
+            case ShipRarity.Mythic: return colorMythicBkRnd;
             default: return Color.white;
         }
     }
