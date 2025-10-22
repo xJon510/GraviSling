@@ -5,9 +5,18 @@ public class CursorManager : MonoBehaviour
     public Texture2D cursorTex;
     public Vector2 hotspot;               // pixels from top-left (e.g., center: new Vector2(tex.width/2, tex.height/2))
     public CursorMode mode = CursorMode.Auto;
+    private static CursorManager instance;
 
     void Awake()
     {
+        // If another CursorManager already exists, destroy this one.
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
         DontDestroyOnLoad(gameObject);    // keep across scenes
         Apply();
     }
