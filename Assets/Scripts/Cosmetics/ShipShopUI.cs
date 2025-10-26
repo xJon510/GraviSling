@@ -15,6 +15,7 @@ public class ShipShopUI : MonoBehaviour
     public TMP_Text previewRarity;
     public Animator previewAnimator;
     public TMP_Text previewCostText;
+    public Image previewBorder;
 
     [Header("Button groups")]
     public GameObject groupUnlock;   // contains ONLY the Unlock button
@@ -60,7 +61,16 @@ public class ShipShopUI : MonoBehaviour
     public Color colorLegendaryBkRnd = new Color(1f, 0.65f, 0f);
     public Color colorMythicBkRnd = new Color(0.102f, 0.000f, 0.157f);
 
+    [Header("Mythic Rainbow (Preview Only)")]
+    [SerializeField, Min(0f)] private float mythicRainbowSpeed = 0.25f;
+    [Tooltip("Optional extra desync across sessions/panels.")]
+    [SerializeField] private float mythicPhaseOffsetSeconds = 0f;
+    [Tooltip("If true, keeps each image's original Saturation/Value/Alpha (only hue cycles).")]
+    [SerializeField] private bool mythicPreserveSV = true;
+
     private ShipCosmetic _selected;
+    private bool _animateMythic;
+    private bool _phaseSeeded;
 
     void Awake()
     {
@@ -92,6 +102,20 @@ public class ShipShopUI : MonoBehaviour
         UpdatePreview();
     }
 
+    private void Update()
+    {
+        if (_animateMythic)
+        {
+            // Seed a tiny random phase once (prevents multiple preview panels from being identical)
+            if (!_phaseSeeded)
+            {
+                mythicPhaseOffsetSeconds += UnityEngine.Random.value / Mathf.Max(0.0001f, Mathf.Max(0.0001f, mythicRainbowSpeed));
+                _phaseSeeded = true;
+            }
+
+            ApplyMythicRainbowToBorders(Time.time);
+        }
+    }
     void OnDestroy()
     {
         foreach (var c in cards.Where(c => c != null))
@@ -148,9 +172,39 @@ public class ShipShopUI : MonoBehaviour
         Color rarityColor = GetColorForRarity(_selected.rarity);
         if (previewName) previewName.color = rarityColor;
         if (previewRarity) previewRarity.color = rarityColor;
-        if (unlockButtonBorder) unlockButtonBorder.color = rarityColor;
-        if (equipButtonBorder) equipButtonBorder.color = rarityColor;
-        if (randomizeButtonBorder) randomizeButtonBorder.color = rarityColor;
+
+        // Drive borders: static for non-Mythic, animated for Mythic
+        _animateMythic = (_selected.rarity == ShipRarity.Mythic);
+
+        if (_animateMythic)
+        {
+            // Reset phase so each open/selection can desync again if desired
+            _phaseSeeded = false;
+
+            // Seed a saturated starting color (preserve original alpha)
+            void Seed(Image img)
+            {
+                if (!img) return;
+                var c = colorMythic;
+                c.a = img.color.a;
+                img.color = c;
+            }
+
+            Seed(unlockButtonBorder);
+            Seed(equipButtonBorder);
+            Seed(randomizeButtonBorder);
+            Seed(previewBorder);
+
+            // Kick an immediate frame so the user sees color right away
+            ApplyMythicRainbowToBorders(Time.time);
+        }
+        else
+        {
+            if (unlockButtonBorder) unlockButtonBorder.color = rarityColor;
+            if (equipButtonBorder) equipButtonBorder.color = rarityColor;
+            if (randomizeButtonBorder) randomizeButtonBorder.color = rarityColor;
+            if (previewBorder) previewBorder.color = rarityColor;
+        }
 
         if (unlockName) unlockName.color = rarityColor;
         if (equipName) equipName.color = rarityColor;
@@ -361,5 +415,35 @@ public class ShipShopUI : MonoBehaviour
         RefreshAllCards();
         UpdateButtons();
         UpdatePreview();
+    }
+
+    private void ApplyMythicRainbowToBorders(float t)
+    {
+        if (!unlockButtonBorder && !equipButtonBorder && !randomizeButtonBorder) return;
+
+        float hue = Mathf.Repeat(mythicRainbowSpeed * t + mythicPhaseOffsetSeconds, 1f);
+
+        void SetHue(Image img)
+        {
+            if (!img) return;
+
+            // Start from whatever color is currently there (lets you tint/alpha in editor)
+            Color baseC = img.color;
+
+            float s = 1f, v = 1f, a = baseC.a;
+            if (mythicPreserveSV)
+            {
+                Color.RGBToHSV(baseC, out _, out s, out v);
+            }
+
+            Color c = Color.HSVToRGB(hue, s, v);
+            c.a = a; // preserve alpha
+            img.color = c;
+        }
+
+        SetHue(unlockButtonBorder);
+        SetHue(equipButtonBorder);
+        SetHue(randomizeButtonBorder);
+        SetHue(previewBorder);
     }
 }

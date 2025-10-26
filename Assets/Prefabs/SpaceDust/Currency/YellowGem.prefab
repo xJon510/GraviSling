@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db4d467ec0699cd45935dd18b8665c3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 100
+  value: 1
   OffsetMultiplier: 0
   flyDuration: 0.4
   scaleCurve:
