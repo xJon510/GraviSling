@@ -54,21 +54,15 @@ public class SettingsPanelSwitcher : MonoBehaviour
 
     void OnEnable()
     {
-        // Normalize starting layout: Settings centered (0), Credits to the right (+separation).
-        if (settingsPanel) settingsPanel.anchoredPosition = Vector2.zero;
+        // Make sure we're not mid-animation after a re-open
+        busy = false;
 
-        if (creditsPanel)
-        {
-            var p = Vector2.zero;
-            if (slideHorizontally) p.x = panelSeparation; else p.y = -panelSeparation;
-            creditsPanel.anchoredPosition = p;
-        }
+        // If you want to persist across sessions, uncomment these two lines:
+        // showingSettings = PlayerPrefs.GetInt("SettingsUI_LastIsSettings", 1) == 1;
 
-        // Buttons: Credits visible (we're on Settings), Settings hidden.
-        if (creditsButton) SetButtonY(creditsButton, visibleButtonY, instant: true);
-        if (settingsButton) SetButtonY(settingsButton, hiddenButtonY, instant: true);
-
+        ApplyLayoutForState(instantButtons: true);
         UpdateButtonInteractable();
+        SetRaycastBlocks(true);
     }
 
     // Hook these to your UI Button onClick()s
@@ -132,6 +126,7 @@ public class SettingsPanelSwitcher : MonoBehaviour
         }
 
         showingSettings = !toCredits ? true : false;
+        ApplyLayoutForState(instantButtons: true);
         UpdateButtonInteractable();
 
         SetRaycastBlocks(true);
@@ -196,4 +191,50 @@ public class SettingsPanelSwitcher : MonoBehaviour
 
     // Nice snappy easing
     static float EaseOutCubic(float x) => 1f - Mathf.Pow(1f - x, 3f);
+
+    /// <summary>
+    /// Positions panels & buttons to match the current 'showingSettings' state.
+    /// </summary>
+    void ApplyLayoutForState(bool instantButtons)
+    {
+        if (!settingsPanel || !creditsPanel) return;
+
+        // Panels
+        Vector2 settingsPos = Vector2.zero;
+        Vector2 creditsPos = Vector2.zero;
+
+        if (slideHorizontally)
+        {
+            if (showingSettings)
+            {
+                settingsPos.x = 0f;
+                creditsPos.x = panelSeparation;     // off to the right
+            }
+            else
+            {
+                settingsPos.x = -panelSeparation;    // off to the left
+                creditsPos.x = 0f;
+            }
+        }
+        else
+        {
+            if (showingSettings)
+            {
+                settingsPos.y = 0f;
+                creditsPos.y = -panelSeparation;    // off below
+            }
+            else
+            {
+                settingsPos.y = panelSeparation;     // off above
+                creditsPos.y = 0f;
+            }
+        }
+
+        settingsPanel.anchoredPosition = settingsPos;
+        creditsPanel.anchoredPosition = creditsPos;
+
+        // Buttons (bottom-right)
+        if (creditsButton) SetButtonY(creditsButton, showingSettings ? visibleButtonY : hiddenButtonY, instantButtons);
+        if (settingsButton) SetButtonY(settingsButton, showingSettings ? hiddenButtonY : visibleButtonY, instantButtons);
+    }
 }

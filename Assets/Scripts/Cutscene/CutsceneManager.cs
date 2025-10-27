@@ -100,9 +100,10 @@ public class CutsceneManager : MonoBehaviour
     {
         CacheFullTexts();
 
-        if (playOnStart && !ShouldPlay())
+        playOnStart = ShouldPlay();
+
+        if (playOnStart == false)
         {
-            // Skip immediately, *before* we prepare visuals or disable scripts.
             FastForwardToGameplay();
             return;
         }
@@ -242,6 +243,9 @@ public class CutsceneManager : MonoBehaviour
         CameraFollow.Instance?.SetPaused(false, snapToTargetOnResume: true);
 
         if (equippedManager) equippedManager.ApplyEquippedFromPrefs();
+
+        PlayerPrefs.SetInt(DontShowKey, 1);
+        PlayerPrefs.Save();
 
         // Disable manager if you want
         gameObject.SetActive(false);
