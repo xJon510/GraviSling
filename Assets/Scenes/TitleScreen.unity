@@ -11722,7 +11722,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 509.99997, y: -54.04966}
+  m_AnchoredPosition: {x: 509.99997, y: -54.049652}
   m_SizeDelta: {x: 1020, y: 108.09932}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &282892998
@@ -12031,8 +12031,8 @@ RectTransform:
   - {fileID: 1492733678}
   - {fileID: 503389911}
   - {fileID: 1737591493}
-  - {fileID: 1780478198}
   - {fileID: 323212258}
+  - {fileID: 1780478198}
   - {fileID: 211346663}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -12074,7 +12074,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -500.00003, y: 0}
+  m_AnchoredPosition: {x: -499.99994, y: 0}
   m_SizeDelta: {x: 1680, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &334699709
@@ -32210,6 +32210,7 @@ MonoBehaviour:
   coverCg: {fileID: 211346664}
   fadeTime: 0.25
   blockDuringFade: 1
+  SettingsButton: {fileID: 323212269}
 --- !u!1 &1749726773
 GameObject:
   m_ObjectHideFlags: 0
@@ -33240,7 +33241,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 500.00003, y: 0}
+  m_AnchoredPosition: {x: 499.99994, y: 0}
   m_SizeDelta: {x: 1680, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2007791314
