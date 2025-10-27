@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Title2Game : MonoBehaviour
 {
@@ -12,12 +13,16 @@ public class Title2Game : MonoBehaviour
     [SerializeField] private float fadeTime = 0.25f;
     [SerializeField] private bool blockDuringFade = true;
 
+    [SerializeField] private Button SettingsButton;
+
     bool _isLoading;
 
     // Call this from your Title button OnClick
     public void LoadGame()
     {
         if (_isLoading) return;
+
+        if (SettingsButton) SettingsButton.interactable = false;
 
         // If no cover assigned, just hard load
         if (!coverCg)
