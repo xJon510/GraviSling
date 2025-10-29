@@ -1,11 +1,12 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioPrefsApplier : MonoBehaviour
 {
     public enum AudioChannel { Music, SFX }
 
-    [Header("Target")]
-    public AudioSource targetAudioSource;
+    [Header("Target(s)")]
+    public List<AudioSource> targetAudioSources = new List<AudioSource>();
 
     [Header("Which setting to read")]
     public AudioChannel channel = AudioChannel.Music;
@@ -26,13 +27,18 @@ public class AudioPrefsApplier : MonoBehaviour
 
     void Awake()
     {
-        if (applyInAwake) Apply();
+        int defaultVal = defaultMutedIfUnset ? 1 : 0;
+        bool muted = PlayerPrefs.GetInt(PrefsKey, defaultVal) == 1;
+
+        if (applyInAwake) ApplyToTargets(muted);
     }
 
     void OnEnable()
     {
+        int defaultVal = defaultMutedIfUnset ? 1 : 0;
+        bool muted = PlayerPrefs.GetInt(PrefsKey, defaultVal) == 1;
         // Safety net in case this component or the AudioSource is toggled active later
-        if (!applyInAwake) Apply();
+        if (!applyInAwake) ApplyToTargets(muted);
     }
 
     /// <summary>
@@ -40,10 +46,30 @@ public class AudioPrefsApplier : MonoBehaviour
     /// </summary>
     public void Apply()
     {
-        if (!targetAudioSource) return;
+        if (targetAudioSources == null || targetAudioSources.Count == 0)
+            return;
 
         int defaultVal = defaultMutedIfUnset ? 1 : 0;
         bool muted = PlayerPrefs.GetInt(PrefsKey, defaultVal) == 1;
-        targetAudioSource.mute = muted;
+
+        foreach (var source in targetAudioSources)
+        {
+            if (source)
+                source.mute = muted;
+        }
+    }
+
+    void HandleMuteChanged(string changedKey, bool muted)
+    {
+        // Only react to our own key
+        if (changedKey != PrefsKey) return;
+        ApplyToTargets(muted);
+    }
+
+    void ApplyToTargets(bool muted)
+    {
+        if (targetAudioSources == null) return;
+        foreach (var src in targetAudioSources)
+            if (src) src.mute = muted;
     }
 }

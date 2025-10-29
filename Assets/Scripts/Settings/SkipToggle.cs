@@ -34,8 +34,8 @@ public class SkipToggle : MonoBehaviour
 
     void ToggleCutscene()
     {
-        skipCutscene = false;
-        PlayerPrefs.SetInt(CutsceneKey, 0);
+        skipCutscene = !skipCutscene;
+        PlayerPrefs.SetInt(CutsceneKey, skipCutscene ? 1 : 0);
         PlayerPrefs.Save();
         ApplyVisuals();
     }

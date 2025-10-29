@@ -11130,7 +11130,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc11ba1fab6d9b84dbfd54d9d8ae473f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetAudioSource: {fileID: 1464645430}
+  targetAudioSource:
+  - {fileID: 1464645430}
   channel: 1
   customPrefsKey: 
   startMuted: 0
@@ -12074,7 +12075,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -499.99994, y: 0}
+  m_AnchoredPosition: {x: -499.9999, y: 0}
   m_SizeDelta: {x: 1680, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &334699709
@@ -17578,7 +17579,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 340ff45a024a57c49b6168f3e5a75ec0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetAudioSource: {fileID: 508929698}
+  targetAudioSources:
+  - {fileID: 508929698}
   channel: 0
   customPrefsKey: 
   defaultMutedIfUnset: 0
@@ -19049,7 +19051,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1204653636459444536, guid: faa169aa974201440b9a91b5527cb8a9, type: 3}
       propertyPath: lengthInSec
-      value: 30
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1204653636459444536, guid: faa169aa974201440b9a91b5527cb8a9, type: 3}
       propertyPath: ShapeModule.m_Scale.y
@@ -19089,15 +19091,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1204653636459444536, guid: faa169aa974201440b9a91b5527cb8a9, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[0].time
-      value: 20
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1204653636459444536, guid: faa169aa974201440b9a91b5527cb8a9, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[1].time
-      value: 20
+      value: 4.5
       objectReference: {fileID: 0}
     - target: {fileID: 1204653636459444536, guid: faa169aa974201440b9a91b5527cb8a9, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[2].time
-      value: 20
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1204653636459444536, guid: faa169aa974201440b9a91b5527cb8a9, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[0].cycleCount
@@ -19105,23 +19107,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1204653636459444536, guid: faa169aa974201440b9a91b5527cb8a9, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[1].cycleCount
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1204653636459444536, guid: faa169aa974201440b9a91b5527cb8a9, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[2].cycleCount
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1204653636459444536, guid: faa169aa974201440b9a91b5527cb8a9, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[0].probability
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1204653636459444536, guid: faa169aa974201440b9a91b5527cb8a9, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[1].probability
-      value: 0.2
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1204653636459444536, guid: faa169aa974201440b9a91b5527cb8a9, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[2].probability
-      value: 0.1
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 1204653636459444536, guid: faa169aa974201440b9a91b5527cb8a9, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[0].repeatInterval
@@ -19137,11 +19139,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1204653636459444536, guid: faa169aa974201440b9a91b5527cb8a9, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[1].countCurve.scalar
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1204653636459444536, guid: faa169aa974201440b9a91b5527cb8a9, type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[2].countCurve.scalar
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3880299026361037970, guid: faa169aa974201440b9a91b5527cb8a9, type: 3}
       propertyPath: m_Pivot.x
@@ -30565,7 +30567,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "v1.0.3 \xA9 2025 Freeeazy"
+  m_text: "v1.0.4 \xA9 2025 Freeeazy"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 68b915d596db6fb4e81350705ae60575, type: 2}
   m_sharedMaterial: {fileID: 8756010901543804886, guid: 68b915d596db6fb4e81350705ae60575, type: 2}
@@ -31182,7 +31184,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 340ff45a024a57c49b6168f3e5a75ec0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetAudioSource: {fileID: 1464645430}
+  targetAudioSources:
+  - {fileID: 1464645430}
   channel: 1
   customPrefsKey: 
   defaultMutedIfUnset: 0
@@ -32392,7 +32395,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc11ba1fab6d9b84dbfd54d9d8ae473f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetAudioSource: {fileID: 508929698}
+  targetAudioSource:
+  - {fileID: 508929698}
   channel: 0
   customPrefsKey: 
   startMuted: 0
@@ -33241,7 +33245,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 499.99994, y: 0}
+  m_AnchoredPosition: {x: 499.9999, y: 0}
   m_SizeDelta: {x: 1680, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2007791314

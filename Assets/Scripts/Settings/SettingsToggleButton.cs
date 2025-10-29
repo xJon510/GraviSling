@@ -1,6 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 [RequireComponent(typeof(Button))]
 public class SettingsToggleButton : MonoBehaviour
@@ -16,7 +18,7 @@ public class SettingsToggleButton : MonoBehaviour
     }
 
     [Header("Audio Control")]
-    public AudioSource targetAudioSource;
+    public List<AudioSource> targetAudioSource = new List<AudioSource>();
     public AudioChannel channel = AudioChannel.Music;
 
     [Tooltip("Optional override. Leave empty to auto-use GS_MUTE_<CHANNEL>.")]
@@ -62,7 +64,11 @@ public class SettingsToggleButton : MonoBehaviour
         int defaultVal = startMuted ? 1 : 0;
         _isMuted = PlayerPrefs.GetInt(PrefsKey, defaultVal) == 1;
 
-        if (targetAudioSource) targetAudioSource.mute = _isMuted;
+        foreach (var source in targetAudioSource)
+        {
+            if (source)
+                source.mute = _isMuted;
+        }
 
         // Snap initial visuals
         ApplyColorsImmediate();
@@ -87,7 +93,11 @@ public class SettingsToggleButton : MonoBehaviour
     {
         _isMuted = muted;
 
-        if (targetAudioSource) targetAudioSource.mute = _isMuted;
+        foreach (var source in targetAudioSource)
+        {
+            if (source)
+                source.mute = _isMuted;
+        }
 
         if (persist)
         {
