@@ -286,7 +286,7 @@ public class CutsceneManager : MonoBehaviour
         {
             target.text = full.Substring(0, i + 1);
 
-            // tick SFX (optional)
+            // tick SFX (optional) hehe
             SFXTitleManager.Instance.PlayTypeTick();
 
             // punctuation pacing
