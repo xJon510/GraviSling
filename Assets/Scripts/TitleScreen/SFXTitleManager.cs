@@ -14,6 +14,7 @@ public class SFXTitleManager : MonoBehaviour
     public AudioClip buttonSFX;
     public AudioClip uiHoverClip;
     public AudioClip explosionSFX;
+    public AudioClip typeSFX;
 
     [Header("Button Hookup")]
     [Tooltip("Assign any UI Buttons you want to auto-wire for click SFX.")]
@@ -127,6 +128,23 @@ public class SFXTitleManager : MonoBehaviour
         float oldPitch = audioSource.pitch;
         audioSource.pitch = Random.Range(currencyCollectPitchMin, currencyCollectPitchMax);
         audioSource.PlayOneShot(currencyCollectClip, currencyCollectVolume);
+        audioSource.pitch = oldPitch;
+    }
+
+    public void PlayTypeTick(float? overrideVolume = null)
+    {
+        if (!audioSource || !typeSFX) return;
+
+        float oldPitch = audioSource.pitch;
+
+        // Reuse the button click pitch range exactly
+        audioSource.pitch = Random.Range(buttonPitchMin, buttonPitchMax);
+
+        // Reuse buttonVolume for loudness (or allow an override if you want to pass one)
+        float vol = overrideVolume.HasValue ? overrideVolume.Value : buttonVolume;
+
+        audioSource.PlayOneShot(typeSFX, vol);
+
         audioSource.pitch = oldPitch;
     }
 }

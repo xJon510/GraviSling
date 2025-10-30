@@ -77,8 +77,6 @@ public class CutsceneManager : MonoBehaviour
     [Tooltip("Extra pause on punctuation (seconds).")]
     public float commaPause = 0.06f;
     public float periodPause = 0.12f;
-    [Tooltip("Optional blip SFX while typing.")]
-    public AudioSource typeSfx;
 
     [Header("Input")]
     [Tooltip("Keyboard keys to advance (Input System).")]
@@ -289,7 +287,7 @@ public class CutsceneManager : MonoBehaviour
             target.text = full.Substring(0, i + 1);
 
             // tick SFX (optional)
-            if (typeSfx) typeSfx.Play();
+            SFXTitleManager.Instance.PlayTypeTick();
 
             // punctuation pacing
             char c = full[i];
