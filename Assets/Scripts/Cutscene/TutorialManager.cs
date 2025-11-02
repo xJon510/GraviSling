@@ -67,20 +67,20 @@ public class TutorialManager : MonoBehaviour
         active = true;
     }
 
-    void OnDisable()
-    {
-        // If someone disabled this externally while open, restore state safely.
-        if (active)
-        {
-            ToggleBehaviours(disableWhileOpen, true);
-            RestoreObjectsToSavedStates();
+    //void OnDisable()
+    //{
+    //    // If someone disabled this externally while open, restore state safely.
+    //    if (active)
+    //    {
+    //        ToggleBehaviours(disableWhileOpen, true);
+    //        RestoreObjectsToSavedStates();
 
-            BoostInput.InputEnabled = true;
+    //        BoostInput.InputEnabled = true;
 
-            if (pauseAudio) AudioListener.pause = false;
-            active = false;
-        }
-    }
+    //        if (pauseAudio) AudioListener.pause = false;
+    //        active = false;
+    //    }
+    //}
 
     // === UI Callbacks ===
 
@@ -88,9 +88,12 @@ public class TutorialManager : MonoBehaviour
     {
         // Re-enable gameplay
         ToggleBehaviours(disableWhileOpen, true);
+        ToggleBehaviour(disableWhileOpen[0], false);
         RestoreObjectsToSavedStates();
 
         if (pauseAudio) AudioListener.pause = false;
+
+        BoostInput.InputEnabled = true;
 
         // Hide UI & disable manager
         if (uiRoot) uiRoot.SetActive(false);
@@ -117,6 +120,11 @@ public class TutorialManager : MonoBehaviour
     {
         if (list == null) return;
         foreach (var b in list) if (b) b.enabled = enable;
+    }
+
+    void ToggleBehaviour(Behaviour b, bool enable)
+    {
+        if (b) b.enabled = enable;
     }
 
     void StoreAndDeactivateObjects(List<GameObject> list)
