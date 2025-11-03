@@ -30567,7 +30567,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "v1.0.4 \xA9 2025 Freeeazy"
+  m_text: "v1.0.5 \xA9 2025 Freeeazy"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 68b915d596db6fb4e81350705ae60575, type: 2}
   m_sharedMaterial: {fileID: 8756010901543804886, guid: 68b915d596db6fb4e81350705ae60575, type: 2}
@@ -31022,6 +31022,7 @@ MonoBehaviour:
   buttonSFX: {fileID: 8300000, guid: 19da984d85336ca46bbe503d6546923b, type: 3}
   uiHoverClip: {fileID: 8300000, guid: 7673facea4294d54c9362970fce7694e, type: 3}
   explosionSFX: {fileID: 8300000, guid: 2ec2230df178f554e8df5c653733cd5f, type: 3}
+  typeSFX: {fileID: 0}
   buttons:
   - {fileID: 1223236796}
   - {fileID: 1993881384}

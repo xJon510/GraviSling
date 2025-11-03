@@ -18,6 +18,7 @@ public class BlackholeWarningSFX : MonoBehaviour
     [Header("Tutorial Reference")]
     [Tooltip("If assigned, the alarm will muffle while the tutorial is active.")]
     [SerializeField] private TutorialManager tutorialManager;
+    [SerializeField] private GameObject SettingsUI;
 
     [Header("Low-Pass Settings")]
     [Tooltip("Enable muffling while tutorial UI is open.")]
@@ -135,7 +136,7 @@ public class BlackholeWarningSFX : MonoBehaviour
             float targetCutoff = tutorialActive ? muffledCutoff : normalCutoff;
 
             // 👇 snap immediately when tutorial first activates
-            if (tutorialActive && !_wasTutorialActive)
+            if ((tutorialActive && !_wasTutorialActive) || SettingsUI.activeInHierarchy)
                 _lowPass.cutoffFrequency = muffledCutoff;
             else
                 _lowPass.cutoffFrequency = Mathf.Lerp(
