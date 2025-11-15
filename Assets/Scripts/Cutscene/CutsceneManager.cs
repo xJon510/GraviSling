@@ -52,7 +52,6 @@ public class CutsceneManager : MonoBehaviour
     public Transform ship;
     [Tooltip("How far to move ship up during launch (units). Set 0 to disable movement.")]
     public Transform risePosition;
-    private float launchRiseDistance;
     [Tooltip("Seconds for the launch rise movement.")]
     public float launchRiseTime = 1.2f;
     [Tooltip("Small delay after launch before we end the cutscene.")]
@@ -105,8 +104,6 @@ public class CutsceneManager : MonoBehaviour
             FastForwardToGameplay();
             return;
         }
-
-        launchRiseDistance = risePosition.position.y - ship.position.y;
 
         // Normal path
         PrepareInitialState();
@@ -374,6 +371,8 @@ public class CutsceneManager : MonoBehaviour
 
     IEnumerator LaunchSequence()
     {
+        float launchRiseDistance = risePosition.position.y - ship.position.y;
+
         // Activate plume
         if (rocketSmoke)
         {
